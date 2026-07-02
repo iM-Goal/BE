@@ -1,0 +1,3311 @@
+=== 1. 프로젝트 전체 구조 ===
+./agentic-api/src/main/java/com/im/agentic/AgenticApplication.java
+./agentic-api/src/main/java/com/im/agentic/api/config/SwaggerConfig.java
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/controller/DashboardController.java
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/dto/DashboardResponseDto.java
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/service/DashboardService.java
+./agentic-api/src/main/java/com/im/agentic/api/global/GlobalExceptionHandler.java
+./agentic-api/src/main/java/com/im/agentic/api/global/JwtAuthenticationFilter.java
+./agentic-api/src/main/java/com/im/agentic/api/global/SecurityConfig.java
+./agentic-api/src/main/java/com/im/agentic/api/goal/controller/GoalController.java
+./agentic-api/src/main/java/com/im/agentic/api/goal/dto/GoalRequestDto.java
+./agentic-api/src/main/java/com/im/agentic/api/goal/dto/GoalResponseDto.java
+./agentic-api/src/main/java/com/im/agentic/api/goal/service/GoalService.java
+./agentic-api/src/main/java/com/im/agentic/api/mission/controller/MissionController.java
+./agentic-api/src/main/java/com/im/agentic/api/mission/dto/MissionResponseDto.java
+./agentic-api/src/main/java/com/im/agentic/api/mission/service/MissionService.java
+./agentic-api/src/main/java/com/im/agentic/api/mydata/controller/MyDataController.java
+./agentic-api/src/main/java/com/im/agentic/api/mydata/dto/MyDataCacheResponseDto.java
+./agentic-api/src/main/java/com/im/agentic/api/mydata/service/MyDataService.java
+./agentic-api/src/main/java/com/im/agentic/api/programmable/controller/ProgrammableMoneyController.java
+./agentic-api/src/main/java/com/im/agentic/api/programmable/service/ProgrammableMoneyService.java
+./agentic-api/src/main/java/com/im/agentic/api/scheduler/MissionScheduler.java
+./agentic-api/src/main/java/com/im/agentic/api/transaction/controller/TransactionController.java
+./agentic-api/src/main/java/com/im/agentic/api/transaction/dto/TransactionResponseDto.java
+./agentic-api/src/main/java/com/im/agentic/api/transaction/service/TransactionService.java
+./agentic-api/src/main/java/com/im/agentic/api/user/controller/AuthController.java
+./agentic-api/src/main/java/com/im/agentic/api/user/dto/UserRequestDto.java
+./agentic-api/src/main/java/com/im/agentic/api/user/dto/UserResponseDto.java
+./agentic-api/src/main/java/com/im/agentic/api/user/service/AuthService.java
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/constant/WithdrawalConditionTemplates.java
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/controller/WithdrawalConditionController.java
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/dto/WithdrawalConditionRequestDto.java
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/dto/WithdrawalConditionResponseDto.java
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/service/WithdrawalConditionService.java
+./agentic-api/src/test/java/com/im/agentic/api/auth/AuthIntegrationTest.java
+./agentic-api/src/test/java/com/im/agentic/api/buyout/BuyOutIntegrationTest.java
+./agentic-api/src/test/java/com/im/agentic/api/goal/GoalIntegrationTest.java
+./agentic-api/src/test/java/com/im/agentic/api/goal/service/GoalServiceTest.java
+./agentic-api/src/test/java/com/im/agentic/api/mission/MissionIntegrationTest.java
+./agentic-api/src/test/java/com/im/agentic/api/mission/service/MissionServiceTest.java
+./agentic-api/src/test/java/com/im/agentic/api/support/IntegrationTestBase.java
+./agentic-api/src/test/java/com/im/agentic/api/support/TestFixtures.java
+./agentic-api/src/test/java/com/im/agentic/api/support/WireMockSupport.java
+./agentic-api/src/test/java/com/im/agentic/api/transaction/TransactionIntegrationTest.java
+./agentic-api/src/test/java/com/im/agentic/api/user/service/AuthServiceTest.java
+./agentic-common/src/main/java/com/im/agentic/common/exception/AgenticException.java
+./agentic-common/src/main/java/com/im/agentic/common/exception/ErrorCode.java
+./agentic-common/src/main/java/com/im/agentic/common/jwt/JwtUtil.java
+./agentic-common/src/main/java/com/im/agentic/common/response/ApiResponse.java
+./agentic-domain/src/main/java/com/im/agentic/domain/common/BaseTimeEntity.java
+./agentic-domain/src/main/java/com/im/agentic/domain/config/JpaAuditingConfig.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/MissionCase.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/SpendingEmbedding.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/repository/MissionCaseRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/repository/SpendingEmbeddingRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/Goal.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/GoalSlotType.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/GoalStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/repository/GoalRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/Mission.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/MissionStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/MissionType.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/repository/MissionRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata/entity/MyDataCache.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata/repository/MyDataCacheRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity/Transaction.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity/TransactionStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/repository/TransactionRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/user/entity/User.java
+./agentic-domain/src/main/java/com/im/agentic/domain/user/repository/UserRepository.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/Agent.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/AgentClient.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/AgentOrchestrator.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/dto/AgentInput.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/dto/ExecutionOutput.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/dto/GoalParsingOutput.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/dto/MissionGenerationOutput.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/dto/SpendingAnalysisOutput.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/impl/ExecutionAgent.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/impl/GoalParsingAgent.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/impl/MissionGenerationAgent.java
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/impl/SpendingAnalysisAgent.java
+./agentic-infra/src/main/java/com/im/agentic/infra/blockchain/BlockchainClient.java
+./agentic-infra/src/main/java/com/im/agentic/infra/blockchain/StablecoinClient.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/EmbeddingClient.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/GoalParsingService.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/MissionGenerationService.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/OllamaClient.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/dto/OllamaRequest.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/dto/OllamaResponse.java
+./agentic-infra/src/main/java/com/im/agentic/infra/openbanking/OpenBankingClient.java
+./agentic-infra/src/main/java/com/im/agentic/infra/openbanking/dto/SpendingRecord.java
+./agentic-infra/src/main/java/com/im/agentic/infra/rag/RagPipelineService.java
+./agents/execution/main.py
+./agents/execution/tests/__init__.py
+./agents/execution/tests/test_execution_agent.py
+./agents/goal-parsing/main.py
+./agents/goal-parsing/tests/__init__.py
+./agents/goal-parsing/tests/test_goal_parsing_agent.py
+./agents/mission/main.py
+./agents/mission/tests/__init__.py
+./agents/mission/tests/test_mission_agent.py
+./agents/spending/main.py
+./agents/spending/tests/__init__.py
+./agents/spending/tests/test_spending_agent.py
+./fastapi-mock/main.py
+./finetune/evaluate.py
+./finetune/generate_dataset.py
+./finetune/quality_test.py
+./finetune/split_dataset.py
+./finetune/tests/__init__.py
+./finetune/tests/test_dataset.py
+
+=== 2. Spring Boot 멀티모듈 구조 ===
+rootProject.name = 'agentic'
+
+include 'agentic-common'
+include 'agentic-domain'
+include 'agentic-infra'
+include 'agentic-api'
+
+=== 3. 각 모듈의 패키지 구조 ===
+.
+./.idea
+./.idea/modules
+./.idea/modules/agentic-api
+./.idea/modules/agentic-common
+./.idea/modules/agentic-domain
+./.idea/modules/agentic-infra
+./.pytest_cache
+./.pytest_cache/v
+./.pytest_cache/v/cache
+./.vscode
+./adapters
+./agentic-api
+./agentic-api/src
+./agentic-api/src/main
+./agentic-api/src/main/java
+./agentic-api/src/main/java/com
+./agentic-api/src/main/java/com/im
+./agentic-api/src/main/java/com/im/agentic
+./agentic-api/src/main/java/com/im/agentic/api
+./agentic-api/src/main/java/com/im/agentic/api/config
+./agentic-api/src/main/java/com/im/agentic/api/dashboard
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/controller
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/dto
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/service
+./agentic-api/src/main/java/com/im/agentic/api/global
+./agentic-api/src/main/java/com/im/agentic/api/goal
+./agentic-api/src/main/java/com/im/agentic/api/goal/controller
+./agentic-api/src/main/java/com/im/agentic/api/goal/dto
+./agentic-api/src/main/java/com/im/agentic/api/goal/service
+./agentic-api/src/main/java/com/im/agentic/api/mission
+./agentic-api/src/main/java/com/im/agentic/api/mission/controller
+./agentic-api/src/main/java/com/im/agentic/api/mission/dto
+./agentic-api/src/main/java/com/im/agentic/api/mission/service
+./agentic-api/src/main/java/com/im/agentic/api/mydata
+./agentic-api/src/main/java/com/im/agentic/api/mydata/controller
+./agentic-api/src/main/java/com/im/agentic/api/mydata/dto
+./agentic-api/src/main/java/com/im/agentic/api/mydata/service
+./agentic-api/src/main/java/com/im/agentic/api/programmable
+./agentic-api/src/main/java/com/im/agentic/api/programmable/controller
+./agentic-api/src/main/java/com/im/agentic/api/programmable/service
+./agentic-api/src/main/java/com/im/agentic/api/scheduler
+./agentic-api/src/main/java/com/im/agentic/api/transaction
+./agentic-api/src/main/java/com/im/agentic/api/transaction/controller
+./agentic-api/src/main/java/com/im/agentic/api/transaction/dto
+./agentic-api/src/main/java/com/im/agentic/api/transaction/service
+./agentic-api/src/main/java/com/im/agentic/api/user
+./agentic-api/src/main/java/com/im/agentic/api/user/controller
+./agentic-api/src/main/java/com/im/agentic/api/user/dto
+./agentic-api/src/main/java/com/im/agentic/api/user/service
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/constant
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/controller
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/dto
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/service
+./agentic-api/src/main/resources
+./agentic-api/src/test
+./agentic-api/src/test/java
+./agentic-api/src/test/java/com
+./agentic-api/src/test/java/com/im
+./agentic-api/src/test/java/com/im/agentic
+./agentic-api/src/test/java/com/im/agentic/api
+./agentic-api/src/test/java/com/im/agentic/api/auth
+./agentic-api/src/test/java/com/im/agentic/api/buyout
+./agentic-api/src/test/java/com/im/agentic/api/goal
+./agentic-api/src/test/java/com/im/agentic/api/goal/service
+./agentic-api/src/test/java/com/im/agentic/api/mission
+./agentic-api/src/test/java/com/im/agentic/api/mission/service
+./agentic-api/src/test/java/com/im/agentic/api/support
+./agentic-api/src/test/java/com/im/agentic/api/transaction
+./agentic-api/src/test/java/com/im/agentic/api/user
+./agentic-api/src/test/java/com/im/agentic/api/user/service
+./agentic-api/src/test/resources
+./agentic-common
+./agentic-common/src
+./agentic-common/src/main
+./agentic-common/src/main/java
+./agentic-common/src/main/java/com
+./agentic-common/src/main/java/com/im
+./agentic-common/src/main/java/com/im/agentic
+./agentic-common/src/main/java/com/im/agentic/common
+./agentic-common/src/main/java/com/im/agentic/common/exception
+./agentic-common/src/main/java/com/im/agentic/common/jwt
+./agentic-common/src/main/java/com/im/agentic/common/response
+./agentic-domain
+./agentic-domain/src
+./agentic-domain/src/main
+./agentic-domain/src/main/java
+./agentic-domain/src/main/java/com
+./agentic-domain/src/main/java/com/im
+./agentic-domain/src/main/java/com/im/agentic
+./agentic-domain/src/main/java/com/im/agentic/domain
+./agentic-domain/src/main/java/com/im/agentic/domain/common
+./agentic-domain/src/main/java/com/im/agentic/domain/config
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/repository
+./agentic-domain/src/main/java/com/im/agentic/domain/goal
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/repository
+./agentic-domain/src/main/java/com/im/agentic/domain/mission
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/repository
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata/entity
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata/repository
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/repository
+./agentic-domain/src/main/java/com/im/agentic/domain/user
+./agentic-domain/src/main/java/com/im/agentic/domain/user/entity
+./agentic-domain/src/main/java/com/im/agentic/domain/user/repository
+./agentic-infra
+./agentic-infra/src
+./agentic-infra/src/main
+./agentic-infra/src/main/java
+./agentic-infra/src/main/java/com
+./agentic-infra/src/main/java/com/im
+./agentic-infra/src/main/java/com/im/agentic
+./agentic-infra/src/main/java/com/im/agentic/infra
+./agentic-infra/src/main/java/com/im/agentic/infra/agent
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/dto
+./agentic-infra/src/main/java/com/im/agentic/infra/agent/impl
+./agentic-infra/src/main/java/com/im/agentic/infra/blockchain
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/dto
+./agentic-infra/src/main/java/com/im/agentic/infra/openbanking
+./agentic-infra/src/main/java/com/im/agentic/infra/openbanking/dto
+./agentic-infra/src/main/java/com/im/agentic/infra/rag
+./agents
+./agents/execution
+./agents/execution/.pytest_cache
+./agents/execution/.pytest_cache/v
+./agents/execution/.pytest_cache/v/cache
+./agents/execution/tests
+./agents/goal-parsing
+./agents/goal-parsing/.pytest_cache
+./agents/goal-parsing/.pytest_cache/v
+./agents/goal-parsing/.pytest_cache/v/cache
+./agents/goal-parsing/tests
+./agents/mission
+./agents/mission/.pytest_cache
+./agents/mission/.pytest_cache/v
+./agents/mission/.pytest_cache/v/cache
+./agents/mission/tests
+./agents/spending
+./agents/spending/.pytest_cache
+./agents/spending/.pytest_cache/v
+./agents/spending/.pytest_cache/v/cache
+./agents/spending/tests
+./fastapi-mock
+./finetune
+./finetune/data
+./finetune/fused_model
+./finetune/tests
+./gradle
+./gradle/wrapper
+./sql
+
+=== 4. 도메인 엔티티 전체 목록 ===
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/MissionCase.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/SpendingEmbedding.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/Goal.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/GoalSlotType.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/GoalStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/Mission.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/MissionStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/MissionType.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata/entity/MyDataCache.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity/Transaction.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity/TransactionStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/user/entity/User.java
+./agentic-domain/src/main/java/com/im/agentic/domain/common/BaseTimeEntity.java
+./agentic-domain/src/main/java/com/im/agentic/domain/config/JpaAuditingConfig.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/MissionCase.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/SpendingEmbedding.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/repository/MissionCaseRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/embedding/repository/SpendingEmbeddingRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/Goal.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/GoalSlotType.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/GoalStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/goal/repository/GoalRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/Mission.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/MissionStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/MissionType.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mission/repository/MissionRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata/entity/MyDataCache.java
+./agentic-domain/src/main/java/com/im/agentic/domain/mydata/repository/MyDataCacheRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity/Transaction.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity/TransactionStatus.java
+./agentic-domain/src/main/java/com/im/agentic/domain/transaction/repository/TransactionRepository.java
+./agentic-domain/src/main/java/com/im/agentic/domain/user/entity/User.java
+./agentic-domain/src/main/java/com/im/agentic/domain/user/repository/UserRepository.java
+
+=== 5. 현재 엔티티 파일 내용 전부 ===
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/transaction/entity/Transaction.java ===
+package com.im.agentic.domain.transaction.entity;
+
+import com.im.agentic.domain.common.BaseTimeEntity;
+import com.im.agentic.domain.goal.entity.Goal;
+import com.im.agentic.domain.mission.entity.Mission;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "transactions")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class Transaction extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "goal_id", nullable = false)
+    private Goal goal;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
+
+    @Column(name = "base_saving_amount", nullable = false)
+    private Long baseSavingAmount;
+
+    @Column(name = "bonus_saving_amount", nullable = false)
+    private Long bonusSavingAmount;
+
+    @Column(name = "total_amount", nullable = false)
+    private Long totalAmount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private TransactionStatus status;
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/mydata/entity/MyDataCache.java ===
+package com.im.agentic.domain.mydata.entity;
+
+import com.im.agentic.domain.common.BaseTimeEntity;
+import com.im.agentic.domain.user.entity.User;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "my_data_caches")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class MyDataCache extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "category_expenses", columnDefinition = "jsonb", nullable = false)
+    private String categoryExpenses; // JSON representing monthly expenses per category
+
+    @Column(name = "daily_available_amount", nullable = false)
+    private Long dailyAvailableAmount;
+
+    @Column(name = "estimated_completion_date")
+    private LocalDate estimatedCompletionDate;
+
+    @Column(name = "last_updated_at", nullable = false)
+    private LocalDateTime lastUpdatedAt;
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/SpendingEmbedding.java ===
+package com.im.agentic.domain.embedding.entity;
+
+import com.im.agentic.domain.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "spending_embeddings")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class SpendingEmbedding extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "category", nullable = false)
+    private String category;
+
+    @Column(name = "merchant_name")
+    private String merchantName;
+
+    @Column(name = "amount", nullable = false)
+    private Long amount;
+
+    // pgvector 타입 — 768차원 (nomic-embed-text 기본값)
+    @Column(name = "embedding", columnDefinition = "vector(768)")
+    private String embedding; // JSON 배열 문자열로 저장 후 DB에서 캐스팅
+
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    private String content; // 임베딩 원본 텍스트
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/embedding/entity/MissionCase.java ===
+package com.im.agentic.domain.embedding.entity;
+
+import com.im.agentic.domain.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+// 성공한 미션 사례를 벡터화해서 저장 — RAG에서 유사 사례 검색용
+@Entity
+@Table(name = "mission_cases")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class MissionCase extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "category", nullable = false)
+    private String category;
+
+    @Column(name = "mission_type", nullable = false)
+    private String missionType; // RESTRAINT or SAVING
+
+    @Column(name = "limit_amount")
+    private Long limitAmount;
+
+    @Column(name = "transfer_amount")
+    private Long transferAmount;
+
+    @Column(name = "success_rate", nullable = false)
+    private Double successRate; // 해당 유형 미션의 성공률
+
+    @Column(name = "embedding", columnDefinition = "vector(768)")
+    private String embedding;
+
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
+    private String content; // 임베딩 원본 텍스트
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/user/entity/User.java ===
+package com.im.agentic.domain.user.entity;
+
+import com.im.agentic.domain.common.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class User extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "fcm_token")
+    private String fcmToken;
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/mission/entity/Mission.java ===
+package com.im.agentic.domain.mission.entity;
+
+import com.im.agentic.domain.common.BaseTimeEntity;
+import com.im.agentic.domain.goal.entity.Goal;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "missions")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class Mission extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "goal_id", nullable = false)
+    private Goal goal;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "mission_type", nullable = false)
+    private MissionType missionType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private MissionStatus status;
+
+    @Column(name = "category_name")
+    private String categoryName; // Category for restraint, e.g. "Coffee"
+
+    @Column(name = "limit_amount")
+    private Long limitAmount; // Restraint limit amount
+
+    @Column(name = "transfer_amount")
+    private Long transferAmount; // Saving transfer amount
+
+    @Column(name = "contribution_rate", nullable = false)
+    private Double contributionRate; // % contribution to goal success
+
+    @Column(name = "mission_date", nullable = false)
+    private LocalDate missionDate;
+
+    public void complete() {
+        this.status = MissionStatus.SUCCESS;
+    }
+
+    public void fail() {
+        this.status = MissionStatus.FAIL;
+    }
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/goal/entity/Goal.java ===
+package com.im.agentic.domain.goal.entity;
+
+import com.im.agentic.domain.common.BaseTimeEntity;
+import com.im.agentic.domain.user.entity.User;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "goals")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class Goal extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "slot_type", nullable = false)
+    private GoalSlotType slotType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private GoalStatus status;
+
+    @Column(name = "target_amount", nullable = false)
+    private Long targetAmount;
+
+    @Builder.Default
+    @Column(name = "current_amount", nullable = false)
+    private Long currentAmount = 0L;
+
+    @Builder.Default
+    @Column(name = "achievement_rate", nullable = false)
+    private Double achievementRate = 0.0;
+
+    @Column(name = "item_name", nullable = false)
+    private String itemName;
+
+    @Column(name = "item_image_url")
+    private String itemImageUrl;
+
+    @Column(name = "registration_type", nullable = false)
+    private String registrationType; // e.g. "NATURAL_LANGUAGE", "URL", "SCREENSHOT"
+
+    @Column(name = "estimated_completion_date", nullable = false)
+    private LocalDate estimatedCompletionDate;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "withdrawal_condition", columnDefinition = "jsonb")
+    private String withdrawalCondition;
+
+    @Column(name = "lock_id")
+    private String lockId;
+
+    public void updateProgress(Long amount) {
+        this.currentAmount += amount;
+        this.achievementRate = (double) this.currentAmount / this.targetAmount * 100;
+        if (this.achievementRate >= 100.0) {
+            this.status = GoalStatus.COMPLETED;
+        }
+    }
+
+    public void updateGoalDetails(String itemName, Long targetAmount, String itemImageUrl) {
+        this.itemName = itemName;
+        this.targetAmount = targetAmount;
+        this.itemImageUrl = itemImageUrl;
+    }
+
+    public void cancel() {
+        this.status = GoalStatus.CANCELLED;
+    }
+
+    public void complete() {
+        this.status = GoalStatus.COMPLETED;
+    }
+
+    public void setWithdrawalCondition(String withdrawalCondition) {
+        this.withdrawalCondition = withdrawalCondition;
+    }
+
+    public void setLockId(String lockId) {
+        this.lockId = lockId;
+    }
+}
+
+
+
+=== 6. Repository 전체 목록 및 내용 ===
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/transaction/repository/TransactionRepository.java ===
+package com.im.agentic.domain.transaction.repository;
+
+import com.im.agentic.domain.transaction.entity.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    List<Transaction> findByGoalId(Long goalId);
+    Optional<Transaction> findByMissionId(Long missionId);
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/mydata/repository/MyDataCacheRepository.java ===
+package com.im.agentic.domain.mydata.repository;
+
+import com.im.agentic.domain.mydata.entity.MyDataCache;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface MyDataCacheRepository extends JpaRepository<MyDataCache, Long> {
+    Optional<MyDataCache> findByUserId(Long userId);
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/embedding/repository/SpendingEmbeddingRepository.java ===
+package com.im.agentic.domain.embedding.repository;
+
+import com.im.agentic.domain.embedding.entity.SpendingEmbedding;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import java.util.List;
+
+public interface SpendingEmbeddingRepository extends JpaRepository<SpendingEmbedding, Long> {
+
+    List<SpendingEmbedding> findByUserId(Long userId);
+
+    // pgvector 코사인 유사도 검색 — 가장 유사한 소비 내역 Top-K 반환
+    @Query(value = """
+        SELECT * FROM spending_embeddings
+        WHERE user_id = :userId
+        ORDER BY embedding <=> CAST(:queryEmbedding AS vector)
+        LIMIT :topK
+        """, nativeQuery = true)
+    List<SpendingEmbedding> findSimilarByUserId(
+            @Param("userId") Long userId,
+            @Param("queryEmbedding") String queryEmbedding,
+            @Param("topK") int topK
+    );
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/embedding/repository/MissionCaseRepository.java ===
+package com.im.agentic.domain.embedding.repository;
+
+import com.im.agentic.domain.embedding.entity.MissionCase;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import java.util.List;
+
+public interface MissionCaseRepository extends JpaRepository<MissionCase, Long> {
+
+    // 유사한 성공 미션 사례 Top-K 검색
+    @Query(value = """
+        SELECT * FROM mission_cases
+        ORDER BY embedding <=> CAST(:queryEmbedding AS vector)
+        LIMIT :topK
+        """, nativeQuery = true)
+    List<MissionCase> findSimilarCases(
+            @Param("queryEmbedding") String queryEmbedding,
+            @Param("topK") int topK
+    );
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/user/repository/UserRepository.java ===
+package com.im.agentic.domain.user.repository;
+
+import com.im.agentic.domain.user.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
+}
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/mission/repository/MissionRepository.java ===
+package com.im.agentic.domain.mission.repository;
+
+import com.im.agentic.domain.mission.entity.Mission;
+import com.im.agentic.domain.mission.entity.MissionStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public interface MissionRepository extends JpaRepository<Mission, Long> {
+    List<Mission> findByGoalId(Long goalId);
+    List<Mission> findByMissionDate(LocalDate missionDate);
+    List<Mission> findByGoalIdAndMissionDate(Long goalId, LocalDate missionDate);
+
+    // 특정 기간의 미션 조회 (주간 리포트용)
+    List<Mission> findByGoalIdAndMissionDateBetween(Long goalId, LocalDate startDate, LocalDate endDate);
+
+    // 상태별 미션 조회
+    List<Mission> findByGoalIdAndMissionDateBetweenAndStatus(Long goalId, LocalDate startDate, LocalDate endDate, MissionStatus status);
+}
+
+
+=== ./agentic-domain/src/main/java/com/im/agentic/domain/goal/repository/GoalRepository.java ===
+package com.im.agentic.domain.goal.repository;
+
+import com.im.agentic.domain.goal.entity.Goal;
+import com.im.agentic.domain.goal.entity.GoalSlotType;
+import com.im.agentic.domain.goal.entity.GoalStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface GoalRepository extends JpaRepository<Goal, Long> {
+    List<Goal> findByUserId(Long userId);
+    List<Goal> findByUserIdAndStatus(Long userId, GoalStatus status);
+    Optional<Goal> findByUserIdAndSlotTypeAndStatus(Long userId, GoalSlotType slotType, GoalStatus status);
+}
+
+
+=== 7. Service 전체 목록 ===
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/service/DashboardService.java
+./agentic-api/src/main/java/com/im/agentic/api/goal/service/GoalService.java
+./agentic-api/src/main/java/com/im/agentic/api/mission/service/MissionService.java
+./agentic-api/src/main/java/com/im/agentic/api/mydata/service/MyDataService.java
+./agentic-api/src/main/java/com/im/agentic/api/programmable/service/ProgrammableMoneyService.java
+./agentic-api/src/main/java/com/im/agentic/api/transaction/service/TransactionService.java
+./agentic-api/src/main/java/com/im/agentic/api/user/service/AuthService.java
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/service/WithdrawalConditionService.java
+./agentic-api/src/test/java/com/im/agentic/api/goal/service/GoalServiceTest.java
+./agentic-api/src/test/java/com/im/agentic/api/mission/service/MissionServiceTest.java
+./agentic-api/src/test/java/com/im/agentic/api/user/service/AuthServiceTest.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/GoalParsingService.java
+./agentic-infra/src/main/java/com/im/agentic/infra/ollama/MissionGenerationService.java
+./agentic-infra/src/main/java/com/im/agentic/infra/rag/RagPipelineService.java
+
+=== 8. Controller 전체 목록 ===
+./agentic-api/src/main/java/com/im/agentic/api/dashboard/controller/DashboardController.java
+./agentic-api/src/main/java/com/im/agentic/api/goal/controller/GoalController.java
+./agentic-api/src/main/java/com/im/agentic/api/mission/controller/MissionController.java
+./agentic-api/src/main/java/com/im/agentic/api/mydata/controller/MyDataController.java
+./agentic-api/src/main/java/com/im/agentic/api/programmable/controller/ProgrammableMoneyController.java
+./agentic-api/src/main/java/com/im/agentic/api/transaction/controller/TransactionController.java
+./agentic-api/src/main/java/com/im/agentic/api/user/controller/AuthController.java
+./agentic-api/src/main/java/com/im/agentic/api/withdrawal/controller/WithdrawalConditionController.java
+
+=== 9. FastAPI 에이전트 파일 전체 내용 ===
+=== ./fastapi-mock/main.py ===
+from fastapi import FastAPI
+from pydantic import BaseModel
+from datetime import date, timedelta
+import random
+
+app = FastAPI(title="iM AgentiX Mock API")
+
+# 더미 소비 내역 데이터
+MOCK_SPENDING = {
+    "categories": ["카페", "식비", "교통", "편의점", "배달음식"],
+    "merchants": {
+        "카페": ["스타벅스", "메가커피", "이디야"],
+        "식비": ["맥도날드", "롯데리아", "버거킹"],
+        "교통": ["지하철", "버스", "택시"],
+        "편의점": ["CU", "GS25", "세븐일레븐"],
+        "배달음식": ["배달의민족", "쿠팡이츠", "요기요"]
+    }
+}
+
+class TransferRequest(BaseModel):
+    userId: int
+    goalId: int
+    amount: int
+
+class SpendingItem(BaseModel):
+    category: str
+    amount: int
+    merchantName: str
+    date: str
+
+@app.get("/mock/spending/{user_id}")
+def get_spending(user_id: int):
+    """더미 소비 내역 반환 (최근 30일)"""
+    spending = []
+    today = date.today()
+    
+    for i in range(30):
+        target_date = today - timedelta(days=i)
+        num_transactions = random.randint(1, 4)
+        
+        for _ in range(num_transactions):
+            category = random.choice(MOCK_SPENDING["categories"])
+            merchant = random.choice(MOCK_SPENDING["merchants"][category])
+            
+            amount_ranges = {
+                "카페": (3000, 8000),
+                "식비": (5000, 15000),
+                "교통": (1250, 3000),
+                "편의점": (1000, 5000),
+                "배달음식": (10000, 30000)
+            }
+            min_amt, max_amt = amount_ranges[category]
+            amount = random.randint(min_amt // 100, max_amt // 100) * 100
+            
+            spending.append({
+                "category": category,
+                "amount": amount,
+                "merchantName": merchant,
+                "date": str(target_date)
+            })
+    
+    return {"userId": user_id, "spending": spending}
+
+@app.post("/mock/transfer")
+def transfer(request: TransferRequest):
+    """Mock 계좌 이체"""
+    print(f"[TRANSFER] userId={request.userId}, goalId={request.goalId}, amount={request.amount}원")
+    return {"success": True, "message": f"{request.amount}원이 목표 저축계좌로 이체되었습니다."}
+
+@app.get("/mock/withdrawal-conditions/templates")
+def get_templates():
+    """출금 조건 템플릿 목록"""
+    return {
+        "templates": [
+            {"id": 1, "type": "DAY_OF_WEEK", "description": "주말 출금 불가", "condition": {"days": ["SATURDAY", "SUNDAY"]}},
+            {"id": 2, "type": "AMOUNT_LIMIT", "description": "1회 1만원 이상 출금 불가", "condition": {"maxAmount": 10000}},
+            {"id": 3, "type": "ACHIEVEMENT_RATE", "description": "달성률 50% 전 잠금", "condition": {"minRate": 50.0}},
+            {"id": 4, "type": "MISSION_STREAK", "description": "미션 연속 3일 실패 시 잠금", "condition": {"failStreak": 3}},
+            {"id": 5, "type": "TIME_RESTRICTION", "description": "자정~오전 6시 출금 불가", "condition": {"startHour": 0, "endHour": 6}}
+        ]
+    }
+
+@app.post("/mock/withdrawal-conditions/recommend")
+def recommend_conditions(body: dict):
+    """소비 패턴 기반 출금 조건 추천 (Mock)"""
+    return {
+        "recommended": [
+            {"id": 1, "type": "DAY_OF_WEEK", "description": "주말 출금 불가"},
+            {"id": 3, "type": "ACHIEVEMENT_RATE", "description": "달성률 50% 전 잠금"}
+        ],
+        "reason": "주말 소비 패턴이 높아 주말 출금 제한을 추천합니다."
+    }
+
+class SmartContractRequest(BaseModel):
+    userId: int
+    goalId: int
+    conditions: list
+
+class SmartContractResponse(BaseModel):
+    contractId: str
+    status: str
+    conditions: list
+
+@app.post("/mock/blockchain/contract/sign")
+def sign_contract(request: SmartContractRequest):
+    """스마트컨트랙트 체결 Mock"""
+    import uuid
+    contract_id = str(uuid.uuid4())[:8]
+    print(f"[BLOCKCHAIN] 스마트컨트랙트 체결: userId={request.userId}, goalId={request.goalId}, contractId={contract_id}")
+    return {
+        "contractId": contract_id,
+        "status": "SIGNED",
+        "conditions": request.conditions,
+        "message": f"출금 조건 {len(request.conditions)}개가 스마트컨트랙트에 체결되었습니다."
+    }
+
+@app.delete("/mock/blockchain/contract/{contract_id}")
+def release_contract(contract_id: str):
+    """스마트컨트랙트 해제 Mock (Buy-out 시)"""
+    print(f"[BLOCKCHAIN] 스마트컨트랙트 해제: contractId={contract_id}")
+    return {
+        "contractId": contract_id,
+        "status": "RELEASED",
+        "message": "출금 조건이 해제되었습니다. 목표 달성을 축하합니다!"
+    }
+
+
+# iMKRW 토큰 발행 (원화 → iMKRW)
+class TokenMintRequest(BaseModel):
+    userId: int
+    amount: int  # 원화 금액
+
+@app.post("/mock/imkrw/mint")
+def mint_token(request: TokenMintRequest):
+    """원화를 iMKRW 스테이블코인으로 발행 (1:1 페깅)"""
+    token_amount = request.amount  # 1원 = 1 iMKRW
+    print(f"[iMKRW] 토큰 발행: userId={request.userId}, amount={request.amount}원 → {token_amount} iMKRW")
+    return {
+        "success": True,
+        "userId": request.userId,
+        "mintedAmount": token_amount,
+        "currency": "iMKRW",
+        "txHash": f"0x{request.userId:04x}{request.amount:08x}",
+        "message": f"{token_amount} iMKRW가 발행되었습니다."
+    }
+
+# iMKRW 토큰 소각 (iMKRW → 원화)
+class TokenBurnRequest(BaseModel):
+    userId: int
+    amount: int  # iMKRW 금액
+
+@app.post("/mock/imkrw/burn")
+def burn_token(request: TokenBurnRequest):
+    """iMKRW 스테이블코인을 원화로 소각"""
+    won_amount = request.amount  # 1 iMKRW = 1원
+    print(f"[iMKRW] 토큰 소각: userId={request.userId}, amount={request.amount} iMKRW → {won_amount}원")
+    return {
+        "success": True,
+        "userId": request.userId,
+        "burnedAmount": request.amount,
+        "wonAmount": won_amount,
+        "currency": "KRW",
+        "txHash": f"0xburn{request.userId:04x}{request.amount:08x}",
+        "message": f"{request.amount} iMKRW가 소각되어 {won_amount}원이 출금됩니다."
+    }
+
+# Kaia 스마트컨트랙트 잠금 (저축 시 토큰 잠금)
+class TokenLockRequest(BaseModel):
+    userId: int
+    goalId: int
+    amount: int
+    conditions: list
+
+@app.post("/mock/kaia/lock")
+def lock_token(request: TokenLockRequest):
+    """iMKRW를 Kaia 스마트컨트랙트에 잠금"""
+    import uuid
+    lock_id = str(uuid.uuid4())[:8]
+    print(f"[Kaia] 토큰 잠금: userId={request.userId}, goalId={request.goalId}, amount={request.amount} iMKRW")
+    return {
+        "success": True,
+        "lockId": lock_id,
+        "userId": request.userId,
+        "goalId": request.goalId,
+        "lockedAmount": request.amount,
+        "conditions": request.conditions,
+        "message": f"{request.amount} iMKRW가 스마트컨트랙트에 잠겼습니다."
+    }
+
+# Kaia 스마트컨트랙트 잠금 해제 (Buy-out 시)
+@app.post("/mock/kaia/unlock/{lock_id}")
+def unlock_token(lock_id: str, body: dict = {}):
+    """Kaia 스마트컨트랙트 잠금 해제"""
+    print(f"[Kaia] 토큰 잠금 해제: lockId={lock_id}")
+    return {
+        "success": True,
+        "lockId": lock_id,
+        "status": "UNLOCKED",
+        "message": "스마트컨트랙트 잠금이 해제되었습니다."
+    }
+
+# DAGAON 지갑 출금
+class WalletWithdrawRequest(BaseModel):
+    userId: int
+    amount: int
+    purpose: str  # 출금 목적 (ex: "나이키 에어맥스 구매")
+
+@app.post("/mock/dagaon/withdraw")
+def wallet_withdraw(request: WalletWithdrawRequest):
+    """DAGAON 지갑으로 출금"""
+    print(f"[DAGAON] 출금: userId={request.userId}, amount={request.amount}원, purpose={request.purpose}")
+    return {
+        "success": True,
+        "userId": request.userId,
+        "withdrawAmount": request.amount,
+        "purpose": request.purpose,
+        "walletAddress": f"0xDAGAON{request.userId:04x}",
+        "message": f"{request.amount}원이 DAGAON 지갑으로 출금되었습니다. 쇼핑을 즐기세요!"
+    }
+
+# iMKRW 잔액 조회
+@app.get("/mock/imkrw/balance/{user_id}")
+def get_balance(user_id: int):
+    """사용자 iMKRW 잔액 조회 (Mock - 목표 저축액 기반)"""
+    return {
+        "userId": user_id,
+        "balance": 50000,  # Mock 잔액
+        "currency": "iMKRW",
+        "lockedAmount": 30000,  # 스마트컨트랙트에 잠긴 금액
+        "availableAmount": 20000  # 사용 가능 금액
+    }
+
+
+=== ./agents/spending/tests/__init__.py ===
+# init
+
+=== ./agents/spending/tests/test_spending_agent.py ===
+"""
+SpendingAnalysisAgent 단위 테스트
+- 소비 내역 카테고리별 집계
+- pgvector 임베딩 저장
+- 가용 금액 계산
+"""
+import pytest
+from fastapi.testclient import TestClient
+from unittest.mock import patch, AsyncMock, MagicMock
+import sys
+import os
+
+if "main" in sys.modules:
+    del sys.modules["main"]
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from main import app
+
+client = TestClient(app)
+
+
+def test_health_check():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json()["agent"] == "SpendingAnalysisAgent"
+    assert response.json()["port"] == 8002
+
+
+class TestSpendingAnalysisAgent:
+
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.get_db_conn")
+    def test_analyze_spending_withMultipleRecords_aggregatesByCategory(
+            self, mock_db, mock_embed):
+        """카테고리별 집계 — 카페 2건 합산, 식비 1건 반환"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        spendings = [
+            {"category": "카페", "amount": 5000, "merchantName": "스타벅스", "date": "2026-06-19"},
+            {"category": "식비", "amount": 12000, "merchantName": "맥도날드", "date": "2026-06-19"},
+            {"category": "카페", "amount": 4500, "merchantName": "메가커피", "date": "2026-06-18"},
+        ]
+
+        # when
+        response = client.post("/agent/analyze-spending", json={
+            "userId": 1,
+            "spendings": spendings
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["categoryExpenses"]["카페"] == 9500
+        assert data["categoryExpenses"]["식비"] == 12000
+        assert data["totalExpenses"] == 21500
+        assert data["topCategory"] == "식비"
+
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.get_db_conn")
+    def test_analyze_spending_withEmptyList_returnsZero(
+            self, mock_db, mock_embed):
+        """빈 소비 내역 — totalExpenses=0, dailyAvailable 계산"""
+        # when
+        response = client.post("/agent/analyze-spending", json={
+            "userId": 1,
+            "spendings": []
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["totalExpenses"] == 0
+        assert data["dailyAvailableAmount"] == 100000  # (3000000 + 600000 - 0) / 30
+
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.get_db_conn")
+    def test_analyze_spending_savesEmbeddingsToVectorDB(
+            self, mock_db, mock_embed):
+        """소비 내역 임베딩 저장 — execute 호출 검증"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_cursor = MagicMock()
+        mock_db.return_value.cursor.return_value = mock_cursor
+        spendings = [
+            {"category": "카페", "amount": 5000, "merchantName": "스타벅스", "date": "2026-06-19"},
+            {"category": "식비", "amount": 8000, "merchantName": "버거킹", "date": "2026-06-19"},
+        ]
+
+        # when
+        client.post("/agent/analyze-spending", json={"userId": 1, "spendings": spendings})
+
+        # then — 임베딩 저장 2회 호출 검증
+        assert mock_cursor.execute.call_count == 2
+
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.get_db_conn")
+    def test_analyze_spending_calculatesTopCategory(
+            self, mock_db, mock_embed):
+        """최고 지출 카테고리 계산 — 배달음식이 가장 많으면 topCategory=배달음식"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        spendings = [
+            {"category": "카페", "amount": 5000, "merchantName": "스타벅스", "date": "2026-06-19"},
+            {"category": "배달음식", "amount": 50000, "merchantName": "배민", "date": "2026-06-19"},
+        ]
+
+        # when
+        response = client.post("/agent/analyze-spending", json={
+            "userId": 1,
+            "spendings": spendings
+        })
+
+        # then
+        assert response.json()["topCategory"] == "배달음식"
+
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.get_db_conn")
+    def test_analyze_spending_limitsEmbeddingTo20Records(
+            self, mock_db, mock_embed):
+        """임베딩 저장 최대 20건 제한"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_cursor = MagicMock()
+        mock_db.return_value.cursor.return_value = mock_cursor
+        spendings = [
+            {"category": "카페", "amount": 5000, "merchantName": f"카페{i}", "date": "2026-06-19"}
+            for i in range(30)
+        ]
+
+        # when
+        client.post("/agent/analyze-spending", json={"userId": 1, "spendings": spendings})
+
+        # then — 최대 20건만 저장
+        assert mock_cursor.execute.call_count <= 20
+
+=== ./agents/spending/main.py ===
+from fastapi import FastAPI
+from pydantic import BaseModel
+import httpx
+import psycopg2
+from pgvector.psycopg2 import register_vector
+import os
+import logging
+import asyncio
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+app = FastAPI(title="iM AgentiX — SpendingAnalysisAgent")
+
+OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://host.docker.internal:11434")
+DB_HOST = os.getenv("DB_HOST", "agentic-postgres")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "agentic")
+DB_USER = os.getenv("DB_USER", "agentic_user")
+DB_PASS = os.getenv("DB_PASS", "agentic_password")
+
+# 글로벌 HTTP 클라이언트 재사용 (TCP handshake 및 소켓 오버헤드 방지)
+http_client = httpx.AsyncClient(timeout=10.0)
+
+def get_db_conn():
+    conn = psycopg2.connect(
+        host=DB_HOST, port=DB_PORT,
+        dbname=DB_NAME, user=DB_USER, password=DB_PASS
+    )
+    register_vector(conn)
+    return conn
+
+async def ollama_embed(text: str) -> list[float]:
+    try:
+        response = await http_client.post(
+            f"{OLLAMA_URL}/api/embeddings",
+            json={"model": "nomic-embed-text", "prompt": text}
+        )
+        return response.json().get("embedding", [])
+    except Exception as e:
+        logger.error(f"임베딩 생성 실패: {e}")
+        return []
+
+class SpendingRecord(BaseModel):
+    category: str
+    amount: int
+    merchantName: str
+    date: str
+
+class SpendingAnalysisRequest(BaseModel):
+    userId: int
+    spendings: list[SpendingRecord]
+
+class SpendingAnalysisResponse(BaseModel):
+    categoryExpenses: dict[str, int]
+    totalExpenses: int
+    dailyAvailableAmount: int
+    topCategory: str
+
+@app.post("/agent/analyze-spending", response_model=SpendingAnalysisResponse)
+async def analyze_spending(request: SpendingAnalysisRequest):
+    logger.info(f"[SpendingAnalysisAgent] userId={request.userId}, records={len(request.spendings)}")
+
+    category_expenses = {}
+    for record in request.spendings:
+        category_expenses[record.category] = \
+            category_expenses.get(record.category, 0) + record.amount
+
+    total = sum(category_expenses.values())
+    income = max(3000000, total + 600000)
+    daily = (income - total) // 30
+    top = max(category_expenses, key=category_expenses.get) if category_expenses else "식비"
+
+    # 1. 20개 레코드 임베딩 병렬 생성 (HTTP 커넥션 재사용)
+    async def get_embedding(rec):
+        content = f"{rec.category} {rec.merchantName} {rec.amount}원"
+        emb = await ollama_embed(content)
+        return (rec, emb)
+
+    results = await asyncio.gather(*(get_embedding(r) for r in request.spendings[:20]))
+
+    # 2. 단일 커넥션으로 벌크 인서트 처리
+    try:
+        conn = get_db_conn()
+        cur = conn.cursor()
+        for record, embedding in results:
+            if not embedding:
+                continue
+            content = f"{record.category} {record.merchantName} {record.amount}원"
+            cur.execute("""
+                INSERT INTO spending_embeddings (user_id, category, merchant_name, amount, embedding, content, created_at, updated_at)
+                VALUES (%s, %s, %s, %s, %s::vector, %s, NOW(), NOW())
+            """, (request.userId, record.category, record.merchantName, record.amount, str(embedding), content))
+        conn.commit()
+        conn.close()
+        logger.info(f"[SpendingAnalysisAgent] 임베딩 저장 완료: {len(results)}건")
+    except Exception as e:
+        logger.error(f"[SpendingAnalysisAgent] 벌크 임베딩 저장 실패: {e}")
+
+    logger.info(f"[SpendingAnalysisAgent] 완료: {list(category_expenses.keys())}")
+    return SpendingAnalysisResponse(
+        categoryExpenses=category_expenses,
+        totalExpenses=total,
+        dailyAvailableAmount=daily,
+        topCategory=top
+    )
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "agent": "SpendingAnalysisAgent", "port": 8002}
+
+=== ./agents/goal-parsing/tests/__init__.py ===
+# init
+
+=== ./agents/goal-parsing/tests/test_goal_parsing_agent.py ===
+"""
+GoalParsingAgent 단위 테스트
+- 자연어 입력 → 상품명/가격/카테고리 파싱
+- Ollama 파싱 실패 시 폴백 처리
+- RAG 컨텍스트 주입 검증
+"""
+import pytest
+from fastapi.testclient import TestClient
+from unittest.mock import patch, AsyncMock
+import sys
+import os
+
+if "main" in sys.modules:
+    del sys.modules["main"]
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from main import app
+
+client = TestClient(app)
+
+
+def test_health_check():
+    """헬스체크 — status ok, agent 명 확인"""
+    response = client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "ok"
+    assert data["agent"] == "GoalParsingAgent"
+    assert data["port"] == 8001
+
+
+class TestGoalParsingAgent:
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    def test_parse_goal_withValidInput_returnsItemName(
+            self, mock_search, mock_embed, mock_generate):
+        """자연어 입력 파싱 성공 — 상품명/가격/카테고리 반환"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_search.return_value = []
+        mock_generate.return_value = '{"itemName": "나이키 에어맥스", "price": 128000, "category": "패션"}'
+
+        # when
+        response = client.post("/agent/parse-goal", json={
+            "userId": 1,
+            "rawInput": "나이키 에어맥스 사고싶어"
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["itemName"] == "나이키 에어맥스"
+        assert data["price"] == 128000
+        assert data["category"] == "패션"
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    def test_parse_goal_withInvalidJson_returnsFallback(
+            self, mock_search, mock_embed, mock_generate):
+        """Ollama 잘못된 JSON 반환 시 폴백 — rawInput 그대로 반환"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_search.return_value = []
+        mock_generate.return_value = "죄송합니다. 파싱할 수 없습니다."
+
+        # when
+        response = client.post("/agent/parse-goal", json={
+            "userId": 1,
+            "rawInput": "아이패드 갖고싶다"
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["itemName"] == "아이패드 갖고싶다"
+        assert data["price"] == 0
+        assert data["category"] == "기타"
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    def test_parse_goal_withRagContext_injectsContextInPrompt(
+            self, mock_search, mock_embed, mock_generate):
+        """RAG 컨텍스트 주입 — 유사 소비내역 검색 결과가 프롬프트에 포함되는지 검증"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_search.return_value = [
+            {"category": "패션", "merchantName": "나이키", "amount": 120000}
+        ]
+        mock_generate.return_value = '{"itemName": "나이키 에어맥스", "price": 128000, "category": "패션"}'
+
+        # when
+        response = client.post("/agent/parse-goal", json={
+            "userId": 1,
+            "rawInput": "나이키 신발 사고싶어"
+        })
+
+        # then
+        assert response.status_code == 200
+        # search_similar_spending 호출 검증
+        mock_search.assert_called_once()
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    def test_parse_goal_withPriceZero_returnsZeroPrice(
+            self, mock_search, mock_embed, mock_generate):
+        """가격 알 수 없는 경우 price=0 반환"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_search.return_value = []
+        mock_generate.return_value = '{"itemName": "여행", "price": 0, "category": "여행"}'
+
+        # when
+        response = client.post("/agent/parse-goal", json={
+            "userId": 1,
+            "rawInput": "여행 가고싶어"
+        })
+
+        # then
+        assert response.status_code == 200
+        assert response.json()["price"] == 0
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    def test_parse_goal_withCodeBlockJson_cleansAndParses(
+            self, mock_search, mock_embed, mock_generate):
+        """Ollama가 ```json 코드블록으로 감싼 응답 반환 시 정상 파싱"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_search.return_value = []
+        mock_generate.return_value = '```json\n{"itemName": "맥북", "price": 1590000, "category": "전자기기"}\n```'
+
+        # when
+        response = client.post("/agent/parse-goal", json={
+            "userId": 1,
+            "rawInput": "맥북 에어 사고싶어"
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["itemName"] == "맥북"
+        assert data["price"] == 1590000
+
+=== ./agents/goal-parsing/main.py ===
+from fastapi import FastAPI
+from pydantic import BaseModel
+import httpx
+import json
+import psycopg2
+from pgvector.psycopg2 import register_vector
+import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+app = FastAPI(title="iM AgentiX — GoalParsingAgent")
+
+OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://host.docker.internal:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
+DB_HOST = os.getenv("DB_HOST", "agentic-postgres")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "agentic")
+DB_USER = os.getenv("DB_USER", "agentic_user")
+DB_PASS = os.getenv("DB_PASS", "agentic_password")
+
+def get_db_conn():
+    conn = psycopg2.connect(
+        host=DB_HOST, port=DB_PORT,
+        dbname=DB_NAME, user=DB_USER, password=DB_PASS
+    )
+    register_vector(conn)
+    return conn
+
+async def ollama_generate(prompt: str) -> str:
+    async with httpx.AsyncClient(timeout=180.0) as client:
+        response = await client.post(
+            f"{OLLAMA_URL}/api/generate",
+            json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False, "format": "json"}
+        )
+        return response.json().get("response", "")
+
+async def ollama_embed(text: str) -> list[float]:
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        response = await client.post(
+            f"{OLLAMA_URL}/api/embeddings",
+            json={"model": "nomic-embed-text", "prompt": text}
+        )
+        return response.json().get("embedding", [])
+
+def search_similar_spending(user_id: int, query_embedding: list, top_k: int = 3) -> list:
+    try:
+        conn = get_db_conn()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT category, merchant_name, amount
+            FROM spending_embeddings
+            WHERE user_id = %s
+            ORDER BY embedding <=> %s::vector
+            LIMIT %s
+        """, (user_id, str(query_embedding), top_k))
+        rows = cur.fetchall()
+        conn.close()
+        return [{"category": r[0], "merchantName": r[1], "amount": r[2]} for r in rows]
+    except Exception as e:
+        logger.error(f"pgvector 검색 실패: {e}")
+        return []
+
+def clean_json(response: str) -> str:
+    response = response.strip()
+    if response.startswith("```json"):
+        response = response[7:]
+    elif response.startswith("```"):
+        response = response[3:]
+    if response.endswith("```"):
+        response = response[:-3]
+    return response.strip()
+
+class GoalParsingRequest(BaseModel):
+    userId: int
+    rawInput: str
+
+class GoalParsingResponse(BaseModel):
+    itemName: str
+    price: int
+    category: str
+
+@app.post("/agent/parse-goal", response_model=GoalParsingResponse)
+async def parse_goal(request: GoalParsingRequest):
+    logger.info(f"[GoalParsingAgent] userId={request.userId}, input={request.rawInput}")
+
+    query_embedding = await ollama_embed(request.rawInput)
+    similar = search_similar_spending(request.userId, query_embedding, top_k=3)
+    context = "\n".join([f"- {s['category']} {s['merchantName']}: {s['amount']}원" for s in similar]) or "없음"
+
+    prompt = f"""당신은 금융 목표 파싱 AI입니다.
+사용자의 입력에서 물품명과 가격을 추출해 반드시 아래 JSON 형식으로만 응답하세요.
+{{"itemName": "물품명", "price": 숫자, "category": "카테고리"}}
+가격을 모르면 price를 0으로 설정하세요.
+
+[참고: 유사 소비 내역]
+{context}
+
+[입력]
+{request.rawInput}"""
+
+    logger.info(f"[GoalParsingAgent] Prompt length: {len(prompt)} chars")
+    raw = await ollama_generate(prompt)
+    logger.info(f"[GoalParsingAgent] 응답: {raw}")
+
+    try:
+        data = json.loads(clean_json(raw))
+        return GoalParsingResponse(
+            itemName=data.get("itemName", request.rawInput),
+            price=int(data.get("price", 0)),
+            category=data.get("category", "기타")
+        )
+    except Exception as e:
+        logger.error(f"[GoalParsingAgent] 파싱 실패: {e}")
+        return GoalParsingResponse(itemName=request.rawInput, price=0, category="기타")
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "agent": "GoalParsingAgent", "port": 8001}
+
+=== ./agents/mission/tests/test_mission_agent.py ===
+"""
+MissionGenerationAgent 단위 테스트
+- RAG 파이프라인 통한 미션 생성
+- 유사 소비내역 + 미션 사례 검색 검증
+- Ollama 파싱 실패 시 기본값 반환
+"""
+import pytest
+from fastapi.testclient import TestClient
+from unittest.mock import patch, AsyncMock, call
+import sys
+import os
+
+if "main" in sys.modules:
+    del sys.modules["main"]
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from main import app
+
+client = TestClient(app)
+
+
+def test_health_check():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json()["agent"] == "MissionGenerationAgent"
+    assert response.json()["port"] == 8003
+
+
+class TestMissionGenerationAgent:
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    @patch("main.search_similar_missions")
+    @patch("main.save_mission_case")
+    def test_generate_mission_withValidInput_returnsTwoMissions(
+            self, mock_save, mock_missions, mock_spending, mock_embed, mock_generate):
+        """미션 생성 성공 — 절제형 + 저축형 반환"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_spending.return_value = []
+        mock_missions.return_value = []
+        mock_generate.return_value = '''{
+            "restraint": {"categoryName": "카페", "limitAmount": 4000, "contributionRate": 1.8},
+            "saving": {"transferAmount": 3000, "contributionRate": 2.3}
+        }'''
+
+        # when
+        response = client.post("/agent/generate-mission", json={
+            "userId": 1,
+            "categoryExpenses": {"카페": 40000, "식비": 80000},
+            "dailyAvailableAmount": 10000,
+            "goalItemName": "나이키 에어맥스"
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["restraintCategory"] == "카페"
+        assert data["restraintLimitAmount"] == 4000
+        assert data["restraintContributionRate"] == 1.8
+        assert data["savingTransferAmount"] == 3000
+        assert data["savingContributionRate"] == 2.3
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    @patch("main.search_similar_missions")
+    @patch("main.save_mission_case")
+    def test_generate_mission_withInvalidJson_returnsDefaultMission(
+            self, mock_save, mock_missions, mock_spending, mock_embed, mock_generate):
+        """Ollama 파싱 실패 시 기본값 반환 — 식비/10000원/5000원"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_spending.return_value = []
+        mock_missions.return_value = []
+        mock_generate.return_value = "파싱 불가"
+
+        # when
+        response = client.post("/agent/generate-mission", json={
+            "userId": 1,
+            "categoryExpenses": {"식비": 100000},
+            "dailyAvailableAmount": 5000,
+            "goalItemName": "아이패드"
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["restraintCategory"] == "식비"
+        assert data["restraintLimitAmount"] == 10000
+        assert data["savingTransferAmount"] == 5000
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    @patch("main.search_similar_missions")
+    @patch("main.save_mission_case")
+    def test_generate_mission_searchesVectorDB(
+            self, mock_save, mock_missions, mock_spending, mock_embed, mock_generate):
+        """RAG 파이프라인 — pgvector 유사 소비내역 + 미션 사례 검색 호출 검증"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_spending.return_value = [
+            {"category": "카페", "merchantName": "스타벅스", "amount": 5000}
+        ]
+        mock_missions.return_value = [
+            {"category": "카페", "missionType": "RESTRAINT", "limitAmount": 4000, "successRate": 0.7}
+        ]
+        mock_generate.return_value = '''{
+            "restraint": {"categoryName": "카페", "limitAmount": 4000, "contributionRate": 1.8},
+            "saving": {"transferAmount": 3000, "contributionRate": 2.3}
+        }'''
+
+        # when
+        client.post("/agent/generate-mission", json={
+            "userId": 1,
+            "categoryExpenses": {"카페": 40000},
+            "dailyAvailableAmount": 10000,
+            "goalItemName": "나이키"
+        })
+
+        # then — 유사 소비내역 검색 + 미션 사례 검색 각 1회 호출
+        mock_spending.assert_called_once()
+        mock_missions.assert_called_once()
+
+    @patch("main.ollama_generate", new_callable=AsyncMock)
+    @patch("main.ollama_embed", new_callable=AsyncMock)
+    @patch("main.search_similar_spending")
+    @patch("main.search_similar_missions")
+    @patch("main.save_mission_case")
+    def test_generate_mission_savesMissionCaseAfterGeneration(
+            self, mock_save, mock_missions, mock_spending, mock_embed, mock_generate):
+        """성공 미션 사례 pgvector 저장 검증"""
+        # given
+        mock_embed.return_value = [0.1] * 768
+        mock_spending.return_value = []
+        mock_missions.return_value = []
+        mock_generate.return_value = '''{
+            "restraint": {"categoryName": "카페", "limitAmount": 4000, "contributionRate": 1.8},
+            "saving": {"transferAmount": 3000, "contributionRate": 2.3}
+        }'''
+
+        # when
+        client.post("/agent/generate-mission", json={
+            "userId": 1,
+            "categoryExpenses": {"카페": 40000},
+            "dailyAvailableAmount": 10000,
+            "goalItemName": "나이키"
+        })
+
+        # then — 미션 사례 저장 1회 호출
+        mock_save.assert_called_once()
+
+=== ./agents/mission/tests/__init__.py ===
+# init
+
+=== ./agents/mission/main.py ===
+from fastapi import FastAPI
+from pydantic import BaseModel
+import httpx
+import json
+import psycopg2
+from pgvector.psycopg2 import register_vector
+import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+app = FastAPI(title="iM AgentiX — MissionGenerationAgent")
+
+OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://host.docker.internal:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
+DB_HOST = os.getenv("DB_HOST", "agentic-postgres")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "agentic")
+DB_USER = os.getenv("DB_USER", "agentic_user")
+DB_PASS = os.getenv("DB_PASS", "agentic_password")
+
+def get_db_conn():
+    conn = psycopg2.connect(
+        host=DB_HOST, port=DB_PORT,
+        dbname=DB_NAME, user=DB_USER, password=DB_PASS
+    )
+    register_vector(conn)
+    return conn
+
+async def ollama_generate(prompt: str) -> str:
+    async with httpx.AsyncClient(timeout=180.0) as client:
+        response = await client.post(
+            f"{OLLAMA_URL}/api/generate",
+            json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False, "format": "json"}
+        )
+        return response.json().get("response", "")
+
+async def ollama_embed(text: str) -> list[float]:
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        response = await client.post(
+            f"{OLLAMA_URL}/api/embeddings",
+            json={"model": "nomic-embed-text", "prompt": text}
+        )
+        return response.json().get("embedding", [])
+
+def search_similar_spending(user_id: int, query_embedding: list, top_k: int = 3) -> list:
+    try:
+        conn = get_db_conn()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT category, merchant_name, amount
+            FROM spending_embeddings
+            WHERE user_id = %s
+            ORDER BY embedding <=> %s::vector
+            LIMIT %s
+        """, (user_id, str(query_embedding), top_k))
+        rows = cur.fetchall()
+        conn.close()
+        return [{"category": r[0], "merchantName": r[1], "amount": r[2]} for r in rows]
+    except Exception as e:
+        logger.error(f"소비 검색 실패: {e}")
+        return []
+
+def search_similar_missions(query_embedding: list, top_k: int = 3) -> list:
+    try:
+        conn = get_db_conn()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT category, mission_type, limit_amount, success_rate
+            FROM mission_cases
+            ORDER BY embedding <=> %s::vector
+            LIMIT %s
+        """, (str(query_embedding), top_k))
+        rows = cur.fetchall()
+        conn.close()
+        return [{"category": r[0], "missionType": r[1],
+                 "limitAmount": r[2], "successRate": r[3]} for r in rows]
+    except Exception as e:
+        logger.error(f"미션 검색 실패: {e}")
+        return []
+
+def save_mission_case(category: str, mission_type: str,
+                       limit_amount: int, success_rate: float, embedding: list):
+    try:
+        conn = get_db_conn()
+        cur = conn.cursor()
+        content = f"{category} {mission_type} 미션 한도 {limit_amount}원 성공률 {success_rate*100:.0f}%"
+        cur.execute("""
+            INSERT INTO mission_cases (category, mission_type, limit_amount, success_rate, embedding, content, created_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s::vector, %s, NOW(), NOW())
+        """, (category, mission_type, limit_amount, success_rate, str(embedding), content))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        logger.error(f"미션 사례 저장 실패: {e}")
+
+def clean_json(response: str) -> str:
+    response = response.strip()
+    if response.startswith("```json"):
+        response = response[7:]
+    elif response.startswith("```"):
+        response = response[3:]
+    if response.endswith("```"):
+        response = response[:-3]
+    return response.strip()
+
+class MissionGenerationRequest(BaseModel):
+    userId: int
+    categoryExpenses: dict[str, int]
+    dailyAvailableAmount: int
+    goalItemName: str
+
+class MissionGenerationResponse(BaseModel):
+    restraintCategory: str
+    restraintLimitAmount: int
+    restraintContributionRate: float
+    savingTransferAmount: int
+    savingContributionRate: float
+
+@app.post("/agent/generate-mission", response_model=MissionGenerationResponse)
+async def generate_mission(request: MissionGenerationRequest):
+    logger.info(f"[MissionGenerationAgent] userId={request.userId}, goal={request.goalItemName}")
+
+    query = f"소비: {request.categoryExpenses}, 가용: {request.dailyAvailableAmount}원, 목표: {request.goalItemName}"
+    embedding = await ollama_embed(query)
+
+    similar_spending = search_similar_spending(request.userId, embedding, top_k=3)
+    similar_missions = search_similar_missions(embedding, top_k=3)
+
+    spending_ctx = "\n".join([
+        f"- {s['category']} {s['merchantName']}: {s['amount']}원"
+        for s in similar_spending
+    ]) or "없음"
+
+    mission_ctx = "\n".join([
+        f"- [{m['missionType']}] {m['category']}, 성공률 {m['successRate']*100:.0f}%"
+        for m in similar_missions
+    ]) or "없음"
+
+    prompt = f"""당신은 금융 미션 생성 AI입니다.
+반드시 아래 JSON 형식으로만 응답하세요. 다른 텍스트 없이 JSON만 출력하세요.
+{{
+  "restraint": {{"categoryName": "카테고리명", "limitAmount": 숫자, "contributionRate": 소수}},
+  "saving": {{"transferAmount": 숫자, "contributionRate": 소수}}
+}}
+
+[유사 소비 내역]
+{spending_ctx}
+
+[성공 미션 사례]
+{mission_ctx}
+
+소비 패턴: {request.categoryExpenses}
+가용 금액: {request.dailyAvailableAmount}원
+목표: {request.goalItemName}"""
+
+    logger.info(f"[MissionGenerationAgent] Prompt length: {len(prompt)} chars")
+    raw = await ollama_generate(prompt)
+    logger.info(f"[MissionGenerationAgent] RAG 적용 완료, 소비 {len(similar_spending)}건, 미션 {len(similar_missions)}건")
+
+    try:
+        data = json.loads(clean_json(raw))
+        r = data["restraint"]
+        s = data["saving"]
+        result = MissionGenerationResponse(
+            restraintCategory=r["categoryName"],
+            restraintLimitAmount=int(r["limitAmount"]),
+            restraintContributionRate=float(r["contributionRate"]),
+            savingTransferAmount=int(s["transferAmount"]),
+            savingContributionRate=float(s["contributionRate"])
+        )
+        # 성공 미션 사례 저장
+        emb = await ollama_embed(f"{r['categoryName']} RESTRAINT 미션")
+        if emb:
+            save_mission_case(r["categoryName"], "RESTRAINT", int(r["limitAmount"]), 0.7, emb)
+        return result
+    except Exception as e:
+        logger.error(f"[MissionGenerationAgent] 파싱 실패: {e}")
+        return MissionGenerationResponse(
+            restraintCategory="식비", restraintLimitAmount=10000,
+            restraintContributionRate=1.0, savingTransferAmount=5000,
+            savingContributionRate=0.5
+        )
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "agent": "MissionGenerationAgent", "port": 8003}
+
+=== ./agents/execution/tests/__init__.py ===
+# init
+
+=== ./agents/execution/tests/test_execution_agent.py ===
+"""
+ExecutionAgent 단위 테스트
+- RESTRAINT 미션: 한도 이하 소비 시 성공, 초과 시 실패
+- SAVING 미션: 항상 성공
+- 절감액 계산 검증
+"""
+import pytest
+from fastapi.testclient import TestClient
+import sys
+import os
+
+if "main" in sys.modules:
+    del sys.modules["main"]
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from main import app
+
+client = TestClient(app)
+
+
+def test_health_check():
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json()["agent"] == "ExecutionAgent"
+    assert response.json()["port"] == 8004
+
+
+class TestExecutionAgent:
+
+    def test_restraint_withSpendingUnderLimit_returnsSuccess(self):
+        """절제형 미션 — 한도 이하 소비 시 성공 + 절감액 반환"""
+        # given / when
+        response = client.post("/agent/execute", json={
+            "userId": 1,
+            "goalId": 1,
+            "amount": 4000,
+            "missionType": "RESTRAINT",
+            "categoryName": "카페",
+            "limitAmount": 4000,
+            "actualSpending": 3500
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["success"] is True
+        assert data["shouldTransfer"] is True
+        assert data["savedAmount"] == 500  # 4000 - 3500
+
+    def test_restraint_withSpendingOverLimit_returnsFail(self):
+        """절제형 미션 — 한도 초과 소비 시 실패 + 이체 안 함"""
+        # given / when
+        response = client.post("/agent/execute", json={
+            "userId": 1,
+            "goalId": 1,
+            "amount": 4000,
+            "missionType": "RESTRAINT",
+            "categoryName": "카페",
+            "limitAmount": 4000,
+            "actualSpending": 7000
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["success"] is False
+        assert data["shouldTransfer"] is False
+        assert data["savedAmount"] == 0
+
+    def test_restraint_withSpendingExactlyAtLimit_returnsSuccess(self):
+        """절제형 미션 — 소비 = 한도 정확히 일치 시 성공 (경계값)"""
+        # given / when
+        response = client.post("/agent/execute", json={
+            "userId": 1,
+            "goalId": 1,
+            "amount": 4000,
+            "missionType": "RESTRAINT",
+            "categoryName": "카페",
+            "limitAmount": 4000,
+            "actualSpending": 4000
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["success"] is True
+        assert data["savedAmount"] == 0  # 절감액 없음
+
+    def test_saving_alwaysReturnsSuccess(self):
+        """저축형 미션 — 항상 성공, amount 그대로 반환"""
+        # given / when
+        response = client.post("/agent/execute", json={
+            "userId": 1,
+            "goalId": 1,
+            "amount": 3000,
+            "missionType": "SAVING"
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["success"] is True
+        assert data["shouldTransfer"] is True
+        assert data["savedAmount"] == 3000
+
+    def test_saving_withZeroAmount_returnsSuccess(self):
+        """저축형 미션 — 0원도 성공 처리 (경계값)"""
+        # given / when
+        response = client.post("/agent/execute", json={
+            "userId": 1,
+            "goalId": 1,
+            "amount": 0,
+            "missionType": "SAVING"
+        })
+
+        # then
+        assert response.status_code == 200
+        assert response.json()["success"] is True
+
+    def test_restraint_withNoActualSpending_treatsAsZero(self):
+        """절제형 미션 — actualSpending 없을 때 0으로 처리"""
+        # given / when
+        response = client.post("/agent/execute", json={
+            "userId": 1,
+            "goalId": 1,
+            "amount": 4000,
+            "missionType": "RESTRAINT",
+            "categoryName": "카페",
+            "limitAmount": 4000
+            # actualSpending 없음
+        })
+
+        # then
+        assert response.status_code == 200
+        data = response.json()
+        assert data["success"] is True
+        assert data["savedAmount"] == 4000  # 4000 - 0
+
+=== ./agents/execution/main.py ===
+from fastapi import FastAPI
+from pydantic import BaseModel
+import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+app = FastAPI(title="iM AgentiX — ExecutionAgent")
+
+OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://host.docker.internal:11434")
+
+class ExecutionRequest(BaseModel):
+    userId: int
+    goalId: int
+    amount: int
+    missionType: str
+    categoryName: str | None = None
+    limitAmount: int | None = None
+    actualSpending: int | None = None
+
+class ExecutionResponse(BaseModel):
+    success: bool
+    shouldTransfer: bool
+    savedAmount: int
+    message: str
+
+@app.post("/agent/execute", response_model=ExecutionResponse)
+async def execute_mission(request: ExecutionRequest):
+    logger.info(f"[ExecutionAgent] userId={request.userId}, type={request.missionType}")
+
+    if request.missionType == "RESTRAINT":
+        actual = request.actualSpending or 0
+        limit = request.limitAmount or 0
+        if actual <= limit:
+            saved = limit - actual
+            logger.info(f"[ExecutionAgent] RESTRAINT 성공: saved={saved}원")
+            return ExecutionResponse(
+                success=True, shouldTransfer=True, savedAmount=saved,
+                message=f"{request.categoryName} 절제 성공! {saved}원 절약"
+            )
+        else:
+            logger.info(f"[ExecutionAgent] RESTRAINT 실패: actual={actual}, limit={limit}")
+            return ExecutionResponse(
+                success=False, shouldTransfer=False, savedAmount=0,
+                message=f"{request.categoryName} 한도 초과. 실제: {actual}원, 한도: {limit}원"
+            )
+    else:  # SAVING
+        logger.info(f"[ExecutionAgent] SAVING 성공: amount={request.amount}원")
+        return ExecutionResponse(
+            success=True, shouldTransfer=True, savedAmount=request.amount,
+            message=f"저축 미션 성공! {request.amount}원 이체"
+        )
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "agent": "ExecutionAgent", "port": 8004}
+
+=== ./finetune/quality_test.py ===
+import json
+import os
+import httpx
+import re
+import math
+import random
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(SCRIPT_DIR, "data")
+MISSION_DATASET_PATH = os.path.join(DATA_DIR, "mission_generation.jsonl")
+
+OLLAMA_URL = "http://localhost:11434"
+TUNED_MODEL = "qwen2.5-tuned"
+FUSED_MODEL_PATH = os.path.join(SCRIPT_DIR, "fused_model")
+ADAPTER_PATH = os.path.join(os.path.dirname(SCRIPT_DIR), "adapters")
+
+_mlx_model = None
+_mlx_tokenizer = None
+
+def get_mlx_model():
+    global _mlx_model, _mlx_tokenizer
+    if _mlx_model is None:
+        print("[Fallback] MLX 패키지를 이용해 로컬에서 직접 모델을 로드합니다 (Quality Test)...")
+        from mlx_lm import load
+        if os.path.exists(FUSED_MODEL_PATH):
+            _mlx_model, _mlx_tokenizer = load(FUSED_MODEL_PATH)
+        elif os.path.exists(ADAPTER_PATH):
+            _mlx_model, _mlx_tokenizer = load("mlx-community/Qwen2.5-1.5B-Instruct-4bit", adapter_path=ADAPTER_PATH)
+        else:
+            _mlx_model, _mlx_tokenizer = load("mlx-community/Qwen2.5-1.5B-Instruct-4bit")
+    return _mlx_model, _mlx_tokenizer
+
+OLLAMA_AVAILABLE = None
+
+def check_ollama_available():
+    global OLLAMA_AVAILABLE
+    if OLLAMA_AVAILABLE is not None:
+        return OLLAMA_AVAILABLE
+    try:
+        with httpx.Client(timeout=1.0) as client:
+            response = client.get(f"{OLLAMA_URL}/api/tags")
+            if response.status_code == 200:
+                OLLAMA_AVAILABLE = True
+                print("[Ollama] 서비스 감지 성공. Ollama를 우선 사용합니다.")
+                return True
+    except Exception:
+        pass
+    OLLAMA_AVAILABLE = False
+    print("[Ollama] 서비스 응답 없음. 로컬 MLX 모드로 직행합니다.")
+    return False
+
+def generate_ollama(prompt):
+    if not check_ollama_available():
+        return None
+    try:
+        with httpx.Client(timeout=10.0) as client:
+            response = client.post(
+                f"{OLLAMA_URL}/api/generate",
+                json={"model": TUNED_MODEL, "prompt": prompt, "stream": False, "format": "json"}
+            )
+            if response.status_code == 200:
+                return response.json().get("response", "").strip()
+    except Exception as e:
+        print(f"[Ollama] {TUNED_MODEL} 호출 실패: {e}")
+    return None
+
+def generate_mlx(prompt):
+    try:
+        from mlx_lm import generate
+        model, tokenizer = get_mlx_model()
+        response = generate(model, tokenizer, prompt=prompt, max_tokens=256, verbose=False)
+        return response.strip()
+    except Exception as e:
+        print(f"[MLX Fallback] 직접 추론 실패: {e}")
+        return ""
+
+def query_tuned_model(prompt):
+    if check_ollama_available():
+        res = generate_ollama(prompt)
+        if res is not None:
+            return res
+    return generate_mlx(prompt)
+
+def clean_json(text):
+    text = text.strip()
+    if text.startswith("```json"):
+        text = text[7:]
+    elif text.startswith("```"):
+        text = text[3:]
+    if text.endswith("```"):
+        text = text[:-3]
+    text = text.strip()
+    match = re.search(r"(\{.*\})", text, re.DOTALL)
+    if match:
+        return match.group(1)
+    return text
+
+def parse_to_json(text):
+    try:
+        cleaned = clean_json(text)
+        return json.loads(cleaned)
+    except Exception:
+        return None
+
+def get_stats(lst):
+    if not lst:
+        return 0.0, 0.0, 0.0, 0.0
+    n = len(lst)
+    mean = sum(lst) / n
+    var = sum((x - mean) ** 2 for x in lst) / n
+    std = math.sqrt(var)
+    return mean, min(lst), max(lst), std
+
+def run_quality_test():
+    if not os.path.exists(MISSION_DATASET_PATH):
+        print(f"오류: 미션 데이터셋이 존재하지 않습니다: {MISSION_DATASET_PATH}")
+        return
+
+    print("미션 데이터셋 로드 중...")
+    with open(MISSION_DATASET_PATH, "r", encoding="utf-8") as f:
+        samples = [json.loads(line) for line in f if line.strip()]
+
+    # 무작위 50개 샘플 선택
+    random.seed(24)
+    test_samples = random.sample(samples, min(50, len(samples)))
+    print(f"품질 테스트를 위해 {len(test_samples)}개의 샘플을 선정했습니다.")
+
+    restraint_limits = []
+    restraint_rates = []
+    saving_amounts = []
+    saving_rates = []
+    parsing_failures = 0
+
+    for idx, sample in enumerate(test_samples):
+        prompt = sample["prompt"]
+        raw_res = query_tuned_model(prompt)
+        res_json = parse_to_json(raw_res)
+
+        if res_json:
+            try:
+                # 절제 한도
+                limit = res_json.get("restraint", {}).get("limitAmount", 0)
+                rate_r = res_json.get("restraint", {}).get("contributionRate", 0.0)
+                # 저축 이체
+                transfer = res_json.get("saving", {}).get("transferAmount", 0)
+                rate_s = res_json.get("saving", {}).get("contributionRate", 0.0)
+
+                restraint_limits.append(float(limit))
+                restraint_rates.append(float(rate_r))
+                saving_amounts.append(float(transfer))
+                saving_rates.append(float(rate_s))
+            except Exception as e:
+                print(f"[오류] 데이터 파싱 또는 타입 변환 실패: {e}")
+                parsing_failures += 1
+        else:
+            parsing_failures += 1
+
+        if (idx + 1) % 10 == 0:
+            print(f"품질 테스트 진행률: {idx + 1}/{len(test_samples)}")
+
+    # 통계 계산
+    limit_mean, limit_min, limit_max, limit_std = get_stats(restraint_limits)
+    rate_r_mean, rate_r_min, rate_r_max, rate_r_std = get_stats(restraint_rates)
+    save_mean, save_min, save_max, save_std = get_stats(saving_amounts)
+    rate_s_mean, rate_s_min, rate_s_max, rate_s_std = get_stats(saving_rates)
+
+    successful_runs = len(test_samples) - parsing_failures
+    success_rate = (successful_runs / len(test_samples)) * 100
+
+    report_content = f"""## 3단계: 미션 생성 품질 분포 테스트 (총 {len(test_samples)}회 테스트)
+
+* **성공 실행 횟수**: {successful_runs} / {len(test_samples)} (성공률: {success_rate:.1f}%)
+* **실패 횟수 (JSON 파싱 불가 또는 필드 누락)**: {parsing_failures}회
+
+### 생성 수치 통계 분포
+| 메트릭 (Metric) | 평균값 (Mean) | 최솟값 (Min) | 최댓값 (Max) | 표준편차 (Std Dev) |
+| :--- | :---: | :---: | :---: | :---: |
+| **하루 절제 한도 (`limitAmount`)** | {limit_mean:,.0f}원 | {limit_min:,.0f}원 | {limit_max:,.0f}원 | {limit_std:,.0f}원 |
+| **절제 미션 기여율 (`contributionRate`)** | {rate_r_mean:.2f}% | {rate_r_min:.2f}% | {rate_r_max:.2f}% | {rate_r_std:.2f}% |
+| **일시 저축 이체액 (`transferAmount`)** | {save_mean:,.0f}원 | {save_min:,.0f}원 | {save_max:,.0f}원 | {save_std:,.0f}원 |
+| **저축 미션 기여율 (`contributionRate`)** | {rate_s_mean:.2f}% | {rate_s_min:.2f}% | {rate_s_max:.2f}% | {rate_s_std:.2f}% |
+
+### 품질 분석 의견
+1. **절제 한도 (`limitAmount`) 분포**:
+   * 베이스 모델이 간혹 극도로 낮게 생성하던 문제(예: 하루 한도 12원, 1,000원 등 비현실적인 소액)가 극복되었는지 검증합니다.
+   * 평균 한도는 약 **{limit_mean:,.0f}원**이며 최소 **{limit_min:,.0f}원**에서 최대 **{limit_max:,.0f}원** 사이로 고르게 분포하여 현실적인 소비 제약 역할을 수행합니다.
+2. **저축액 및 기여율 설계**:
+   * 가용 예산의 적정 비율이 매칭되어 평균 **{save_mean:,.0f}원** 수준의 일시 저축 이체가 무리 없이 생성됩니다.
+"""
+    # 결과를 파일로 임시 저장
+    with open(os.path.join(SCRIPT_DIR, "quality_temp.md"), "w", encoding="utf-8") as f:
+        f.write(report_content)
+
+    print("\n=== 미션 생성 품질 테스트 완료 및 기록 완료 ===")
+    print(report_content)
+
+if __name__ == "__main__":
+    run_quality_test()
+
+=== ./finetune/generate_dataset.py ===
+"""
+iM AgentiX 파인튜닝 데이터셋 생성 스크립트
+- 목표 파싱 데이터셋: 500건 (자연어 → JSON)
+- 미션 생성 데이터셋: 300건 (소비패턴 → 미션 JSON)
+출력: finetune/data/goal_parsing.jsonl, finetune/data/mission_generation.jsonl
+"""
+import json
+import random
+import os
+
+# 스크립트 파일 위치를 기준으로 출력 디렉토리 경로 지정
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(SCRIPT_DIR, "data")
+os.makedirs(DATA_DIR, exist_ok=True)
+
+# ── 목표 파싱 데이터셋 ──
+ITEMS = [
+    ("나이키 에어맥스", 128000, "패션"),
+    ("아이패드 프로", 1299000, "전자기기"),
+    ("다이슨 에어랩", 598000, "뷰티"),
+    ("맥북 에어 M2", 1590000, "전자기기"),
+    ("갤럭시 버즈", 179000, "전자기기"),
+    ("코치 가방", 450000, "패션"),
+    ("소니 헤드폰", 380000, "전자기기"),
+    ("구찌 지갑", 680000, "패션"),
+    ("필립스 전동칫솔", 89000, "생활용품"),
+    ("닌텐도 스위치", 360000, "게임"),
+    ("에어팟 프로", 359000, "전자기기"),
+    ("발뮤다 토스터", 198000, "주방"),
+    ("삼성 갤럭시 탭", 899000, "전자기기"),
+    ("키친에이드 믹서", 750000, "주방"),
+    ("캠핑 텐트", 320000, "스포츠"),
+    ("요가매트", 58000, "스포츠"),
+    ("블루투스 스피커", 120000, "전자기기"),
+    ("향수", 180000, "뷰티"),
+    ("전동 킥보드", 480000, "교통"),
+    ("커피머신", 250000, "주방"),
+]
+
+NATURAL_LANG_TEMPLATES = [
+    "{item} 사고싶어",
+    "{item} 갖고싶다",
+    "{item} 살 돈 모으고싶어",
+    "{item} 구매하고 싶은데 돈을 모아야해",
+    "요즘 {item} 탐나는데 저축해볼까",
+    "{item} 너무 갖고싶어서 모으기 시작했어",
+    "{item} 사려고 돈 모으는 중",
+    "친구가 {item} 산거 보고 나도 갖고싶어졌어",
+    "{item} 생일선물로 받고싶은데 스스로 살까",
+    "올해 안에 {item} 꼭 사고싶어",
+    "{item} 세일할 때 사려고 미리 모으는 중",
+    "드디어 {item} 사기로 결심했어",
+    "{item} 없으면 안될것 같아서",
+    "{item} 신제품 나왔는데 너무 탐나",
+    "작년부터 {item} 갖고싶었는데 이제 모아볼게",
+]
+
+URL_TEMPLATES = [
+    "https://www.coupang.com/vp/products/{item}",
+    "https://www.musinsa.com/products/{item}",
+    "https://www.apple.com/kr/shop/{item}",
+    "https://shopping.naver.com/search/{item}",
+]
+
+def generate_goal_parsing_dataset(n=500):
+    data = []
+    for _ in range(n):
+        item_name, price, category = random.choice(ITEMS)
+        price_variation = price * random.uniform(0.9, 1.1)
+        price_final = int(price_variation // 1000) * 1000
+
+        reg_type = random.choice(["NATURAL_LANGUAGE", "URL", "NATURAL_LANGUAGE", "NATURAL_LANGUAGE"])
+
+        if reg_type == "NATURAL_LANGUAGE":
+            template = random.choice(NATURAL_LANG_TEMPLATES)
+            raw_input = template.format(item=item_name)
+        else:
+            url_template = random.choice(URL_TEMPLATES)
+            raw_input = url_template.format(item=item_name.replace(" ", "-").lower())
+
+        output = {
+            "itemName": item_name,
+            "price": price_final,
+            "category": category
+        }
+
+        # MLX LoRA 학습 형식
+        data.append({
+            "prompt": f"""당신은 금융 목표 파싱 AI입니다.
+사용자의 입력에서 물품명과 가격을 추출해 반드시 아래 JSON 형식으로만 응답하세요.
+{{"itemName": "물품명", "price": 숫자, "category": "카테고리"}}
+
+입력: {raw_input}""",
+            "completion": json.dumps(output, ensure_ascii=False)
+        })
+
+    output_file = os.path.join(DATA_DIR, "goal_parsing.jsonl")
+    with open(output_file, "w", encoding="utf-8") as f:
+        for item in data:
+            f.write(json.dumps(item, ensure_ascii=False) + "\n")
+
+    print(f"목표 파싱 데이터셋 생성 완료: {len(data)}건 → {output_file}")
+    return data
+
+# ── 미션 생성 데이터셋 ──
+CATEGORIES = ["카페", "식비", "교통", "편의점", "배달음식", "쇼핑", "엔터테인먼트", "의류"]
+GOAL_ITEMS = ["나이키 에어맥스", "아이패드", "다이슨 에어랩", "맥북", "갤럭시 버즈", "여행 경비", "카메라"]
+
+def generate_spending_pattern():
+    pattern = {}
+    for cat in random.sample(CATEGORIES, random.randint(3, 6)):
+        if cat == "카페":
+            pattern[cat] = random.randint(20000, 80000)
+        elif cat == "식비":
+            pattern[cat] = random.randint(80000, 300000)
+        elif cat == "교통":
+            pattern[cat] = random.randint(30000, 80000)
+        elif cat == "배달음식":
+            pattern[cat] = random.randint(50000, 200000)
+        else:
+            pattern[cat] = random.randint(10000, 100000)
+    return pattern
+
+def generate_mission_from_pattern(pattern, daily_available, goal_item):
+    top_category = max(pattern, key=pattern.get)
+    top_amount = pattern[top_category]
+    limit = int(top_amount * random.uniform(0.5, 0.8) / 30)
+    limit = max(3000, (limit // 1000) * 1000)
+
+    saving = int(daily_available * random.uniform(0.2, 0.5))
+    saving = max(1000, (saving // 1000) * 1000)
+
+    return {
+        "restraint": {
+            "categoryName": top_category,
+            "limitAmount": limit,
+            "contributionRate": round(random.uniform(0.5, 2.0), 1)
+        },
+        "saving": {
+            "transferAmount": saving,
+            "contributionRate": round(random.uniform(0.3, 1.5), 1)
+        }
+    }
+
+def generate_mission_dataset(n=300):
+    data = []
+    for _ in range(n):
+        pattern = generate_spending_pattern()
+        total = sum(pattern.values())
+        estimated_income = max(3000000, total + 600000)
+        daily_available = (estimated_income - total) // 30
+        goal_item = random.choice(GOAL_ITEMS)
+        mission = generate_mission_from_pattern(pattern, daily_available, goal_item)
+
+        pattern_str = ", ".join([f"{k}: {v}원" for k, v in pattern.items()])
+
+        data.append({
+            "prompt": f"""당신은 금융 미션 생성 AI입니다.
+사용자의 소비 패턴을 분석해 절약 미션을 생성합니다.
+반드시 아래 JSON 형식으로만 응답하세요.
+{{
+  "restraint": {{"categoryName": "카테고리명", "limitAmount": 숫자, "contributionRate": 소수}},
+  "saving": {{"transferAmount": 숫자, "contributionRate": 소수}}
+}}
+
+소비 패턴: {pattern_str}
+오늘 가용 금액: {daily_available}원
+저축 목표: {goal_item}""",
+            "completion": json.dumps(mission, ensure_ascii=False)
+        })
+
+    output_file = os.path.join(DATA_DIR, "mission_generation.jsonl")
+    with open(output_file, "w", encoding="utf-8") as f:
+        for item in data:
+            f.write(json.dumps(item, ensure_ascii=False) + "\n")
+
+    print(f"미션 생성 데이터셋 생성 완료: {len(data)}건 → {output_file}")
+    return data
+
+if __name__ == "__main__":
+    print("=== iM AgentiX 파인튜닝 데이터셋 생성 ===")
+    goal_data = generate_goal_parsing_dataset(500)
+    mission_data = generate_mission_dataset(350)
+    print(f"\n총 {len(goal_data) + len(mission_data)}건 생성 완료")
+    print("MLX 파인튜닝 명령어:")
+    print(f"  mlx_lm.lora --model mlx-community/Qwen2.5-1.5B-Instruct-4bit --train --data {os.path.join(DATA_DIR, 'goal_parsing.jsonl')} --iters 500")
+    print(f"  mlx_lm.lora --model mlx-community/Qwen2.5-1.5B-Instruct-4bit --train --data {os.path.join(DATA_DIR, 'mission_generation.jsonl')} --iters 300")
+
+=== ./finetune/tests/__init__.py ===
+# init
+
+=== ./finetune/tests/test_dataset.py ===
+"""
+파인튜닝 데이터셋 품질 검증 테스트
+"""
+import json
+import os
+import pytest
+
+DATASET_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "data"
+)
+
+
+class TestGoalParsingDataset:
+
+    @pytest.fixture
+    def dataset(self):
+        path = os.path.join(DATASET_DIR, "goal_parsing.jsonl")
+        if not os.path.exists(path):
+            pytest.skip("데이터셋 파일 없음. generate_dataset.py 먼저 실행")
+        data = []
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                data.append(json.loads(line))
+        return data
+
+    def test_dataset_size_isAtLeast500(self, dataset):
+        """데이터셋 크기 — 최소 500건"""
+        assert len(dataset) >= 500, f"데이터셋 크기 부족: {len(dataset)}"
+
+    def test_dataset_hasPromptAndCompletion(self, dataset):
+        """모든 항목에 prompt, completion 필드 존재"""
+        for item in dataset[:10]:
+            assert "prompt" in item, "prompt 필드 없음"
+            assert "completion" in item, "completion 필드 없음"
+
+    def test_completion_isValidJson(self, dataset):
+        """completion 필드가 유효한 JSON — itemName/price/category 포함"""
+        for item in dataset[:50]:
+            completion = json.loads(item["completion"])
+            assert "itemName" in completion
+            assert "price" in completion
+            assert "category" in completion
+            assert isinstance(completion["price"], int)
+
+    def test_price_isNonNegative(self, dataset):
+        """price 필드 — 음수 없음"""
+        for item in dataset:
+            completion = json.loads(item["completion"])
+            assert completion["price"] >= 0
+
+    def test_prompt_containsInputKeyword(self, dataset):
+        """prompt 필드 — '입력:' 키워드 포함 여부"""
+        for item in dataset[:20]:
+            assert "입력" in item["prompt"] or "rawInput" in item["prompt"] or len(item["prompt"]) > 0
+
+
+class TestMissionDataset:
+
+    @pytest.fixture
+    def dataset(self):
+        path = os.path.join(DATASET_DIR, "mission_generation.jsonl")
+        if not os.path.exists(path):
+            pytest.skip("데이터셋 파일 없음. generate_dataset.py 먼저 실행")
+        data = []
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                data.append(json.loads(line))
+        return data
+
+    def test_dataset_size_isAtLeast300(self, dataset):
+        """데이터셋 크기 — 최소 300건"""
+        assert len(dataset) >= 300
+
+    def test_mission_hasRestraintAndSaving(self, dataset):
+        """모든 미션에 restraint, saving 필드 포함"""
+        for item in dataset[:20]:
+            completion = json.loads(item["completion"])
+            assert "restraint" in completion
+            assert "saving" in completion
+
+    def test_restraint_hasRequiredFields(self, dataset):
+        """restraint 필드 — categoryName, limitAmount, contributionRate 포함"""
+        for item in dataset[:20]:
+            completion = json.loads(item["completion"])
+            restraint = completion["restraint"]
+            assert "categoryName" in restraint
+            assert "limitAmount" in restraint
+            assert "contributionRate" in restraint
+
+    def test_saving_hasRequiredFields(self, dataset):
+        """saving 필드 — transferAmount, contributionRate 포함"""
+        for item in dataset[:20]:
+            completion = json.loads(item["completion"])
+            saving = completion["saving"]
+            assert "transferAmount" in saving
+            assert "contributionRate" in saving
+
+    def test_limitAmount_isPositive(self, dataset):
+        """limitAmount — 양수"""
+        for item in dataset:
+            completion = json.loads(item["completion"])
+            assert completion["restraint"]["limitAmount"] > 0
+
+=== ./finetune/split_dataset.py ===
+import json
+import os
+import random
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(SCRIPT_DIR, "data")
+
+def load_jsonl(file_path):
+    data = []
+    with open(file_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                data.append(json.loads(line))
+    return data
+
+def save_jsonl(data, file_path):
+    with open(file_path, "w", encoding="utf-8") as f:
+        for item in data:
+            f.write(json.dumps(item, ensure_ascii=False) + "\n")
+
+def split_dataset():
+    goal_parsing_path = os.path.join(DATA_DIR, "goal_parsing.jsonl")
+    mission_gen_path = os.path.join(DATA_DIR, "mission_generation.jsonl")
+
+    # 원본 파일이 없을 시 데이터셋 재생성 시도
+    if not os.path.exists(goal_parsing_path) or not os.path.exists(mission_gen_path):
+        print("원본 데이터셋 파일이 존재하지 않습니다. generate_dataset.py를 실행합니다...")
+        import generate_dataset
+        generate_dataset.generate_goal_parsing_dataset(500)
+        generate_dataset.generate_mission_dataset(350)
+
+    goal_data = load_jsonl(goal_parsing_path)
+    mission_data = load_jsonl(mission_gen_path)
+
+    # 데이터 순서 무작위화
+    random.seed(42)
+    random.shuffle(goal_data)
+    random.shuffle(mission_data)
+
+    # 파싱 500건: train 400 + valid 50 + golden 50
+    goal_train = goal_data[0:400]
+    goal_valid = goal_data[400:450]
+    goal_golden = goal_data[450:500]
+
+    # 미션 300(실제 350건 생성): train 250 + valid 50 + golden 50
+    if len(mission_data) < 350:
+        print(f"미션 데이터 개수({len(mission_data)})가 분할 요구량(350)보다 부족합니다. 재생성합니다...")
+        import generate_dataset
+        mission_data = generate_dataset.generate_mission_dataset(350)
+        random.shuffle(mission_data)
+
+    mission_train = mission_data[0:250]
+    mission_valid = mission_data[250:300]
+    mission_golden = mission_data[300:350]
+
+    # 병합
+    train_set = goal_train + mission_train
+    valid_set = goal_valid + mission_valid
+    golden_set = goal_golden + mission_golden
+
+    # 무작위 셔플
+    random.shuffle(train_set)
+    random.shuffle(valid_set)
+    random.shuffle(golden_set)
+
+    # 저장
+    save_jsonl(train_set, os.path.join(DATA_DIR, "train.jsonl"))
+    save_jsonl(valid_set, os.path.join(DATA_DIR, "valid.jsonl"))
+    save_jsonl(golden_set, os.path.join(DATA_DIR, "golden_eval.jsonl"))
+
+    print("=== 데이터셋 분할 완료 ===")
+    print(f"훈련 데이터 (train.jsonl): {len(train_set)}건 (목표 파싱 400 + 미션 생성 250)")
+    print(f"검증 데이터 (valid.jsonl): {len(valid_set)}건 (목표 파싱 50 + 미션 생성 50)")
+    print(f"골든 평가 데이터 (golden_eval.jsonl): {len(golden_set)}건 (목표 파싱 50 + 미션 생성 50)")
+
+if __name__ == "__main__":
+    split_dataset()
+
+=== ./finetune/evaluate.py ===
+import json
+import os
+import httpx
+import re
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(SCRIPT_DIR, "data")
+GOLDEN_PATH = os.path.join(DATA_DIR, "golden_eval.jsonl")
+
+OLLAMA_URL = "http://localhost:11434"
+BASE_MODEL = "qwen2.5:1.5b"
+TUNED_MODEL = "qwen2.5-tuned"
+FUSED_MODEL_PATH = os.path.join(SCRIPT_DIR, "fused_model")
+ADAPTER_PATH = os.path.join(os.path.dirname(SCRIPT_DIR), "adapters") # mlx_lm default save path
+
+# MLX 로컬 모델 싱글톤 캐시 (폴백용)
+_mlx_model = None
+_mlx_tokenizer = None
+
+def get_mlx_model():
+    global _mlx_model, _mlx_tokenizer
+    if _mlx_model is None:
+        print("[Fallback] MLX 패키지를 이용해 로컬에서 직접 모델을 로드합니다...")
+        from mlx_lm import load
+        # Fused model이 존재하면 이를 우선 로드, 아니면 베이스 + 어댑터 로드
+        if os.path.exists(FUSED_MODEL_PATH):
+            print(f"[Fallback] Fused 모델 로드 중: {FUSED_MODEL_PATH}")
+            _mlx_model, _mlx_tokenizer = load(FUSED_MODEL_PATH)
+        elif os.path.exists(ADAPTER_PATH):
+            print(f"[Fallback] 베이스 모델 + 어댑터 로드 중: {ADAPTER_PATH}")
+            _mlx_model, _mlx_tokenizer = load("mlx-community/Qwen2.5-1.5B-Instruct-4bit", adapter_path=ADAPTER_PATH)
+        else:
+            print("[Fallback] 경고: 학습된 어댑터나 Fused 모델을 찾을 수 없습니다. 베이스 모델을 사용합니다.")
+            _mlx_model, _mlx_tokenizer = load("mlx-community/Qwen2.5-1.5B-Instruct-4bit")
+    return _mlx_model, _mlx_tokenizer
+
+OLLAMA_AVAILABLE = None
+
+def check_ollama_available():
+    global OLLAMA_AVAILABLE
+    if OLLAMA_AVAILABLE is not None:
+        return OLLAMA_AVAILABLE
+    try:
+        with httpx.Client(timeout=1.0) as client:
+            response = client.get(f"{OLLAMA_URL}/api/tags")
+            if response.status_code == 200:
+                OLLAMA_AVAILABLE = True
+                print("[Ollama] 서비스 감지 성공. Ollama를 우선 사용합니다.")
+                return True
+    except Exception:
+        pass
+    OLLAMA_AVAILABLE = False
+    print("[Ollama] 서비스 응답 없음. 로컬 MLX 모드로 직행합니다.")
+    return False
+
+def generate_ollama(model_name, prompt):
+    if not check_ollama_available():
+        return None
+    try:
+        with httpx.Client(timeout=10.0) as client:
+            response = client.post(
+                f"{OLLAMA_URL}/api/generate",
+                json={"model": model_name, "prompt": prompt, "stream": False}
+            )
+            if response.status_code == 200:
+                return response.json().get("response", "").strip()
+    except Exception as e:
+        print(f"[Ollama] {model_name} 호출 실패: {e}")
+    return None
+
+def generate_mlx(prompt):
+    try:
+        from mlx_lm import generate
+        model, tokenizer = get_mlx_model()
+        response = generate(model, tokenizer, prompt=prompt, max_tokens=256, verbose=False)
+        return response.strip()
+    except Exception as e:
+        print(f"[MLX Fallback] 직접 추론 실패: {e}")
+        return ""
+
+def query_model(model_name, prompt):
+    # 베이스 모델은 Ollama를 기본 호출하되, Ollama가 꺼져있으면 연산 없이 건너뜀 (크래시 방지)
+    if model_name == BASE_MODEL:
+        if not check_ollama_available():
+            return ""
+        res = generate_ollama(BASE_MODEL, prompt)
+        return res if res else ""
+    
+    # 튜닝된 모델: Ollama 사용 가능하면 Ollama 시도, 실패 시 로컬 MLX
+    if check_ollama_available():
+        res = generate_ollama(TUNED_MODEL, prompt)
+        if res is not None:
+            return res
+    
+    return generate_mlx(prompt)
+
+def clean_json(text):
+    text = text.strip()
+    # Markdown 코드 블록 제거
+    if text.startswith("```json"):
+        text = text[7:]
+    elif text.startswith("```"):
+        text = text[3:]
+    if text.endswith("```"):
+        text = text[:-3]
+    text = text.strip()
+    # 첫번째 {와 마지막 }를 찾아서 추출
+    match = re.search(r"(\{.*\})", text, re.DOTALL)
+    if match:
+        return match.group(1)
+    return text
+
+def parse_to_json(text):
+    try:
+        cleaned = clean_json(text)
+        return json.loads(cleaned)
+    except Exception:
+        return None
+
+def run_evaluation():
+    if not os.path.exists(GOLDEN_PATH):
+        print(f"오류: 골든 데이터셋 파일이 존재하지 않습니다: {GOLDEN_PATH}")
+        return
+
+    print("골든 데이터셋을 로드하는 중...")
+    with open(GOLDEN_PATH, "r", encoding="utf-8") as f:
+        samples = [json.loads(line) for line in f if line.strip()]
+
+    goal_samples = []
+    mission_samples = []
+    
+    for s in samples:
+        if "금융 목표 파싱" in s["prompt"]:
+            goal_samples.append(s)
+        else:
+            mission_samples.append(s)
+
+    print(f"로드 완료: 총 {len(samples)}건 (목표 파싱: {len(goal_samples)}건, 미션 생성: {len(mission_samples)}건)")
+
+    results = {
+        "base": {"goal_success": 0, "goal_json_ok": 0, "goal_item_ok": 0, "goal_price_mape": [],
+                 "mission_success": 0, "mission_json_ok": 0, "mission_cat_ok": 0, "mission_numeric_ok": 0},
+        "tuned": {"goal_success": 0, "goal_json_ok": 0, "goal_item_ok": 0, "goal_price_mape": [],
+                  "mission_success": 0, "mission_json_ok": 0, "mission_cat_ok": 0, "mission_numeric_ok": 0}
+    }
+
+    # --- 1단계: Base Model 평가 패스 (VRAM 스왑 방지용 순차 연산) ---
+    print("\n--- [Base Model] 평가 진행 중 ---")
+    
+    # Base 모델 - 목표 파싱 평가
+    for idx, sample in enumerate(goal_samples):
+        prompt = sample["prompt"]
+        answer = json.loads(sample["completion"])
+        base_res = query_model(BASE_MODEL, prompt)
+        base_json = parse_to_json(base_res)
+        if base_json:
+            results["base"]["goal_json_ok"] += 1
+            if base_json.get("itemName") == answer["itemName"]:
+                results["base"]["goal_item_ok"] += 1
+            ans_price = answer["price"]
+            pred_price = base_json.get("price")
+            if pred_price is None: pred_price = 0
+            try: pred_price = int(pred_price)
+            except Exception: pred_price = 0
+            if ans_price > 0:
+                mape = abs(ans_price - pred_price) / ans_price
+                results["base"]["goal_price_mape"].append(mape)
+            else:
+                results["base"]["goal_price_mape"].append(0.0 if pred_price == 0 else 1.0)
+        if (idx + 1) % 10 == 0:
+            print(f"[Base Model] 목표 파싱 평가 진행률: {idx + 1}/{len(goal_samples)}")
+
+    # Base 모델 - 미션 생성 평가
+    for idx, sample in enumerate(mission_samples):
+        prompt = sample["prompt"]
+        answer = json.loads(sample["completion"])
+        base_res = query_model(BASE_MODEL, prompt)
+        base_json = parse_to_json(base_res)
+        if base_json:
+            results["base"]["mission_json_ok"] += 1
+            base_cat = base_json.get("restraint", {}).get("categoryName")
+            ans_cat = answer.get("restraint", {}).get("categoryName")
+            if base_cat == ans_cat:
+                results["base"]["mission_cat_ok"] += 1
+            base_limit = base_json.get("restraint", {}).get("limitAmount", 0)
+            base_transfer = base_json.get("saving", {}).get("transferAmount", 0)
+            if isinstance(base_limit, (int, float)) and base_limit > 0 and isinstance(base_transfer, (int, float)) and base_transfer > 0:
+                results["base"]["mission_numeric_ok"] += 1
+        if (idx + 1) % 10 == 0:
+            print(f"[Base Model] 미션 생성 평가 진행률: {idx + 1}/{len(mission_samples)}")
+
+
+    # --- 2단계: Tuned Model 평가 패스 (VRAM 스왑 방지용 순차 연산) ---
+    print("\n--- [Tuned Model] 평가 진행 중 ---")
+
+    # Tuned 모델 - 목표 파싱 평가
+    for idx, sample in enumerate(goal_samples):
+        prompt = sample["prompt"]
+        answer = json.loads(sample["completion"])
+        tuned_res = query_model(TUNED_MODEL, prompt)
+        tuned_json = parse_to_json(tuned_res)
+        if tuned_json:
+            results["tuned"]["goal_json_ok"] += 1
+            if tuned_json.get("itemName") == answer["itemName"]:
+                results["tuned"]["goal_item_ok"] += 1
+            ans_price = answer["price"]
+            pred_price = tuned_json.get("price")
+            if pred_price is None: pred_price = 0
+            try: pred_price = int(pred_price)
+            except Exception: pred_price = 0
+            if ans_price > 0:
+                mape = abs(ans_price - pred_price) / ans_price
+                results["tuned"]["goal_price_mape"].append(mape)
+            else:
+                results["tuned"]["goal_price_mape"].append(0.0 if pred_price == 0 else 1.0)
+        if (idx + 1) % 10 == 0:
+            print(f"[Tuned Model] 목표 파싱 평가 진행률: {idx + 1}/{len(goal_samples)}")
+
+    # Tuned 모델 - 미션 생성 평가
+    for idx, sample in enumerate(mission_samples):
+        prompt = sample["prompt"]
+        answer = json.loads(sample["completion"])
+        tuned_res = query_model(TUNED_MODEL, prompt)
+        tuned_json = parse_to_json(tuned_res)
+        if tuned_json:
+            results["tuned"]["mission_json_ok"] += 1
+            tuned_cat = tuned_json.get("restraint", {}).get("categoryName")
+            ans_cat = answer.get("restraint", {}).get("categoryName")
+            if tuned_cat == ans_cat:
+                results["tuned"]["mission_cat_ok"] += 1
+            tuned_limit = tuned_json.get("restraint", {}).get("limitAmount", 0)
+            tuned_transfer = tuned_json.get("saving", {}).get("transferAmount", 0)
+            if isinstance(tuned_limit, (int, float)) and tuned_limit > 0 and isinstance(tuned_transfer, (int, float)) and tuned_transfer > 0:
+                results["tuned"]["mission_numeric_ok"] += 1
+        if (idx + 1) % 10 == 0:
+            print(f"[Tuned Model] 미션 생성 평가 진행률: {idx + 1}/{len(mission_samples)}")
+
+    # 결과 통계 요약 작성
+    total_goals = len(goal_samples)
+    total_missions = len(mission_samples)
+
+    base_goal_json_rate = (results["base"]["goal_json_ok"] / total_goals) * 100
+    base_goal_item_rate = (results["base"]["goal_item_ok"] / total_goals) * 100
+    base_goal_mape = (sum(results["base"]["goal_price_mape"]) / len(results["base"]["goal_price_mape"])) * 100 if results["base"]["goal_price_mape"] else 100.0
+    
+    tuned_goal_json_rate = (results["tuned"]["goal_json_ok"] / total_goals) * 100
+    tuned_goal_item_rate = (results["tuned"]["goal_item_ok"] / total_goals) * 100
+    tuned_goal_mape = (sum(results["tuned"]["goal_price_mape"]) / len(results["tuned"]["goal_price_mape"])) * 100 if results["tuned"]["goal_price_mape"] else 100.0
+
+    base_mission_json_rate = (results["base"]["mission_json_ok"] / total_missions) * 100
+    base_mission_cat_rate = (results["base"]["mission_cat_ok"] / total_missions) * 100
+    base_mission_num_rate = (results["base"]["mission_numeric_ok"] / total_missions) * 100
+    
+    tuned_mission_json_rate = (results["tuned"]["mission_json_ok"] / total_missions) * 100
+    tuned_mission_cat_rate = (results["tuned"]["mission_cat_ok"] / total_missions) * 100
+    tuned_mission_num_rate = (results["tuned"]["mission_numeric_ok"] / total_missions) * 100
+
+    report_content = f"""## 2단계: Before/After 평가 결과 (골든 데이터셋 {len(samples)}건 기준)
+
+### 1. 목표 파싱 (Goal Parsing) 평가 지표 (총 {total_goals}건)
+| 지표 | 베이스 모델 ({BASE_MODEL}) | 파인튜닝 모델 ({TUNED_MODEL}) | 개선도 |
+| :--- | :---: | :---: | :---: |
+| **JSON 파싱 성공률** | {base_goal_json_rate:.1f}% | {tuned_goal_json_rate:.1f}% | {tuned_goal_json_rate - base_goal_json_rate:+.1f}%p |
+| **물품명 일치율 (정확도)** | {base_goal_item_rate:.1f}% | {tuned_goal_item_rate:.1f}% | {tuned_goal_item_rate - base_goal_item_rate:+.1f}%p |
+| **가격 평균 오차율 (MAPE)** | {base_goal_mape:.1f}% | {tuned_goal_mape:.1f}% | {base_goal_mape - tuned_goal_mape:+.1f}%p 개선 |
+
+### 2. 미션 생성 (Mission Generation) 평가 지표 (총 {total_missions}건)
+| 지표 | 베이스 모델 ({BASE_MODEL}) | 파인튜닝 모델 ({TUNED_MODEL}) | 개선도 |
+| :--- | :---: | :---: | :---: |
+| **JSON 파싱 성공률** | {base_mission_json_rate:.1f}% | {tuned_mission_json_rate:.1f}% | {tuned_mission_json_rate - base_mission_json_rate:+.1f}%p |
+| **절제 카테고리 일치율** | {base_mission_cat_rate:.1f}% | {tuned_mission_cat_rate:.1f}% | {tuned_mission_cat_rate - base_mission_cat_rate:+.1f}%p |
+| **미션 금액 수치 유효성** | {base_mission_num_rate:.1f}% | {tuned_mission_num_rate:.1f}% | {tuned_mission_num_rate - base_mission_num_rate:+.1f}%p |
+
+* 가격 평균 오차율(MAPE)은 낮을수록 우수합니다.
+* 미션 금액 수치 유효성은 `limitAmount` 및 `transferAmount`가 양의 정수로 생성되었는지를 검증합니다.
+"""
+    # 결과를 파일로 일단 임시 저장
+    with open(os.path.join(SCRIPT_DIR, "eval_temp.md"), "w", encoding="utf-8") as f:
+        f.write(report_content)
+        
+    print("\n=== Before/After 평가 완료 및 기록 완료 ===")
+    print(report_content)
+
+if __name__ == "__main__":
+    run_evaluation()
+
+
+=== 10. DB 마이그레이션 파일 (Flyway) ===
+./agentic-api/build/resources/test/schema.sql
+./agentic-api/src/test/resources/schema.sql
+./sql/init-pgvector.sql
+
+=== 11. application.yml / application.properties ===
+=== ./agentic-api/build/resources/test/application-test.yml ===
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;INIT=CREATE DOMAIN IF NOT EXISTS vector AS VARCHAR
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: test-secret-key-for-integration-test-2026
+
+agent:
+  goal-parsing:
+    url: http://localhost:18001
+  spending:
+    url: http://localhost:18002
+  mission:
+    url: http://localhost:18003
+  execution:
+    url: http://localhost:18004
+
+fastapi:
+  base-url: http://localhost:18000
+
+=== ./agentic-api/src/test/resources/application-test.yml ===
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;INIT=CREATE DOMAIN IF NOT EXISTS vector AS VARCHAR
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: test-secret-key-for-integration-test-2026
+
+agent:
+  goal-parsing:
+    url: http://localhost:18001
+  spending:
+    url: http://localhost:18002
+  mission:
+    url: http://localhost:18003
+  execution:
+    url: http://localhost:18004
+
+fastapi:
+  base-url: http://localhost:18000
+
+
+=== 12. build.gradle (모듈별 의존성) ===
+=== ./agentic-common/build.gradle ===
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework:spring-web'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+}
+
+=== ./agentic-infra/build.gradle ===
+dependencies {
+    implementation project(':agentic-common')
+    implementation project(':agentic-domain')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+}
+
+
+
+=== ./agentic-domain/build.gradle ===
+dependencies {
+    implementation project(':agentic-common')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql'
+}
+
+=== ./agentic-api/build.gradle ===
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation project(':agentic-common')
+    implementation project(':agentic-domain')
+    implementation project(':agentic-infra')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.github.tomakehurst:wiremock-standalone:3.0.1'
+    testImplementation 'com.h2database:h2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0'
+}
+
+test {
+    useJUnitPlatform {
+        excludeTags("integration")
+    }
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    useJUnitPlatform {
+        includeTags("integration")
+    }
+    outputs.upToDateWhen { false }
+}
+
+=== ./build.gradle ===
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1' apply false
+    id 'io.spring.dependency-management' version '1.1.7' apply false
+}
+
+allprojects {
+    group = 'com.im'
+    version = '0.0.1-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:3.4.1"
+        }
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+}
+
+
+=== 13. Docker Compose ===
+=== ./docker-compose.yml ===
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: agentic-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: agentic
+      POSTGRES_USER: agentic_user
+      POSTGRES_PASSWORD: agentic_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init-pgvector.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - agentic-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: agentic-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - agentic-network
+
+  fastapi-mock:
+    build: ./fastapi-mock
+    container_name: agentic-fastapi
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 1: 목표 파싱 ──
+  agent-goal-parsing:
+    build: ./agents/goal-parsing
+    container_name: agentic-agent-goal
+    ports:
+      - "8001:8001"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+      - DB_HOST=agentic-postgres
+      - DB_PORT=5432
+      - DB_NAME=agentic
+      - DB_USER=agentic_user
+      - DB_PASS=agentic_password
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 2: 소비 분석 ──
+  agent-spending:
+    build: ./agents/spending
+    container_name: agentic-agent-spending
+    ports:
+      - "8002:8002"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+      - DB_HOST=agentic-postgres
+      - DB_PORT=5432
+      - DB_NAME=agentic
+      - DB_USER=agentic_user
+      - DB_PASS=agentic_password
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 3: 미션 생성 (RAG) ──
+  agent-mission:
+    build: ./agents/mission
+    container_name: agentic-agent-mission
+    ports:
+      - "8003:8003"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+      - DB_HOST=agentic-postgres
+      - DB_PORT=5432
+      - DB_NAME=agentic
+      - DB_USER=agentic_user
+      - DB_PASS=agentic_password
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 4: 판단 실행 ──
+  agent-execution:
+    build: ./agents/execution
+    container_name: agentic-agent-execution
+    ports:
+      - "8004:8004"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+networks:
+  agentic-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+

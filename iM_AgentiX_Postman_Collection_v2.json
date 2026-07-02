@@ -1,0 +1,1003 @@
+{
+  "info": {
+    "name": "iM AgentiX v2",
+    "description": "iM AgentiX v2.0 Postman Collection with friction deposits and daily budget adjustments",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "lastConfirmCode",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Auth",
+      "item": [
+        {
+          "name": "POST 회원가입",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@im.com\",\n  \"password\": \"test1234!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/signup",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "signup"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST 로그인",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Save access token\", function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set(\"accessToken\", response.data.token);",
+                  "});"
+                ],
+                "type": "javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@im.com\",\n  \"password\": \"test1234!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Goal",
+      "item": [
+        {
+          "name": "POST 목표 등록 (자연어)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slotType\": \"SHORT\",\n  \"registrationType\": \"NATURAL_LANGUAGE\",\n  \"rawInput\": \"나이키 에어맥스 사고싶어\",\n  \"durationDays\": 30\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/goals",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "goals"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST 목표 등록 (직접입력)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slotType\": \"MID\",\n  \"registrationType\": \"MANUAL\",\n  \"itemName\": \"아이패드 프로\",\n  \"targetAmount\": 1299000,\n  \"durationDays\": 90\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/goals",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "goals"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET 목표 목록",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/goals",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "goals"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET 목표 상세",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/goals/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "goals",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH 목표 수정",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"itemName\": \"나이키 에어맥스 97\",\n  \"targetAmount\": 150000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/goals/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "goals",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE 목표 삭제",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/goals/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "goals",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Mission",
+      "item": [
+        {
+          "name": "GET 오늘 미션",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/missions/today",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "missions",
+                "today"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET 제안된 미션",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/missions/proposals",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "missions",
+                "proposals"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST 미션 수락",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/missions/1/accept",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "missions",
+                "1",
+                "accept"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET 미션 상세",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/missions/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "missions",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Deposit",
+      "item": [
+        {
+          "name": "GET 보증금 현황",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/deposits",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "deposits"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET 출금 미리보기",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Save confirm code\", function () {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set(\"lastConfirmCode\", response.data.confirmCode);",
+                  "});"
+                ],
+                "type": "javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/deposits/1/withdraw-preview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "deposits",
+                "1",
+                "withdraw-preview"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST 보증금 출금",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"충동구매 방지 마찰인증 출금\",\n  \"confirmCode\": \"{{lastConfirmCode}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/deposits/1/withdraw",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "deposits",
+                "1",
+                "withdraw"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Spending",
+      "item": [
+        {
+          "name": "GET 오늘 소비 현황",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/spending/today",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "spending",
+                "today"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET 주간 리포트",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/spending/weekly",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "spending",
+                "weekly"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Dashboard",
+      "item": [
+        {
+          "name": "GET 대시보드",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "dashboard"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Transaction",
+      "item": [
+        {
+          "name": "POST 결제 등록",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchant\": \"스타벅스\",\n  \"amount\": 5500,\n  \"category\": \"CAFE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/transactions/pay",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "transactions",
+                "pay"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET 거래 내역 조회",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/transactions/history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "transactions",
+                "history"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Programmable Money",
+      "item": [
+        {
+          "name": "POST iMKRW 발행",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 10000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/programmable/mint",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "programmable",
+                "mint"
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST iMKRW 소각",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 5000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/programmable/burn",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "programmable",
+                "burn"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Buy-out",
+      "item": [
+        {
+          "name": "POST 목표 달성 출금",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/goals/1/buyout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "goals",
+                "1",
+                "buyout"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "E2E Scenarios",
+      "item": [
+        {
+          "name": "시나리오 A: 직접 미션 전체 플로우",
+          "item": [
+            {
+              "name": "1. 로그인",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Save access token\", function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.collectionVariables.set(\"accessToken\", response.data.token);",
+                      "});"
+                    ],
+                    "type": "javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@im.com\",\n  \"password\": \"test1234!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "2. 목표 등록",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slotType\": \"SHORT\",\n  \"registrationType\": \"NATURAL_LANGUAGE\",\n  \"rawInput\": \"나이키 에어맥스 사고싶어\",\n  \"durationDays\": 30\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/goals",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "goals"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "3. [가이드 주석] 소비 내역 주입 절차",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://postman-echo.com/get?info=이 시점에서 fastapi-mock 또는 DB에 직접 transactions 데이터를 넣어 오늘 소비가 dailyBudget을 초과하도록 만들어야 합니다.",
+                  "protocol": "https",
+                  "host": [
+                    "postman-echo",
+                    "com"
+                  ],
+                  "path": [
+                    "get"
+                  ],
+                  "query": [
+                    {
+                      "key": "info",
+                      "value": "이 시점에서 fastapi-mock 또는 DB에 직접 transactions 데이터를 넣어 오늘 소비가 dailyBudget을 초과하도록 만들어야 합니다."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "4. GET 제안된 미션 조회",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/missions/proposals",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "missions",
+                    "proposals"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "5. POST 미션 수락",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/missions/1/accept",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "missions",
+                    "1",
+                    "accept"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "6. GET 보증금 현황 조회",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/deposits",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "deposits"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "시나리오 B: 출금 마찰 플로우",
+          "item": [
+            {
+              "name": "1. 로그인",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Save access token\", function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.collectionVariables.set(\"accessToken\", response.data.token);",
+                      "});"
+                    ],
+                    "type": "javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@im.com\",\n  \"password\": \"test1234!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "login"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "2. GET 보증금 현황 조회",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/deposits",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "deposits"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "3. GET 출금 미리보기",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Save confirm code\", function () {",
+                      "    const response = pm.response.json();",
+                      "    pm.collectionVariables.set(\"lastConfirmCode\", response.data.confirmCode);",
+                      "});"
+                    ],
+                    "type": "javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/deposits/1/withdraw-preview",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "deposits",
+                    "1",
+                    "withdraw-preview"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "4. POST 보증금 출금",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"충동구매 방지 마찰인증 출금\",\n  \"confirmCode\": \"{{lastConfirmCode}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/deposits/1/withdraw",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "deposits",
+                    "1",
+                    "withdraw"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

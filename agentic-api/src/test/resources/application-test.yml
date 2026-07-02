@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;INIT=CREATE DOMAIN IF NOT EXISTS vector AS VARCHAR
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: test-secret-key-for-integration-test-2026
+
+agent:
+  goal-parsing:
+    url: http://localhost:18001
+  spending:
+    url: http://localhost:18002
+  mission:
+    url: http://localhost:18003
+  execution:
+    url: http://localhost:18004
+
+fastapi:
+  base-url: http://localhost:18000

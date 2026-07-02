@@ -1,0 +1,145 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: agentic-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: agentic
+      POSTGRES_USER: agentic_user
+      POSTGRES_PASSWORD: agentic_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init-pgvector.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - agentic-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: agentic-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - agentic-network
+
+  fastapi-mock:
+    build: ./fastapi-mock
+    container_name: agentic-fastapi
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 1: 목표 파싱 ──
+  agent-goal-parsing:
+    build: ./agents/goal-parsing
+    container_name: agentic-agent-goal
+    ports:
+      - "8001:8001"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+      - DB_HOST=agentic-postgres
+      - DB_PORT=5432
+      - DB_NAME=agentic
+      - DB_USER=agentic_user
+      - DB_PASS=agentic_password
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 2: 소비 분석 ──
+  agent-spending:
+    build: ./agents/spending
+    container_name: agentic-agent-spending
+    ports:
+      - "8002:8002"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+      - DB_HOST=agentic-postgres
+      - DB_PORT=5432
+      - DB_NAME=agentic
+      - DB_USER=agentic_user
+      - DB_PASS=agentic_password
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 3: 미션 생성 (RAG) ──
+  agent-mission:
+    build: ./agents/mission
+    container_name: agentic-agent-mission
+    ports:
+      - "8003:8003"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+      - DB_HOST=agentic-postgres
+      - DB_PORT=5432
+      - DB_NAME=agentic
+      - DB_USER=agentic_user
+      - DB_PASS=agentic_password
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 에이전트 4: 판단 실행 ──
+  agent-execution:
+    build: ./agents/execution
+    container_name: agentic-agent-execution
+    ports:
+      - "8004:8004"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+  # ── 백엔드 API 서버 (Spring Boot) ──
+  backend:
+    image: ${DOCKER_USER:-parkjihyeon}/agentic-backend:latest
+    container_name: agentic-backend-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=agentic
+      - DB_USERNAME=agentic_user
+      - DB_PASSWORD=agentic_password
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - AGENT_GOAL_PARSING_URL=http://agent-goal-parsing:8001
+      - AGENT_SPENDING_URL=http://agent-spending:8002
+      - AGENT_MISSION_URL=http://agent-mission:8003
+      - AGENT_EXECUTION_URL=http://agent-execution:8004
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
+networks:
+  agentic-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+

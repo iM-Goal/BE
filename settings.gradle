@@ -1,0 +1,6 @@
+rootProject.name = 'agentic'
+
+include 'agentic-common'
+include 'agentic-domain'
+include 'agentic-infra'
+include 'agentic-api'
