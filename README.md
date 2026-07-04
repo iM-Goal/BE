@@ -8,7 +8,7 @@ iMKRW + Kaia 스마트 컨트랙트로 보증금을 관리합니다.
 
 ---
 
-## 📐 아키텍처
+## 📐 아키텍처 (개인화 데이터 밀어주기 설계)
 
 ```
 [Frontend]
@@ -16,14 +16,18 @@ iMKRW + Kaia 스마트 컨트랙트로 보증금을 관리합니다.
     ▼
 [Spring Boot API :8080]  ←──── JWT 인증
     │
+    │  (에이전트 호출 시 개인화 데이터를 DTO에 실어 단방향 전송)
+    ▼
     ├── [PostgreSQL(pgvector) :5432]
     ├── [Redis :6379]
     │
     ├── [Agent: Goal Parsing  :8001]  ─┐
     ├── [Agent: Spending      :8002]   ├── Ollama (qwen2.5:1.5b) 로컬 필요
-    ├── [Agent: Mission (RAG) :8003]   │
+    ├── [Agent: Mission (RAG) :8003]   │   (nomic-embed-text)
     └── [Agent: Execution     :8004]  ─┘
 ```
+
+> **순환 호출 제거**: 에이전트가 백엔드 API를 다시 역호출(API Loop)하는 대신, 백엔드(Spring Boot)가 에이전트 호출 시점에 DTO 바디에 유저의 소득분위 및 가용 지출 데이터를 직접 주입해 밀어주는(Push) 안전한 구조를 지향합니다.
 
 ---
 
@@ -50,8 +54,9 @@ iMKRW + Kaia 스마트 컨트랙트로 보증금을 관리합니다.
 - (AI 기능 사용 시) [Ollama](https://ollama.com/) 설치 + 모델 pull
 
 ```bash
-# Ollama 모델 다운로드 (AI 기능 사용 시 필요)
+# Ollama 모델 다운로드 (AI 기능 및 RAG 사용 시 필요)
 ollama pull qwen2.5:1.5b
+ollama pull nomic-embed-text
 ```
 
 ### 프론트엔드 개발자 (백엔드 전체 환경 실행)
@@ -85,7 +90,14 @@ docker-compose up -d
 | Agent - Mission | http://localhost:8003/docs |
 | Agent - Execution | http://localhost:8004/docs |
 
-> Swagger에서 JWT 인증이 필요한 API는 로그인 후 발급받은 토큰을 `Authorize` 버튼에 입력하세요.
+### 신규 추가된 마이데이터 개인화 API 목록
+- `PUT  /api/users/financial-info` : 월 소득 및 고정 지출 설정 (소득분위 및 일일 가용금액 자동 연산)
+- `GET  /api/users/financial-info` : 저장된 유저 재정 정보 조회
+- `POST /api/mydata/card-approvals` : 금융보안원 마이데이터 규격 기반 카드 승인 내역 일괄 수집
+- `GET  /api/mydata/category-summary` : 카테고리별 주간 지출 합계와 4주 지출 baseline 및 소득분위별 초과율 집계
+- `GET  /api/mydata/threshold` : 통계청 2024 Q4 가계동향조사 기준 소득분위별 과소비 임계치 조회
+
+> Swagger에서 JWT 인증이 필요한 API는 로그인 후 발급받은 토큰을 `Authorize` 버튼에 `Bearer {token}` 형식으로 입력하세요.
 
 ---
 
@@ -100,9 +112,13 @@ Ollama가 로컬에 설치되어 있지 않아도 아래 기능은 정상 동작
 | 소비 내역 조회 | ✅ 불필요 |
 | 보증금(iMKRW) 관리 | ✅ 불필요 |
 | 대시보드 / 주간 리포트 | ✅ 불필요 |
-| **AI 목표 파싱** | ❌ Ollama 필요 |
-| **AI 소비 분석** | ❌ Ollama 필요 |
-| **AI 미션 생성 (RAG)** | ❌ Ollama 필요 |
+| **마이데이터 재정 정보 등록/조회** | ✅ 불필요 |
+| **카드 승인 내역 일괄 수집** | ✅ 불필요 |
+| **지출 통계 요약 (주간/4주평균)** | ✅ 불필요 |
+| **소득분위별 과소비 임계치 조회** | ✅ 불필요 |
+| **AI 목표 파싱 및 달성 가능성 연산** | ❌ Ollama 필요 |
+| **AI 소비 분석 및 임계치 검증** | ❌ Ollama 필요 |
+| **AI 미션 생성 (다중 RAG 퓨전)** | ❌ Ollama 필요 |
 | **AI 판단 실행** | ❌ Ollama 필요 |
 
 ---
@@ -113,13 +129,13 @@ Ollama가 로컬에 설치되어 있지 않아도 아래 기능은 정상 동작
 agentic/
 ├── agentic-api/        # Spring Boot 메인 API (포트 8080)
 ├── agentic-common/     # 공통 모듈
-├── agentic-domain/     # 도메인 모델
-├── agentic-infra/      # 인프라 (DB, Redis 등)
+├── agentic-domain/     # 도메인 모델 (JPA Entity 및 Repository 위치)
+├── agentic-infra/      # 인프라 (AI 에이전트, 블록체인, 오픈뱅킹 클라이언트)
 ├── agents/
-│   ├── goal-parsing/   # AI 에이전트: 목표 파싱 (포트 8001)
-│   ├── spending/       # AI 에이전트: 소비 분석 (포트 8002)
-│   ├── mission/        # AI 에이전트: 미션 생성 (포트 8003)
-│   └── execution/      # AI 에이전트: 판단 실행 (포트 8004)
+│   ├── goal-parsing/   # AI 에이전트: 목표 파싱 및 feasibility 계산 (포트 8001)
+│   ├── spending/       # AI 에이전트: 개인화 임계치 기반 소비 감지 (포트 8002)
+│   ├── mission/        # AI 에이전트: RRF 다중 쿼리 RAG 미션 추천 (포트 8003)
+│   └── execution/      # AI 에이전트: 판단 실행 및 메타 반환 (포트 8004)
 ├── fastapi-mock/       # 목업 API 서버 (포트 8000)
 ├── sql/                # DB 초기화 스크립트
 ├── docker-compose.yml
@@ -146,6 +162,6 @@ agentic/
 ## 🛠 기술 스택
 
 - **Backend**: Spring Boot, PostgreSQL (pgvector), Redis, JWT
-- **AI Agents**: FastAPI (Python), Ollama (qwen2.5:1.5b), RAG
+- **AI Agents**: FastAPI (Python), Ollama (qwen2.5:1.5b), RAG (nomic-embed-text, RRF)
 - **Blockchain**: iMKRW, Kaia 스마트 컨트랙트
 - **Infra**: Docker, Docker Compose, Docker Hub

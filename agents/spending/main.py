@@ -109,10 +109,19 @@ async def analyze_spending(request: SpendingAnalysisRequest):
 def health():
     return {"status": "ok", "agent": "SpendingAnalysisAgent", "port": 8002}
 
+QUINTILE_THRESHOLDS = {
+    1: 0.10,   # [실제값]
+    2: 0.20,   # [추정값]
+    3: 0.25,   # [추정값]
+    4: 0.33,   # [추정값]
+    5: 0.45    # [실제값]
+}
+
 class AutoOverageRequest(BaseModel):
     userId: int
     weeklyExpenses: dict[str, int]
     weeklyAvgExpenses: dict[str, int]
+    incomeQuintile: int = 3
 
 class OverageCategory(BaseModel):
     category: str
@@ -128,13 +137,16 @@ class AutoOverageResponse(BaseModel):
 
 @app.post("/agent/detect-auto-overage", response_model=AutoOverageResponse)
 async def detect_auto_overage(request: AutoOverageRequest):
+    threshold = QUINTILE_THRESHOLDS.get(request.incomeQuintile, 0.25)
+    threshold_pct = threshold * 100.0
+
     overage_categories = []
     for category, this_week in request.weeklyExpenses.items():
         avg = request.weeklyAvgExpenses.get(category, 0)
         if avg <= 0:
             continue
         overage_rate = (this_week - avg) / avg * 100
-        if overage_rate > 25:
+        if overage_rate > threshold_pct:
             overage_categories.append(OverageCategory(
                 category=category,
                 thisWeek=this_week,

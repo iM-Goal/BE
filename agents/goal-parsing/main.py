@@ -72,18 +72,49 @@ def clean_json(response: str) -> str:
         response = response[:-3]
     return response.strip()
 
+SAVABLE_RATIO = {
+    1: 0.05,
+    2: 0.15,
+    3: 0.25,
+    4: 0.33,
+    5: 0.45,
+}
+
+def calculate_feasibility(
+    target_price: int,
+    duration_days: int,
+    income_quintile: int,
+    daily_available: int
+) -> dict:
+    savable_ratio = SAVABLE_RATIO.get(income_quintile, 0.25)
+    max_daily_saving = daily_available * savable_ratio
+    daily_saving_needed = target_price / duration_days if duration_days > 0 else 0
+    feasible = daily_saving_needed <= max_daily_saving
+    min_duration = int(target_price / max_daily_saving) + 1 if max_daily_saving > 0 else 9999
+
+    return {
+        "dailySavingNeeded": round(daily_saving_needed),
+        "maxDailySaving": round(max_daily_saving),
+        "feasible": feasible,
+        "recommendedDurationDays": duration_days if feasible else min_duration,
+        "source": "통계청 2024 Q4 가계동향조사 소득분위별 저축가능비율"
+    }
+
 class GoalParsingRequest(BaseModel):
     userId: int
     rawInput: str
+    incomeQuintile: int = 3
+    dailyAvailable: int = 0
 
 class GoalParsingResponse(BaseModel):
     itemName: str
     price: int
     category: str
+    feasibility: dict = None
 
 @app.post("/agent/parse-goal", response_model=GoalParsingResponse)
 async def parse_goal(request: GoalParsingRequest):
-    logger.info(f"[GoalParsingAgent] userId={request.userId}, input={request.rawInput}")
+    logger.info(f"[GoalParsingAgent] userId={request.userId}, input={request.rawInput}, incomeQuintile={request.incomeQuintile}, dailyAvailable={request.dailyAvailable}")
 
     query_embedding = await ollama_embed(request.rawInput)
     similar = search_similar_spending(request.userId, query_embedding, top_k=3)
@@ -106,14 +137,23 @@ async def parse_goal(request: GoalParsingRequest):
 
     try:
         data = json.loads(clean_json(raw))
+        item_name = data.get("itemName", request.rawInput)
+        price = int(data.get("price", 0))
+        category = data.get("category", "기타")
+        
+        # 30일 기준으로 달성 가능 여부 계산
+        feasibility = calculate_feasibility(price, 30, request.incomeQuintile, request.dailyAvailable)
+        
         return GoalParsingResponse(
-            itemName=data.get("itemName", request.rawInput),
-            price=int(data.get("price", 0)),
-            category=data.get("category", "기타")
+            itemName=item_name,
+            price=price,
+            category=category,
+            feasibility=feasibility
         )
     except Exception as e:
         logger.error(f"[GoalParsingAgent] 파싱 실패: {e}")
-        return GoalParsingResponse(itemName=request.rawInput, price=0, category="기타")
+        feasibility = calculate_feasibility(0, 30, request.incomeQuintile, request.dailyAvailable)
+        return GoalParsingResponse(itemName=request.rawInput, price=0, category="기타", feasibility=feasibility)
 
 @app.get("/health")
 def health():

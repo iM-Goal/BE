@@ -1,7 +1,11 @@
 package com.im.agentic.api.mydata.controller;
 
+import com.im.agentic.api.mydata.dto.CardApprovalRequest;
+import com.im.agentic.api.mydata.dto.CategorySummaryResponse;
 import com.im.agentic.api.mydata.dto.MyDataCacheResponseDto;
+import com.im.agentic.api.mydata.dto.ThresholdResponse;
 import com.im.agentic.api.mydata.service.MyDataService;
+import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -75,5 +79,28 @@ public class MyDataController {
     public com.im.agentic.common.response.ApiResponse<MyDataCacheResponseDto> getCache(
             @AuthenticationPrincipal Long userId) {
         return success(myDataService.getCache(userId));
+    }
+
+    @Operation(summary = "카드 승인 내역 수집", description = "금융보안원 마이데이터 API 규격을 기반으로 승인번호, 승인일시, 금액, 가맹점명을 전달받아 카테고리 매핑과 함께 일괄 저장합니다.")
+    @PostMapping("/card-approvals")
+    public com.im.agentic.common.response.ApiResponse<Void> importCardApprovals(
+            @AuthenticationPrincipal Long userId,
+            @RequestBody List<CardApprovalRequest> approvals) {
+        myDataService.importCardApprovals(userId, approvals);
+        return success(null);
+    }
+
+    @Operation(summary = "카테고리별 지출 요약 조회", description = "이번 주 카테고리별 지출 합계와 4주 지출 baseline 평균, 소득분위별 초과 임계치를 집계하여 반환합니다.")
+    @GetMapping("/category-summary")
+    public com.im.agentic.common.response.ApiResponse<CategorySummaryResponse> getCategorySummary(
+            @AuthenticationPrincipal Long userId) {
+        return success(myDataService.getCategorySummary(userId));
+    }
+
+    @Operation(summary = "소득분위별 과소비 임계치 조회", description = "통계청 가계동향조사 데이터에 따라 유저의 소득 분위별 과소비 임계치를 조회합니다.")
+    @GetMapping("/threshold")
+    public com.im.agentic.common.response.ApiResponse<ThresholdResponse> getThreshold(
+            @AuthenticationPrincipal Long userId) {
+        return success(myDataService.getThreshold(userId));
     }
 }

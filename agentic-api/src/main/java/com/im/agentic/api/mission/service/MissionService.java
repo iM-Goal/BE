@@ -216,7 +216,7 @@ public class MissionService {
 
         // FastAPI Agent 호출
         AgentClient.AutoOverageResponse agentResponse = agentClient.detectAutoOverage(
-                userId, weeklyExpenses, weeklyAvgExpenses);
+                userId, weeklyExpenses, weeklyAvgExpenses, user.getIncomeQuintile());
 
         if (!agentResponse.isHasOverage() || agentResponse.getOverageCategories() == null) {
             return;

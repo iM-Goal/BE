@@ -66,7 +66,7 @@ class GoalServiceTest {
         given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
         given(goalRepository.findByUserIdAndSlotTypeAndStatus(any(), any(), any()))
                 .willReturn(Optional.empty());
-        given(agentOrchestrator.parseGoal(anyLong(), anyString())).willReturn(parsingOutput);
+        given(agentOrchestrator.parseGoal(anyLong(), anyString(), any(), any())).willReturn(parsingOutput);
         given(goalRepository.save(any(Goal.class))).willAnswer(inv -> inv.getArgument(0));
 
         GoalResponse response = goalService.createGoal(1L, request);

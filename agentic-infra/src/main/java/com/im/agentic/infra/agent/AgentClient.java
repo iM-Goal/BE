@@ -37,10 +37,15 @@ public class AgentClient {
         this.executionClient = WebClient.builder().baseUrl(executionUrl).build();
     }
 
-    public GoalParsingOutput parseGoal(Long userId, String rawInput) {
+    public GoalParsingOutput parseGoal(Long userId, String rawInput, Integer incomeQuintile, Long dailyAvailable) {
         try {
-            log.info("[AgentClient] GoalParsingAgent 요청: userId={}", userId);
-            Map<String, Object> request = Map.of("userId", userId, "rawInput", rawInput);
+            log.info("[AgentClient] GoalParsingAgent 요청: userId={}, incomeQuintile={}, dailyAvailable={}", userId, incomeQuintile, dailyAvailable);
+            Map<String, Object> request = Map.of(
+                    "userId", userId,
+                    "rawInput", rawInput,
+                    "incomeQuintile", incomeQuintile != null ? incomeQuintile : 3,
+                    "dailyAvailable", dailyAvailable != null ? dailyAvailable : 0L
+            );
             GoalParsingResponse response = goalParsingClient.post()
                     .uri("/agent/parse-goal")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -228,12 +233,13 @@ public class AgentClient {
         }
     }
 
-    public AutoOverageResponse detectAutoOverage(Long userId, Map<String, Long> weeklyExpenses, Map<String, Long> weeklyAvgExpenses) {
+    public AutoOverageResponse detectAutoOverage(Long userId, Map<String, Long> weeklyExpenses, Map<String, Long> weeklyAvgExpenses, Integer incomeQuintile) {
         try {
             Map<String, Object> request = Map.of(
                     "userId", userId,
                     "weeklyExpenses", weeklyExpenses,
-                    "weeklyAvgExpenses", weeklyAvgExpenses
+                    "weeklyAvgExpenses", weeklyAvgExpenses,
+                    "incomeQuintile", incomeQuintile != null ? incomeQuintile : 3
             );
             return spendingClient.post()
                     .uri("/agent/detect-auto-overage")
@@ -286,6 +292,7 @@ public class AgentClient {
         private String itemName;
         private Long price;
         private String category;
+        private Map<String, Object> feasibility;
     }
 
     @Getter @Setter @NoArgsConstructor

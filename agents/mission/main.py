@@ -105,11 +105,45 @@ def clean_json(response: str) -> str:
         response = response[:-3]
     return response.strip()
 
+def build_personalized_rag_query(
+    category: str,
+    overage_rate_pct: float,
+    income_quintile: int,
+    baseline_weekly: int,
+    overage_amount: int,
+) -> list:
+    income_label = {
+        1:"저소득", 2:"중저소득", 3:"중소득", 4:"중고소득", 5:"고소득"
+    }.get(income_quintile, "중소득")
+
+    q1 = f"{income_label} {category} {overage_rate_pct:.0f}% 초과 미션 추천"
+    q2 = f"{category} 평소 {baseline_weekly:,}원 초과금액 {overage_amount:,}원 절약 미션"
+    action = {
+        "CAFE":"커피 지출 절약", "DELIVERY":"배달음식 줄이기",
+        "FOOD":"외식 절약", "SHOPPING":"쇼핑 자제",
+        "CONVENIENCE":"편의점 절약", "TRANSPORT":"교통비 절약",
+        "ENTERTAINMENT":"여가 절약", "GROCERY":"식료품비 절약",
+    }.get(category, f"{category} 절약")
+    q3 = f"{income_label} {action} {overage_rate_pct:.0f}% 초과 성공 사례"
+
+    return [q1, q2, q3]
+
+def calculate_mission_limit(baseline_weekly: int, income_quintile: int) -> int:
+    reduction_ratio = {
+        1: 0.50, 2: 0.60, 3: 0.70, 4: 0.75, 5: 0.80
+    }.get(income_quintile, 0.70)
+
+    if baseline_weekly == 0:
+        return 20000
+
+    return max(1000, int(baseline_weekly * reduction_ratio))
+
 class MissionGenerationRequest(BaseModel):
     userId: int
     categoryExpenses: dict[str, int]
     dailyAvailableAmount: int
     goalItemName: str
+    incomeQuintile: int = 3
 
 class MissionGenerationResponse(BaseModel):
     restraintCategory: str
@@ -120,13 +154,35 @@ class MissionGenerationResponse(BaseModel):
 
 @app.post("/agent/generate-mission", response_model=MissionGenerationResponse)
 async def generate_mission(request: MissionGenerationRequest):
-    logger.info(f"[MissionGenerationAgent] userId={request.userId}, goal={request.goalItemName}")
+    logger.info(f"[MissionGenerationAgent] userId={request.userId}, goal={request.goalItemName}, quintile={request.incomeQuintile}")
 
+    # 대표 지출 카테고리 추출
+    top_category = max(request.categoryExpenses, key=request.categoryExpenses.get) if request.categoryExpenses else "식비"
+    baseline_weekly = request.categoryExpenses.get(top_category, 0)
+    
+    # 직접 미션 생성이므로 오버헤드 금액 등은 0으로 세팅하여 쿼리 빌드
+    queries = build_personalized_rag_query(top_category, 30.0, request.incomeQuintile, baseline_weekly, 0)
+    
+    # RRF (Reciprocal Rank Fusion) 다중 쿼리 퓨전 검색
+    all_results = {}
+    for q in queries:
+        emb = await ollama_embed(q)
+        if not emb:
+            continue
+        similar = search_similar_missions(emb, top_k=3)
+        for idx, item in enumerate(similar):
+            key = (item["category"], item["missionType"], item["limitAmount"])
+            score = 1.0 / (60 + idx)
+            all_results[key] = all_results.get(key, 0.0) + score
+            all_results[key + ("item",)] = item
+
+    sorted_keys = sorted([k for k in all_results.keys() if len(k) == 3], key=lambda x: all_results[x], reverse=True)
+    similar_missions = [all_results[k + ("item",)] for k in sorted_keys[:3]]
+
+    # 소비 기록 임베딩 기반 유사 검색 (기존 로직 보존)
     query = f"소비: {request.categoryExpenses}, 가용: {request.dailyAvailableAmount}원, 목표: {request.goalItemName}"
-    embedding = await ollama_embed(query)
-
-    similar_spending = search_similar_spending(request.userId, embedding, top_k=3)
-    similar_missions = search_similar_missions(embedding, top_k=3)
+    query_emb = await ollama_embed(query)
+    similar_spending = search_similar_spending(request.userId, query_emb, top_k=3)
 
     spending_ctx = "\n".join([
         f"- {s['category']} {s['merchantName']}: {s['amount']}원"
@@ -163,17 +219,21 @@ async def generate_mission(request: MissionGenerationRequest):
         data = json.loads(clean_json(raw))
         r = data["restraint"]
         s = data["saving"]
+        
+        # 개인화된 한도 제한 계산
+        limit_amount = calculate_mission_limit(baseline_weekly, request.incomeQuintile)
+        
         result = MissionGenerationResponse(
-            restraintCategory=r["categoryName"],
-            restraintLimitAmount=int(r["limitAmount"]),
-            restraintContributionRate=float(r["contributionRate"]),
-            savingTransferAmount=int(s["transferAmount"]),
-            savingContributionRate=float(s["contributionRate"])
+            restraintCategory=r.get("categoryName", top_category),
+            restraintLimitAmount=limit_amount if limit_amount > 0 else int(r.get("limitAmount", 10000)),
+            restraintContributionRate=float(r.get("contributionRate", 0.7)),
+            savingTransferAmount=int(s.get("transferAmount", 5000)),
+            savingContributionRate=float(s.get("contributionRate", 0.5))
         )
         # 성공 미션 사례 저장
-        emb = await ollama_embed(f"{r['categoryName']} RESTRAINT 미션")
+        emb = await ollama_embed(f"{result.restraintCategory} RESTRAINT 미션")
         if emb:
-            save_mission_case(r["categoryName"], "RESTRAINT", int(r["limitAmount"]), 0.7, emb)
+            save_mission_case(result.restraintCategory, "RESTRAINT", result.restraintLimitAmount, 0.7, emb)
         return result
     except Exception as e:
         logger.error(f"[MissionGenerationAgent] 파싱 실패: {e}")

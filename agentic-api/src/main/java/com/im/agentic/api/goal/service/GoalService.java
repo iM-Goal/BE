@@ -57,7 +57,12 @@ public class GoalService {
 
         // 1. If rawInput is provided, analyze target item and price via GoalParsingAgent
         if (request.getRawInput() != null && !request.getRawInput().isBlank()) {
-            GoalParsingOutput parsed = agentOrchestrator.parseGoal(userId, request.getRawInput());
+            GoalParsingOutput parsed = agentOrchestrator.parseGoal(
+                    userId, 
+                    request.getRawInput(), 
+                    user.getIncomeQuintile(), 
+                    user.getDailyAvailable()
+            );
             if (parsed.getItemName() == null || parsed.getItemName().isBlank() || parsed.getPrice() == null || parsed.getPrice() <= 0) {
                 throw new AgenticException(ErrorCode.AGENT_PARSE_FAILED);
             }

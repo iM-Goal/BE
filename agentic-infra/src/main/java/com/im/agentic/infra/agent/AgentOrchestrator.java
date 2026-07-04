@@ -20,9 +20,9 @@ public class AgentOrchestrator {
     private final OpenBankingClient openBankingClient;
 
     // 목표 파싱
-    public GoalParsingOutput parseGoal(Long userId, String rawInput) {
-        log.info("[Orchestrator] GoalParsingAgent 라우팅: userId={}", userId);
-        return agentClient.parseGoal(userId, rawInput);
+    public GoalParsingOutput parseGoal(Long userId, String rawInput, Integer incomeQuintile, Long dailyAvailable) {
+        log.info("[Orchestrator] GoalParsingAgent 라우팅: userId={}, incomeQuintile={}, dailyAvailable={}", userId, incomeQuintile, dailyAvailable);
+        return agentClient.parseGoal(userId, rawInput, incomeQuintile, dailyAvailable);
     }
 
     // 소비 분석 (OpenBanking에서 데이터 가져와서 Agent Server로 전달)
