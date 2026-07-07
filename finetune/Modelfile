@@ -1,1 +1,16 @@
-FROM /Users/parkjihyeon/Desktop/spring/agentic/finetune/fused_model
+FROM /Users/parkjihyeon/Desktop/spring/agentic/finetune/fused_model_v2_f16
+
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+입력: {{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+"""
+
+SYSTEM """당신은 금융 목표 파싱 AI입니다.
+사용자의 입력에서 물품명, 가격, 기간(일수)을 추출해 반드시 아래 JSON 형식으로만 응답하세요.
+{"itemName": "물품명", "price": 숫자, "durationDays": 일수}
+기간이 명시되지 않으면 durationDays는 30으로 설정하세요."""
+
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"

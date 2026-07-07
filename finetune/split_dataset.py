@@ -74,4 +74,42 @@ def split_dataset():
     print(f"골든 평가 데이터 (golden_eval.jsonl): {len(golden_set)}건 (목표 파싱 50 + 미션 생성 50)")
 
 if __name__ == "__main__":
-    split_dataset()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default=None, help="Path to input jsonl file to split")
+    args = parser.parse_args()
+
+    if args.input:
+        input_path = args.input
+        if not os.path.isabs(input_path):
+            # Try SCRIPT_DIR then DATA_DIR
+            candidate = os.path.join(SCRIPT_DIR, input_path)
+            if os.path.exists(candidate):
+                input_path = candidate
+            else:
+                input_path = os.path.join(DATA_DIR, input_path)
+        
+        print(f"커스텀 입력 데이터셋 분할 시작: {input_path}")
+        data = load_jsonl(input_path)
+        
+        random.seed(42)
+        random.shuffle(data)
+        
+        n = len(data)
+        train_size = int(n * 0.8)
+        valid_size = int(n * 0.1)
+        
+        train_set = data[:train_size]
+        valid_set = data[train_size:train_size+valid_size]
+        golden_set = data[train_size+valid_size:]
+        
+        save_jsonl(train_set, os.path.join(DATA_DIR, "train.jsonl"))
+        save_jsonl(valid_set, os.path.join(DATA_DIR, "valid.jsonl"))
+        save_jsonl(golden_set, os.path.join(DATA_DIR, "golden_eval.jsonl"))
+        
+        print("=== 커스텀 데이터셋 분할 완료 ===")
+        print(f"훈련 데이터 (train.jsonl): {len(train_set)}건")
+        print(f"검증 데이터 (valid.jsonl): {len(valid_set)}건")
+        print(f"골든 평가 데이터 (golden_eval.jsonl): {len(golden_set)}건")
+    else:
+        split_dataset()

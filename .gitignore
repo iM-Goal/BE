@@ -54,3 +54,8 @@ env/
 *.h5
 *.jsonl
 
+
+### Finetune Outputs ###
+finetune/adapters_v2/
+finetune/fused_model_v2/
+finetune/fused_model_v2_f16/
