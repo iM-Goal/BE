@@ -31,6 +31,8 @@ agent:
     url: ${AGENT_MISSION_URL:http://localhost:8003}
   execution:
     url: ${AGENT_EXECUTION_URL:http://localhost:8004}
+  chat:
+    url: ${AGENT_CHAT_URL:http://localhost:8005}
 
 springdoc:
   api-docs:

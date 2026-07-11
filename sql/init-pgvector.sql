@@ -189,3 +189,14 @@ INSERT INTO merchant_category_mapping (merchant_name, category) VALUES
 ('넷플릭스','ENTERTAINMENT'),('왓챠','ENTERTAINMENT'),('티빙','ENTERTAINMENT'),
 ('멜론','ENTERTAINMENT'),('스포티파이','ENTERTAINMENT')
 ON CONFLICT (merchant_name) DO NOTHING;
+
+-- ── 소상공인 테이블 (구조만 생성, 데이터는 추후 채움) ──
+CREATE TABLE IF NOT EXISTS local_merchants (
+    id            BIGSERIAL    PRIMARY KEY,
+    name          VARCHAR(100) NOT NULL,
+    category      VARCHAR(20)  NOT NULL,   -- CAFE, FOOD, GROCERY 등 merchant_category_mapping 기준
+    address       VARCHAR(200),
+    price_range   VARCHAR(20),             -- LOW / MID / HIGH
+    description   VARCHAR(300),
+    created_at    TIMESTAMP    NOT NULL DEFAULT NOW()
+);

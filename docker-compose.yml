@@ -110,6 +110,20 @@ services:
     networks:
       - agentic-network
 
+  # ── 에이전트 5: AI 챗봇 ──
+  agent-chat:
+    build: ./agents/chat
+    container_name: agentic-agent-chat
+    ports:
+      - "8005:8005"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=qwen2.5:1.5b
+      # DB 환경변수는 데모 단계에서 불필요 (Spring이 가공한 JSON만 수신)
+    restart: unless-stopped
+    networks:
+      - agentic-network
+
   # ── 백엔드 API 서버 (Spring Boot) ──
   backend:
     image: ${DOCKER_USER:-parkjihyeon}/agentic-backend:latest
@@ -128,6 +142,7 @@ services:
       - AGENT_SPENDING_URL=http://agent-spending:8002
       - AGENT_MISSION_URL=http://agent-mission:8003
       - AGENT_EXECUTION_URL=http://agent-execution:8004
+      - AGENT_CHAT_URL=http://agent-chat:8005
     depends_on:
       - postgres
       - redis

@@ -24,17 +24,20 @@ public class AgentClient {
     private final WebClient spendingClient;
     private final WebClient missionClient;
     private final WebClient executionClient;
+    private final WebClient chatClient;
 
     public AgentClient(
             @Value("${agent.goal-parsing.url:http://localhost:8001}") String goalParsingUrl,
             @Value("${agent.spending.url:http://localhost:8002}") String spendingUrl,
             @Value("${agent.mission.url:http://localhost:8003}") String missionUrl,
-            @Value("${agent.execution.url:http://localhost:8004}") String executionUrl
+            @Value("${agent.execution.url:http://localhost:8004}") String executionUrl,
+            @Value("${agent.chat.url:http://localhost:8005}") String chatUrl
     ) {
         this.goalParsingClient = WebClient.builder().baseUrl(goalParsingUrl).build();
         this.spendingClient = WebClient.builder().baseUrl(spendingUrl).build();
         this.missionClient = WebClient.builder().baseUrl(missionUrl).build();
         this.executionClient = WebClient.builder().baseUrl(executionUrl).build();
+        this.chatClient = WebClient.builder().baseUrl(chatUrl).build();
     }
 
     public GoalParsingOutput parseGoal(Long userId, String rawInput, Integer incomeQuintile, Long dailyAvailable) {
@@ -53,7 +56,7 @@ public class AgentClient {
                     .retrieve()
                     .bodyToMono(GoalParsingResponse.class)
                     // API 서버 로컬 VRAM 자원 스왑 지연 방어를 위해 30초 적용
-                    .timeout(Duration.ofSeconds(30))
+                    .timeout(Duration.ofSeconds(120))
                     .block();
             if (response != null) {
                 log.info("[AgentClient] GoalParsing 완료: itemName={}", response.getItemName());
@@ -92,7 +95,7 @@ public class AgentClient {
                     .retrieve()
                     .bodyToMono(SpendingAnalysisResponse.class)
                     // API 서버 로컬 VRAM 자원 스왑 지연 방어를 위해 30초 적용
-                    .timeout(Duration.ofSeconds(30))
+                    .timeout(Duration.ofSeconds(120))
                     .block();
             if (response != null) {
                 log.info("[AgentClient] SpendingAnalysis 완료: categories={}", response.getCategoryExpenses().keySet());
@@ -135,7 +138,7 @@ public class AgentClient {
                     .retrieve()
                     .bodyToMono(MissionGenerationResponse.class)
                     // API 서버 로컬 VRAM 자원 스왑 지연 방어를 위해 30초 적용
-                    .timeout(Duration.ofSeconds(30))
+                    .timeout(Duration.ofSeconds(120))
                     .block();
             if (response != null) {
                 log.info("[AgentClient] MissionGeneration 완료: category={}", response.getRestraintCategory());
@@ -183,7 +186,7 @@ public class AgentClient {
                     .retrieve()
                     .bodyToMono(ExecutionResponse.class)
                     // API 서버 로컬 VRAM 자원 스왑 지연 방어를 위해 30초 적용
-                    .timeout(Duration.ofSeconds(30))
+                    .timeout(Duration.ofSeconds(120))
                     .block();
             if (response != null) {
                 log.info("[AgentClient] Execution 완료: success={}", response.isSuccess());
@@ -286,7 +289,45 @@ public class AgentClient {
         }
     }
 
+    public ChatOutput chat(Long userId, String message, Map<String, Object> context) {
+        try {
+            Map<String, Object> request = new java.util.HashMap<>();
+            request.put("userId", userId);
+            request.put("message", message);
+            request.put("context", context);
+
+            ChatResponse response = chatClient.post()
+                    .uri("/agent/chat")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(request)
+                    .retrieve()
+                    .bodyToMono(ChatResponse.class)
+                    .timeout(Duration.ofSeconds(120))
+                    .block();
+
+            if (response != null) {
+                log.info("[AgentClient] Chat 완료: answer length={}", 
+                        response.getAnswer() != null ? response.getAnswer().length() : 0);
+                return com.im.agentic.infra.agent.dto.ChatOutput.builder()
+                        .answer(response.getAnswer())
+                        .build();
+            }
+            return com.im.agentic.infra.agent.dto.ChatOutput.builder()
+                    .answer("AI 응답을 받지 못했습니다.")
+                    .build();
+        } catch (Exception e) {
+            log.error("[AgentClient] chat 실패: {}", e.getMessage());
+            return com.im.agentic.infra.agent.dto.ChatOutput.builder()
+                    .answer("죄송합니다. 현재 AI 서버와 연결이 원활하지 않습니다.")
+                    .build();
+        }
+    }
+
     // 내부 응답 DTO
+    @Getter @Setter @NoArgsConstructor
+    public static class ChatResponse {
+        private String answer;
+    }
     @Getter @Setter @NoArgsConstructor
     public static class GoalParsingResponse {
         private String itemName;

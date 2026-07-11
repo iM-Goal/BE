@@ -20,6 +20,10 @@ public class UserRequestDto {
         @NotBlank(message = "Password cannot be blank")
         @Size(min = 8, message = "Password must be at least 8 characters long")
         private String password;
+
+        @NotBlank(message = "Nickname cannot be blank")
+        @Size(max = 20, message = "Nickname must be 20 characters or less")
+        private String nickname;
     }
 
     @Getter
