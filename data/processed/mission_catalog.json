@@ -1,0 +1,280 @@
+{
+  "benchmarks": {
+    "delivery_single": {
+      "category": "delivery",
+      "item_name": "배달앱 1회 주문 결제액 (음식비+배달팁)",
+      "unit_price": 24300,
+      "source_org": "농림축산식품부·한국농수산식품유통공사(aT)",
+      "survey_name": "2023 외식경영실태조사",
+      "year": 2023,
+      "description": "배달앱 이용 가구 1회 주문당 실측 결제금액 (음식 21,300원 + 배달팁 3,000원)"
+    },
+    "cafe_single_drink": {
+      "category": "cafe",
+      "item_name": "커피전문점 1인 1잔 단일 음료",
+      "unit_price": 4200,
+      "source_org": "한국소비자원 참가격",
+      "survey_name": "커피 프랜차이즈 가격 동향",
+      "year": 2023,
+      "description": "주요 15개 프랜차이즈 아메리카노(3,700) 및 라떼(4,700) 가중평균가"
+    },
+    "cafe_visit_basket": {
+      "category": "cafe",
+      "item_name": "커피전문점 1인 1회 방문 객단가 (음료+디저트)",
+      "unit_price": 6200,
+      "source_org": "농림축산식품부·aT",
+      "survey_name": "2023 가공식품 세분시장 현황(커피류)",
+      "year": 2023,
+      "description": "커피전문점 방문 결제 1건당 평균 영수증 금액"
+    },
+    "dining_normal": {
+      "category": "dining",
+      "item_name": "20대 1인 일반 방문 외식 1회",
+      "unit_price": 16500,
+      "source_org": "농림축산식품부",
+      "survey_name": "2023 외식소비행태조사",
+      "year": 2023,
+      "description": "20대 청년 1인 식사 목적의 방문 외식 실측치"
+    },
+    "dining_gathering": {
+      "category": "dining",
+      "item_name": "주류 포함 저녁 회식·모임 외식 1인 지출",
+      "unit_price": 33800,
+      "source_org": "농림축산식품부",
+      "survey_name": "2023 외식소비행태조사",
+      "year": 2023,
+      "description": "20대 저녁 술자리/고깃집 모임 1인당 평균 결제 단가"
+    },
+    "taxi_night": {
+      "category": "transport",
+      "item_name": "20대 심야 할증(22~03시) 택시 1회 결제",
+      "unit_price": 16400,
+      "source_org": "카카오모빌리티 / 서울시 STIS",
+      "survey_name": "2023 카카오모빌리티 리포트",
+      "year": 2023,
+      "description": "심야 할증시간대 20대 평균 이동거리(8.5km) 기준 실측 결제요금"
+    },
+    "convenience_store": {
+      "category": "convenience",
+      "item_name": "편의점 1인 1회 구매단가 (객단가)",
+      "unit_price": 7200,
+      "source_org": "산업통상자원부",
+      "survey_name": "2023 주요 유통업체 매출동향",
+      "year": 2023,
+      "description": "주요 편의점 3사(CU, GS25, 세븐일레븐) 1건당 바스켓 결제액"
+    },
+    "ott_subscription": {
+      "category": "subscription",
+      "item_name": "1개 유료 OTT 서비스 월 결제단가",
+      "unit_price": 13200,
+      "source_org": "한국콘텐츠진흥원(문체부 산하)",
+      "survey_name": "2023 OTT 이용행태 조사 보고서",
+      "year": 2023,
+      "description": "넷플릭스(13,500), 티빙(9,500), 유튜브프리미엄(14,900) 실측 평균 결제단가"
+    }
+  },
+  "missions": [
+    {
+      "mission_id": "MSN_CAFE_01",
+      "title": "텀블러 데이 (카페 음료 1잔 대체)",
+      "category": "cafe",
+      "level": "Micro",
+      "unit_price": 4200,
+      "frequency_per_month": 4,
+      "monthly_target_amount": 16800,
+      "weekly_equivalent": 4200,
+      "action_guide": "주 1회 프랜차이즈 커피 대신 텀블러/사내 커피 이용하기",
+      "citation": "한국소비자원 참가격 『커피 프랜차이즈 가격 동향』 (4,200원)"
+    },
+    {
+      "mission_id": "MSN_CONV_01",
+      "title": "편의점 야식 세이프 챌린지",
+      "category": "convenience",
+      "level": "Micro",
+      "unit_price": 7200,
+      "frequency_per_month": 2,
+      "monthly_target_amount": 14400,
+      "weekly_equivalent": 3600,
+      "action_guide": "늦은 밤 무의식적인 편의점 간식/주류 충동결제 1회 참기",
+      "citation": "산업통상자원부 『2023 주요 유통업체 매출동향』 (7,200원)"
+    },
+    {
+      "mission_id": "MSN_TAXI_01",
+      "title": "막차 세이프 (심야 택시 1회 방어)",
+      "category": "transport",
+      "level": "Micro",
+      "unit_price": 16400,
+      "frequency_per_month": 1,
+      "monthly_target_amount": 16400,
+      "weekly_equivalent": 4100,
+      "action_guide": "자정 전 지하철/버스 막차 타고 귀가하여 심야 할증 택시비 아끼기",
+      "citation": "카카오모빌리티 / 서울시 STIS 『2023 카카오모빌리티 리포트』 (16,400원)"
+    },
+    {
+      "mission_id": "MSN_DELI_01",
+      "title": "주말 배달 파업 (배달 1회 컷)",
+      "category": "delivery",
+      "level": "Core",
+      "unit_price": 24300,
+      "frequency_per_month": 2,
+      "monthly_target_amount": 48600,
+      "weekly_equivalent": 12150,
+      "action_guide": "주말 배달앱 주문을 냉장고 파먹기(집밥) 또는 간편식으로 대체",
+      "citation": "농림축산식품부·한국농수산식품유통공사(aT) 『2023 외식경영실태조사』 (24,300원)"
+    },
+    {
+      "mission_id": "MSN_DINE_01",
+      "title": "약속 1차로 끝내기 (모임 외식 1회 컷)",
+      "category": "dining",
+      "level": "Core",
+      "unit_price": 33800,
+      "frequency_per_month": 1,
+      "monthly_target_amount": 33800,
+      "weekly_equivalent": 8450,
+      "action_guide": "고비용 2차 술자리/외식 모임 대신 1차 후 양해 구하고 귀가하기",
+      "citation": "농림축산식품부 『2023 외식소비행태조사』 (33,800원)"
+    },
+    {
+      "mission_id": "MSN_OTT_01",
+      "title": "잠자는 구독 다이어트 (OTT 1개 해지)",
+      "category": "subscription",
+      "level": "Core",
+      "unit_price": 13200,
+      "frequency_per_month": 1,
+      "monthly_target_amount": 13200,
+      "weekly_equivalent": 3300,
+      "action_guide": "최근 2주간 시청 이력 없는 유료 OTT 서비스 1개 해지 또는 정지",
+      "citation": "한국콘텐츠진흥원(문체부 산하) 『2023 OTT 이용행태 조사 보고서』 (13,200원)"
+    },
+    {
+      "mission_id": "MSN_DELI_INTENSIVE",
+      "title": "배달 디톡스 (배달 3회 컷)",
+      "category": "delivery",
+      "level": "Intensive",
+      "unit_price": 24300,
+      "frequency_per_month": 3,
+      "monthly_target_amount": 72900,
+      "weekly_equivalent": 18225,
+      "action_guide": "과소비 취약군을 위한 강력한 배달 지출 차단 챌린지",
+      "citation": "농림축산식품부·한국농수산식품유통공사(aT) 『2023 외식경영실태조사』 (24,300원)"
+    },
+    {
+      "mission_id": "MSN_TAXI_INTENSIVE",
+      "title": "칼퇴 & 대중교통 챌린지 (심야택시 2회 컷)",
+      "category": "transport",
+      "level": "Intensive",
+      "unit_price": 16400,
+      "frequency_per_month": 2,
+      "monthly_target_amount": 32800,
+      "weekly_equivalent": 8200,
+      "action_guide": "월 2회 심야 택시 탑승을 방지하여 고액 교통비 절감",
+      "citation": "카카오모빌리티 / 서울시 STIS 『2023 카카오모빌리티 리포트』 (16,400원)"
+    }
+  ],
+  "packages": {
+    "light": {
+      "package_name": "Light 팩 (보수형 / 가벼운 첫걸음)",
+      "monthly_total": 47600,
+      "weekly_equivalent": 11900,
+      "discretionary_ratio": 0.119,
+      "target_persona": "절약 습관 형성이 필요한 사회초년생 / 보수적 넛지 대상",
+      "missions": [
+        {
+          "id": "MSN_CAFE_01",
+          "title": "텀블러 데이 (카페 음료 1잔 대체)",
+          "monthly_amount": 16800,
+          "weekly_amount": 4200,
+          "source": "한국소비자원 참가격 『커피 프랜차이즈 가격 동향』 (4,200원)"
+        },
+        {
+          "id": "MSN_CONV_01",
+          "title": "편의점 야식 세이프 챌린지",
+          "monthly_amount": 14400,
+          "weekly_amount": 3600,
+          "source": "산업통상자원부 『2023 주요 유통업체 매출동향』 (7,200원)"
+        },
+        {
+          "id": "MSN_TAXI_01",
+          "title": "막차 세이프 (심야 택시 1회 방어)",
+          "monthly_amount": 16400,
+          "weekly_amount": 4100,
+          "source": "카카오모빌리티 / 서울시 STIS 『2023 카카오모빌리티 리포트』 (16,400원)"
+        }
+      ]
+    },
+    "standard": {
+      "package_name": "Standard 팩 (사용자 제안: 주 2.5만 원 실천형)",
+      "monthly_total": 112400,
+      "weekly_equivalent": 28100,
+      "discretionary_ratio": 0.281,
+      "target_persona": "목표자금 1,000만 원 조기 달성을 희망하는 일반 청년",
+      "missions": [
+        {
+          "id": "MSN_DELI_01",
+          "title": "주말 배달 파업 (배달 1회 컷)",
+          "monthly_amount": 48600,
+          "weekly_amount": 12150,
+          "source": "농림축산식품부·한국농수산식품유통공사(aT) 『2023 외식경영실태조사』 (24,300원)"
+        },
+        {
+          "id": "MSN_DINE_01",
+          "title": "약속 1차로 끝내기 (모임 외식 1회 컷)",
+          "monthly_amount": 33800,
+          "weekly_amount": 8450,
+          "source": "농림축산식품부 『2023 외식소비행태조사』 (33,800원)"
+        },
+        {
+          "id": "MSN_CAFE_01",
+          "title": "텀블러 데이 (카페 음료 1잔 대체)",
+          "monthly_amount": 16800,
+          "weekly_amount": 4200,
+          "source": "한국소비자원 참가격 『커피 프랜차이즈 가격 동향』 (4,200원)"
+        },
+        {
+          "id": "MSN_OTT_01",
+          "title": "잠자는 구독 다이어트 (OTT 1개 해지)",
+          "monthly_amount": 13200,
+          "weekly_amount": 3300,
+          "source": "한국콘텐츠진흥원(문체부 산하) 『2023 OTT 이용행태 조사 보고서』 (13,200원)"
+        }
+      ]
+    },
+    "intensive": {
+      "package_name": "Intensive 팩 (취약군 과소비 집중 교정형)",
+      "monthly_total": 156300,
+      "weekly_equivalent": 39075,
+      "discretionary_ratio": 0.391,
+      "target_persona": "카드 리볼빙/연체 위험이 있는 고위험 다중채무 취약 차주",
+      "missions": [
+        {
+          "id": "MSN_DELI_INTENSIVE",
+          "title": "배달 디톡스 (배달 3회 컷)",
+          "monthly_amount": 72900,
+          "weekly_amount": 18225,
+          "source": "농림축산식품부·한국농수산식품유통공사(aT) 『2023 외식경영실태조사』 (24,300원)"
+        },
+        {
+          "id": "MSN_DINE_01",
+          "title": "약속 1차로 끝내기 (모임 외식 1회 컷)",
+          "monthly_amount": 33800,
+          "weekly_amount": 8450,
+          "source": "농림축산식품부 『2023 외식소비행태조사』 (33,800원)"
+        },
+        {
+          "id": "MSN_TAXI_INTENSIVE",
+          "title": "칼퇴 & 대중교통 챌린지 (심야택시 2회 컷)",
+          "monthly_amount": 32800,
+          "weekly_amount": 8200,
+          "source": "카카오모빌리티 / 서울시 STIS 『2023 카카오모빌리티 리포트』 (16,400원)"
+        },
+        {
+          "id": "MSN_CAFE_01",
+          "title": "텀블러 데이 (카페 음료 1잔 대체)",
+          "monthly_amount": 16800,
+          "weekly_amount": 4200,
+          "source": "한국소비자원 참가격 『커피 프랜차이즈 가격 동향』 (4,200원)"
+        }
+      ]
+    }
+  }
+}

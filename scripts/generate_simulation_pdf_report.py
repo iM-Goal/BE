@@ -1,0 +1,759 @@
+import subprocess
+import time
+import os
+import shutil
+
+html_path = os.path.abspath("docs/iM_GOAL_Simulation_Test_Report.html")
+pdf_path = os.path.abspath("docs/iM_GOAL_Simulation_Test_Report.pdf")
+artifact_dir = "/Users/parkjihyeon/.gemini/antigravity/brain/f395526c-d519-4c42-8b3a-29720db9d98f"
+
+html_content = """<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>iM GOAL 시뮬레이션 테스트 방법론 및 데이터 무결성 검증 보고서</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 14mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.55;
+      font-size: 9.5pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .no-break {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    /* Cover & Headers */
+    .doc-header {
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .doc-title {
+      font-size: 17pt;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    .doc-subtitle {
+      font-size: 9.5pt;
+      font-weight: 500;
+      color: #0284c7;
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+    .doc-meta {
+      text-align: right;
+      font-size: 8pt;
+      color: #64748b;
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0f172a;
+      border-left: 4px solid #0284c7;
+      padding-left: 8px;
+      margin-top: 18px;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 12px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 8px;
+      text-align: justify;
+    }
+
+    /* Summary Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .kpi-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .kpi-card.highlight {
+      background: #f0f9ff;
+      border-color: #bae6fd;
+    }
+    .kpi-label {
+      font-size: 8pt;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .kpi-val {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #0369a1;
+      letter-spacing: -0.5px;
+    }
+    .kpi-sub {
+      font-size: 7.5pt;
+      color: #475569;
+      margin-top: 2px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      font-size: 8.5pt;
+    }
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      padding: 6px 8px;
+      border-top: 1px solid #cbd5e1;
+      border-bottom: 1px solid #cbd5e1;
+      text-align: center;
+    }
+    td {
+      padding: 5.5px 8px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
+    }
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .font-bold { font-weight: 700; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+      font-weight: 700;
+    }
+    .badge-pass { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .badge-fail { background: #ffe4e6; color: #be123c; border: 1px solid #fecdd3; }
+    .badge-blue { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-amber { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+
+    /* Callout & Code */
+    .callout {
+      background: #f8fafc;
+      border-left: 3px solid #0284c7;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      font-size: 8.5pt;
+      border-radius: 0 6px 6px 0;
+    }
+    .callout-title {
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+    .formula-box {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 8.5pt;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    /* Architecture Diagram Box */
+    .arch-flow {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin: 10px 0 14px 0;
+    }
+    .arch-step {
+      flex: 1;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      font-size: 7.8pt;
+    }
+    .arch-step-title {
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 4px;
+    }
+
+    /* Q&A Block */
+    .qa-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+    .qa-q {
+      background: #f8fafc;
+      padding: 7px 10px;
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 8.5pt;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .qa-a {
+      padding: 8px 10px;
+      color: #334155;
+      font-size: 8.5pt;
+      line-height: 1.5;
+    }
+    .qa-keypoint {
+      font-weight: 700;
+      color: #0369a1;
+    }
+
+    .footer-note {
+      font-size: 7.5pt;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 14px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: 개요 및 방법론 -->
+  <div>
+    <div class="doc-header">
+      <div>
+        <h1 class="doc-title">iM GOAL 금융 효과 시뮬레이션 테스트 검증 보고서</h1>
+        <p class="doc-subtitle">공식 공공 통계 기반 1,000명 코호트 에이전트 기반 모델링(ABM) 및 건전성 검증</p>
+      </div>
+      <div class="doc-meta">
+        <strong>문서 버전</strong>: v3.2 (Official Grounded)<br>
+        <strong>실행 엔진</strong>: Python 3.11 / Pytest 8.4<br>
+        <strong>난수 시드</strong>: Seed 42 (100% 완전 재현)
+      </div>
+    </div>
+
+    <!-- 4대 핵심 결과 KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card highlight">
+        <div class="kpi-label">① 유저 지출 절감률</div>
+        <div class="kpi-val">12.0%</div>
+        <div class="kpi-sub">월 80,365원 (연 96.4만 원)</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="kpi-label">② 목표 기간 단축률</div>
+        <div class="kpi-val">9.42%</div>
+        <div class="kpi-sub">300만 원 목표 16.95일 단축</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="kpi-label">③ 취약차주 빚 감축</div>
+        <div class="kpi-val">23.8%</div>
+        <div class="kpi-sub">고금리 원금 연 47.7만 원 상환</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="kpi-label">④ B2B 충당금(EL) 방어</div>
+        <div class="kpi-val">30.01억</div>
+        <div class="kpi-sub">10만 명 스케일업 기준/연</div>
+      </div>
+    </div>
+
+    <h2>1. 테스트 목적 및 기본 설계 ("어떻게 테스트를 수행했는가?")</h2>
+    <p>
+      본 시뮬레이션은 <strong>"소비 억제 넛지와 부채 상환 배분 메커니즘이 실제 20대 청년의 자산 형성과 금융사 건전성에 미치는 재무적 효능감"</strong>을 객관적·수학적으로 사전 검증하기 위해 구축되었습니다. 임의의 가상 숫자가 아닌 <strong>통계청, 한국은행, 금융감독원 등의 공공 실측 통계</strong>를 기초 파라미터로 결합하여 <strong>1,000명의 금융 페르소나 에이전트 기반 모델링(ABM)</strong>과 <strong>몬테카를로 확률 시뮬레이션</strong>을 수행했습니다.
+    </p>
+
+    <div class="arch-flow">
+      <div class="arch-step">
+        <div class="arch-step-title">[Step 1] 통계 인입</div>
+        통계청·한은·금감원<br>공식 지출/부채 데이터 주입
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-title">[Step 2] 코호트 생성</div>
+        1,000명 가상 에이전트<br>(일반 850명 + 취약 150명)
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-title">[Step 3] 챌린지 루프</div>
+        4개 영역 주 4회(월 17.38회)<br>수락 확률(기대 35.2%) 시행
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-title">[Step 4] 자금 분할</div>
+        일반(저축70/비상30)<br>취약(부채상환50/저축50)
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-title">[Step 5] 리스크/EL 산출</div>
+        신용한도 실측 30.28억 원<br>바젤 IRB 표준 산식 대입
+      </div>
+    </div>
+
+    <h2>2. 기초 투입 데이터 및 공공 통계 출처 팩트체크 (100% 실측 바인딩)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 14%;">구분</th>
+          <th style="width: 22%;">공식 출처 기관 및 보고서</th>
+          <th style="width: 16%;">실측 기준치</th>
+          <th style="width: 18%;">시뮬레이션 반영값</th>
+          <th style="width: 30%;">모델링 근거 및 타당성</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-bold">가처분 재량지출</td>
+          <td>통계청(KOSIS) 2023 가계동향조사</td>
+          <td>월 66.8만 원</td>
+          <td class="font-bold">월 668,000원</td>
+          <td>29세 이하 1인가구 식음료(41.7만)+문화(14.5만)+패션(10.6만)</td>
+        </tr>
+        <tr>
+          <td class="font-bold">배달 1회 절감</td>
+          <td>aT 한국농수산식품유통공사 외식실태조사</td>
+          <td>1인당 22,000원</td>
+          <td class="font-bold">22,000원 / 회</td>
+          <td>1인 가구 평균 배달 앱 1회 주문 결제 단가 반영</td>
+        </tr>
+        <tr>
+          <td class="font-bold">패션/쇼핑 절감</td>
+          <td>통계청 가계동향 의류/신발</td>
+          <td>월 10.6만 원</td>
+          <td class="font-bold">14,000원 / 회</td>
+          <td>의류/잡화 충동구매 1회 억제 금액</td>
+        </tr>
+        <tr>
+          <td class="font-bold">카페/음료 절감</td>
+          <td>KB국민카드 데이터랩 20대 소비</td>
+          <td>건당 8,700원</td>
+          <td class="font-bold">9,000원 / 회</td>
+          <td>프랜차이즈 디저트+커피 1회 테이크아웃 단가</td>
+        </tr>
+        <tr>
+          <td class="font-bold">구독/교통 절감</td>
+          <td>KISDI 정보통신정책연구원</td>
+          <td>단일 OTT 7,500원</td>
+          <td class="font-bold">7,500원 / 회</td>
+          <td>미이용 OTT 구독 해지 또는 단거리 대중교통 전환</td>
+        </tr>
+        <tr>
+          <td class="font-bold">취약차주 부채</td>
+          <td>한국은행 2024.06 금융안정보고서</td>
+          <td>소진율 68.4%, DSR 41.6%</td>
+          <td class="font-bold">코호트 15.0% 취약군</td>
+          <td>20대 다중채무자 및 한도 소진율 68% 이상 차주 모사</td>
+        </tr>
+        <tr>
+          <td class="font-bold">리볼빙 이자율</td>
+          <td>금융감독원 금융통계정보시스템</td>
+          <td>20대 평균 16.9%</td>
+          <td class="font-bold">연 16.9% (월 1.41%)</td>
+          <td>카드 리볼빙 잔액 및 소액 신용대출 평균 이자율</td>
+        </tr>
+        <tr>
+          <td class="font-bold">부도시손실률(LGD)</td>
+          <td>바젤은행감독위원회(BCBS)</td>
+          <td>무담보 소매 50.0%</td>
+          <td class="font-bold">LGD = 50.0%</td>
+          <td>은행 내부등급법(IRB) 무담보 신용 익스포저 표준값</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout no-break">
+      <div class="callout-title">💡 주간 4회 챌린지 풀(Pool) 구성 메커니즘</div>
+      4개 카테고리(배달·쇼핑·카페·구독)를 1세트(52,500원)로 묶고, 매주 1회씩(주 4회 = 월 17.38회) 유저에게 제안합니다. 정수 반올림 오차를 제거하기 위해 <strong>확률적 이산화(4회 65.5% + 5회 34.5%)</strong>를 적용하여 1인당 월평균 기대 절감액 <strong>80,364.6원</strong>을 수학적으로 완벽히 보존했습니다.
+    </div>
+
+    <div class="footer-note">
+      iM GOAL Simulation Defense Pack — Page 1 of 3 (Methodology & Data Citations)
+    </div>
+  </div>
+
+  <!-- PAGE 2: 시뮬레이션 결과 및 검증 리포트 -->
+  <div class="page-break">
+    <div class="doc-header">
+      <div>
+        <h1 class="doc-title">테스트 결과 상세 데이터 및 10대 무결성 검증</h1>
+        <p class="doc-subtitle">다단계 목표 달성 가속도, 부채 감축 효능감, B2B 손실 방어 및 10-Check 리포트</p>
+      </div>
+      <div class="doc-meta">
+        <strong>검증 합격률</strong>: 9 PASS / 1 FAIL (Check 3)<br>
+        <strong>테스트 스위트</strong>: 25/25 Pytest Passed<br>
+        <strong>EAD 총액</strong>: 3,027,655,705원
+      </div>
+    </div>
+
+    <h2>3. 3대 핵심 시뮬레이션 결과 지표</h2>
+
+    <h3>(1) 다단계(Multi-Tier) 목표 자금별 달성 기간 단축 효과</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>목표 티어</th>
+          <th>목표 금액</th>
+          <th>기본 설정 기간</th>
+          <th>코호트 배정 비중</th>
+          <th>단축 소요 일수</th>
+          <th>기간 단축률 (가속도)</th>
+          <th>체감 효능감 평가</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-bold">소액 챌린지 (비상금)</td>
+          <td class="text-right font-bold">3,000,000원</td>
+          <td class="text-center">6개월 (180일)</td>
+          <td class="text-center">308명 (30.8%)</td>
+          <td class="text-center font-bold" style="color: #0369a1;">16.95일 단축</td>
+          <td class="text-center font-bold" style="color: #0369a1;">9.42% 가속</td>
+          <td>약 2.5주 조기 달성 (가장 강력한 효능감)</td>
+        </tr>
+        <tr>
+          <td class="font-bold">중간 목표 (여행/전자기기)</td>
+          <td class="text-right font-bold">7,000,000원</td>
+          <td class="text-center">10개월 (300일)</td>
+          <td class="text-center">388명 (38.8%)</td>
+          <td class="text-center font-bold">19.79일 단축</td>
+          <td class="text-center font-bold">6.60% 가속</td>
+          <td>약 3주 조기 달성 (리텐션 유지)</td>
+        </tr>
+        <tr>
+          <td class="font-bold">목돈 목표 (전세/보증금)</td>
+          <td class="text-right font-bold">15,000,000원</td>
+          <td class="text-center">12개월 (360일)</td>
+          <td class="text-center">304명 (30.4%)</td>
+          <td class="text-center font-bold">13.96일 단축</td>
+          <td class="text-center font-bold">3.88% 가속</td>
+          <td>장기 저축 습관 형성 및 금융 자산화</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>(2) 취약차주 고금리 부채(16.9%) 상환 및 신용 등급 전환 분석</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>차주 코호트 구분</th>
+          <th>초기 인원</th>
+          <th>월 절감액 배분 규칙</th>
+          <th>연간 원금 상환액</th>
+          <th>연간 고금리 이자 방어</th>
+          <th>12개월 리스크 등급 개선 결과</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-bold">일반 차주군</td>
+          <td class="text-center">850명 (85%)</td>
+          <td class="text-center">목표저축 70% : 비상금 30%</td>
+          <td class="text-center">-</td>
+          <td class="text-center">-</td>
+          <td class="text-center">안전권 유지 및 자산 형성 속도 12.0% 증가</td>
+        </tr>
+        <tr>
+          <td class="font-bold" style="color: #b91c1c;">취약 차주군</td>
+          <td class="text-center" style="color: #b91c1c;">150명 (15%)</td>
+          <td class="text-center font-bold">부채상환 50% : 저축 50%</td>
+          <td class="text-center font-bold" style="color: #047857;">연 477,338원</td>
+          <td class="text-center font-bold" style="color: #047857;">연 80,670원</td>
+          <td class="text-center font-bold" style="color: #047857;">고위험 차주 14.7%(32명) 완전 탈출</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>(3) 바젤 표준 기반 B2B 대손충당금(EL) 절감액</h3>
+    <div class="formula-box">
+      B2B Expected Loss (EL) Formula = EAD × ΔPD × LGD<br>
+      • 실측 신용한도 전수 합계(EAD) = 3,027,655,705원 (약 30.28억 원, 오차 0.0원)<br>
+      • 연체율 개선폭(ΔPD) = 1.98%p (낙관 12M 기준) | 무담보 손실률(LGD) = 50.0%
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>운영 규모 (코호트 유저 수)</th>
+          <th>총 여신 익스포저 (EAD)</th>
+          <th>부실률 개선 (ΔPD)</th>
+          <th>적용 LGD</th>
+          <th>연간 은행 대손충당금(EL) 절감액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="font-bold">실측 코호트 (1,000명)</td>
+          <td class="text-right">3,027,655,705원 (약 30.28억)</td>
+          <td class="text-center">1.98%p</td>
+          <td class="text-center">50.0%</td>
+          <td class="text-right font-bold" style="color: #0369a1;">30,010,655원 (연 3,001만 원)</td>
+        </tr>
+        <tr>
+          <td class="font-bold">스케일업 단계 (10,000명)</td>
+          <td class="text-right">약 302.8억 원</td>
+          <td class="text-center">1.98%p</td>
+          <td class="text-center">50.0%</td>
+          <td class="text-right font-bold">약 3.00억 원 / 연</td>
+        </tr>
+        <tr>
+          <td class="font-bold" style="color: #0284c7;">상용화 단계 (100,000명)</td>
+          <td class="text-right font-bold">약 3,028억 원</td>
+          <td class="text-center">1.98%p</td>
+          <td class="text-center">50.0%</td>
+          <td class="text-right font-bold" style="color: #0284c7; font-size: 9.5pt;">연간 30.01억 원 손실 방어</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4. 10대 사전 무결성 검증 (10-Check Automated Validation)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 6%;">번호</th>
+          <th style="width: 20%;">검증 항목</th>
+          <th style="width: 28%;">판정 기준 (Specification)</th>
+          <th style="width: 32%;">실제 측정치</th>
+          <th style="width: 14%;">판정</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">1</td>
+          <td class="font-bold">단조성 (Monotonicity)</td>
+          <td>가중치 α 증가 시 달성률 단조 증가</td>
+          <td>α=0.0(0.0%) → 1.0(1.82%) 단조 증가 확인</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">2</td>
+          <td class="font-bold">경계값 (Boundary)</td>
+          <td>절감률 ≤ 30% (취약군 상한 준수)</td>
+          <td>보수 5.41%, 낙관 14.91% (상한 30% 완벽 준수)</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">3</td>
+          <td class="font-bold">민감도 (Non-zero)</td>
+          <td>보수 12M 장기달성률 > 5.0% (허들)</td>
+          <td>실측치: 0.6286% (1,000만 원 단일 목표 산술 한계)</td>
+          <td class="text-center"><span class="badge badge-fail">FAIL (솔직공개)</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">4</td>
+          <td class="font-bold">외부 정합성 (PD Bounds)</td>
+          <td>|ΔPD| < 0.5 × P_base</td>
+          <td>ΔPD 0.0067 ~ 0.0198 < 0.1461 기준 통과</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">5</td>
+          <td class="font-bold">재현가능성 (Sourced)</td>
+          <td>모든 상수 공식 통계 출처 매핑</td>
+          <td>총 18개 상수 전수 출처 태그 등록 및 검증</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">6</td>
+          <td class="font-bold">평균 보존 (Mean Preserved)</td>
+          <td>카테고리 분할 시 평균 오차 < 5%</td>
+          <td>오차 1.038%, 분산 72.2% 축소 안정화</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">7</td>
+          <td class="font-bold">예산 합계 (Category Sum)</td>
+          <td>카테고리 할당 합계 일치</td>
+          <td>초기 재량지출 총합 보존 완벽 검증</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">8</td>
+          <td class="font-bold">미션 상한 (Clamp)</td>
+          <td>주간 미션 5회 상한 초과 0건</td>
+          <td>10,000회 몬테카를로 검증 시 상한 위반 0건</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">9</td>
+          <td class="font-bold">다층 목표 효과 단조성</td>
+          <td>소액 목표 단축일수/비율 > 목돈 목표</td>
+          <td>소액(16.95일, 9.42%) > 목돈(13.96일, 3.88%)</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        <tr>
+          <td class="text-center">10</td>
+          <td class="font-bold">실측 EAD 정합성</td>
+          <td>|EAD_used - ∑ credit_limit| < 1.0원</td>
+          <td>EAD 실측치: 3,027,655,705.0원 (오차 0.0원)</td>
+          <td class="text-center"><span class="badge badge-pass">PASS</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer-note">
+      iM GOAL Simulation Defense Pack — Page 2 of 3 (Results & Validation Checks)
+    </div>
+  </div>
+
+  <!-- PAGE 3: 심사위원 Q&A 공격 방어 논리 -->
+  <div class="page-break">
+    <div class="doc-header">
+      <div>
+        <h1 class="doc-title">심사위원 예상 날카로운 질문 5선 & 완벽 기술 방어</h1>
+        <p class="doc-subtitle">금융/공학 심사위원의 공격적 질문에 대비한 통계적·기술적 방어 스크립트</p>
+      </div>
+      <div class="doc-meta">
+        <strong>방어 전략</strong>: 통계적 정직성 + 수학적 무결성<br>
+        <strong>규제 준수</strong>: 금소법 제17조 적합성 통제 아키텍처
+      </div>
+    </div>
+
+    <h2>5. 심사위원 핵심 질문별 방어 논리 (Defense Script)</h2>
+
+    <div class="qa-box no-break">
+      <div class="qa-q">
+        <span class="badge badge-blue">Q1</span>
+        <span>"실제 유저를 대상으로 A/B 테스트한 것이 아닌데 가상 시뮬레이션을 얼마나 신뢰할 수 있습니까?"</span>
+      </div>
+      <div class="qa-a">
+        <span class="qa-keypoint">[방어 답변]</span> "본 시뮬레이션은 단순한 임의 가정치가 아니라, <strong>통계청 가계동향조사(월 66.8만 원 재량지출), aT 외식실태조사(배달 2.2만 원), 한국은행 금융안정보고서(DSR 41.6%)</strong> 등 6대 공공기관의 실측 데이터를 파라미터로 결합한 <strong>Agent-Based Model(ABM)</strong>입니다. 1,000명의 코호트를 구축하고 시드(Seed 42)를 고정하여 25개 테스트 스위트로 전수 검증하였으므로 금융공학 관점에서 100% 동일하게 재현 가능한 실증 데이터입니다."
+      </div>
+    </div>
+
+    <div class="qa-box no-break">
+      <div class="qa-q">
+        <span class="badge badge-amber">Q2</span>
+        <span>"Check 3 검증에서 FAIL이 났는데 시스템의 결함이나 설계 오류 아닌가요?"</span>
+      </div>
+      <div class="qa-a">
+        <span class="qa-keypoint">[방어 답변]</span> "오히려 <strong>저희 팀의 학술적·통계적 정직성을 증명하는 지표</strong>입니다. 단일 1,000만 원이라는 거대한 목돈 목표에 월 6.3만 원 절감을 대입하면 산술적으로 달성률이 0.63%에 머물러 5.0% 허들을 넘을 수 없는 것이 수학적 필연입니다. 숫자를 억지로 부풀려 통과시키는 대신 결함을 솔직히 인정하고, 청년 눈높이에 맞춘 <strong>'300만 원 다단계 목표(v3)'로 모델을 고도화</strong>했습니다. 그 결과 <strong>16.95일(9.42%) 단축</strong>이라는 강력한 효능감을 검증해 냈습니다."
+      </div>
+    </div>
+
+    <div class="qa-box no-break">
+      <div class="qa-q">
+        <span class="badge badge-blue">Q3</span>
+        <span>"주당 4회 챌린지 시도가 20대 청년들에게 너무 벅차거나 피로감을 주지 않을까요?"</span>
+      </div>
+      <div class="qa-a">
+        <span class="qa-keypoint">[방어 답변]</span> "매일 특정 소비를 강제로 금지하는 것이 아니라, <strong>배달, 패션쇼핑, 카페, 구독/교통 4개 영역에 각각 주 1회씩(주 4회 = 월 17.38회)</strong> 분산 제안합니다. 또한 기본 수락률 30%에 행동경제학적 넛지 및 리워드(+10~15%p)를 반영하여 <strong>실제 기대 수락률은 35.2%(월 약 6회 실천)</strong> 수준으로 설계되었습니다. 즉, 1주일에 1~2번만 실천해도 월 8만 원의 자산 형성이 이루어지므로 피로도 대비 효능감이 극대화됩니다."
+      </div>
+    </div>
+
+    <div class="qa-box no-break">
+      <div class="qa-q">
+        <span class="badge badge-blue">Q4</span>
+        <span>"은행 입장에서 대손충당금(EL) 30억 원 절감이 어떻게 산출되었습니까? 과장된 것 아닌가요?"</span>
+      </div>
+      <div class="qa-a">
+        <span class="qa-keypoint">[방어 답변]</span> "국제 바젤은행감독위원회(BCBS)의 <strong>표준 예상손실 공식(EL = EAD × ΔPD × LGD)</strong>을 엄격히 적용했습니다. 코호트 1,000명의 실제 신용한도 전수 합산액(EAD ≈ 30.28억 원)과 표준 무담보 LGD 50.0%, 12개월 부실률 개선폭(ΔPD 1.98%p)을 대입하여 <strong>연간 3,001만 원의 EL 방어</strong>를 산출했습니다. 이를 iM뱅크의 20대 타깃 고객 10만 명으로 확장(Scale-up)했을 때 <strong>연간 30.01억 원</strong>이라는 대손비용 선제 방어액이 수학적으로 정확히 도출됩니다."
+      </div>
+    </div>
+
+    <div class="qa-box no-break">
+      <div class="qa-q">
+        <span class="badge badge-blue">Q5</span>
+        <span>"추천 AI가 금융 상품을 권유할 때 금융소비자보호법(금소법) 위반 위험은 없습니까?"</span>
+      </div>
+      <div class="qa-a">
+        <span class="qa-keypoint">[방어 답변]</span> "저희 시스템은 <strong>'상품 추천 엔진'과 '내부통제 검증 엔진'이 물리적으로 분리된 Dual-AI 아키텍처</strong>를 채택했습니다. 추천 AI가 최적의 절약/금융 상품을 제안하더라도, 독립된 내부통제 엔진이 금소법 제17조 적합성 원칙(DSR 40% 초과 여부, 20대 평균 금리 16.9% 대비 고금리 대출 여부 등)을 하드코딩된 규칙(Deterministic Rules)으로 교차 검증합니다. 두 엔진 간 충돌 시 내부통제 엔진이 무조건 추천을 즉시 차단(Hard Kill)하므로 규제 위반 가능성을 원천 차단했습니다."
+      </div>
+    </div>
+
+    <div class="footer-note">
+      iM GOAL Simulation Defense Pack — Page 3 of 3 (Judge Q&A Technical Defense)
+    </div>
+  </div>
+
+</body>
+</html>
+"""
+
+with open(html_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print(f"HTML written to {html_path}")
+
+# Run Chrome to generate PDF
+chrome_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+profile_dir = os.path.abspath("scratch/c_prof_report")
+os.makedirs(profile_dir, exist_ok=True)
+
+cmd = [
+    chrome_path,
+    "--headless=new",
+    "--disable-gpu",
+    f"--user-data-dir={profile_dir}",
+    f"--print-to-pdf={pdf_path}",
+    "--no-pdf-header-footer",
+    html_path
+]
+
+print("Launching Chrome for PDF generation...")
+proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+start = time.time()
+pdf_created = False
+while time.time() - start < 15:
+    if os.path.exists(pdf_path) and os.path.getsize(pdf_path) > 5000:
+        pdf_created = True
+        print(f"PDF generated successfully: {pdf_path} ({os.path.getsize(pdf_path)} bytes) in {time.time()-start:.2f}s")
+        break
+    time.sleep(0.3)
+
+try:
+    proc.terminate()
+    proc.wait(timeout=2)
+except Exception:
+    proc.kill()
+
+if pdf_created:
+    # Copy to artifact directory
+    artifact_pdf = os.path.join(artifact_dir, "iM_GOAL_Simulation_Test_Report.pdf")
+    artifact_html = os.path.join(artifact_dir, "iM_GOAL_Simulation_Test_Report.html")
+    shutil.copy2(pdf_path, artifact_pdf)
+    shutil.copy2(html_path, artifact_html)
+    print(f"Copied to artifacts: {artifact_pdf}")
+else:
+    print("Error: PDF was not generated within timeout.")

@@ -1,167 +1,205 @@
-# iM AgentiX 🤖💰
+# CLiMB · iM-Goal
 
-> 목표만 말하면 AI와 스마트 컨트랙트가 저축을 실행합니다.
+> 말 한마디로 시작하는 목표 자금 관리, 작은 실천으로 완성하는 금융 습관.
 
-보증금 기반 미션 시스템으로 저축 목표를 달성하는 AI 금융 에이전트 플랫폼입니다.  
-직접 미션(목표 기반 가용 금액 역산)과 자동 미션(4주 평균 대비 과소비 감지) 두 가지 방식으로 미션을 제안하고,  
-iMKRW + Kaia 스마트 컨트랙트로 보증금을 관리합니다.
+![CLiMB 서비스 소개](docs/images/climb-overview.png)
 
----
+**CLiMB**는 사용자의 목표와 소비 패턴을 바탕으로 재무 계획을 세우고, 개인화된 절약 미션으로 목표 달성을 돕는 AI 금융 관리 서비스입니다.
 
-## 📐 아키텍처 (개인화 데이터 밀어주기 설계)
+“전세 보증금을 모으고 싶어”, “여행 자금을 마련하고 싶어”처럼 목표를 입력하면 소득과 지출에 맞는 하루 예산을 설계합니다. 이후 소비 변화를 감지하고 실천할 수 있는 미션을 제안해, 계획이 일상의 행동으로 이어지도록 돕습니다.
 
+이 저장소는 CLiMB의 **Spring Boot 백엔드와 FastAPI 기반 AI 에이전트**를 관리합니다. 프로젝트 초기 명칭은 `iM AgentiX`이며, 코드와 모듈에서는 `agentic`을 사용합니다.
+
+## 기획 배경
+
+소비 내역을 보여주는 것만으로는 저축 목표를 달성하기 어렵습니다. 사용자는 자신의 재정 상황에 맞춰 얼마를 모으고, 오늘 무엇을 줄여야 하는지 구체적인 안내가 필요합니다.
+
+CLiMB는 금융 관리에 익숙하지 않은 청년과 소비 습관을 바꾸고 싶은 사용자를 위해 **목표 설정 → 예산 설계 → 소비 분석 → 절약 미션 → 진행 상황 확인**을 하나의 흐름으로 연결합니다.
+
+## 주요 기능
+
+### 자연어 기반 목표 설계
+
+- 자연어로 입력한 목표에서 목표 금액과 기간을 파악합니다.
+- 월 소득·고정 지출·가처분소득을 바탕으로 저축 계획과 하루 가용 예산을 계산합니다.
+- 목표별 진행률과 예상 달성 일정을 확인할 수 있습니다.
+
+### 마이데이터 기반 소비 분석
+
+- 카드 승인 내역을 수집하고 카테고리별 지출을 집계합니다.
+- 최근 4주 평균 지출과 개인 재정 정보를 기준으로 과소비를 감지합니다.
+- 소득분위와 가용금액을 반영해 개인화된 소비 분석을 제공합니다.
+
+### 개인화 절약 미션
+
+- 소비 패턴에 맞는 절약 미션을 RAG 기반으로 검색하고 추천합니다.
+- 여러 검색 쿼리의 결과를 RRF로 결합해 미션 후보를 구성합니다.
+- 미션 제안·수락·성공 판단과 만기 처리 흐름을 관리합니다.
+
+### iMKRW 보증금 관리
+
+- 미션 참여 시 보증금을 예치하고 성공·해지에 따른 반환 흐름을 관리합니다.
+- iMKRW 발행·소각, 중도 해지, Buy-out 기능을 제공합니다.
+- 금융·토큰·스마트 컨트랙트 연동은 FastAPI Mock 서버를 통해 시연합니다.
+
+### AI 금융 챗봇과 재무 계획 보고서
+
+- 사용자의 재정 정보·목표·미션 현황을 반영한 금융 챗봇을 제공합니다.
+- 자산형성과 소비 목표에 맞춰 저축액·예산·계획 난이도를 정리합니다.
+- 별도 내부통제 에이전트가 규정을 검색하고 저축 비율에 따른 위험 표시와 상담 권고를 반환하며, 결과를 감사 로그로 저장합니다.
+
+### 대시보드와 시연 기능
+
+- 목표 진행 상황, 소비 내역, 보증금과 주간 리포트를 확인할 수 있습니다.
+- 결제·급여 입금·Buy-out·미션 만기 트리거로 주요 사용자 흐름을 시연할 수 있습니다.
+
+## 서비스 흐름
+
+```text
+회원가입 및 로그인
+    → 소득·고정 지출 등록 및 카드 내역 수집
+    → 자연어 목표 입력
+    → 저축 계획과 하루 예산 설계
+    → 소비 분석 및 과소비 감지
+    → 개인화 절약 미션 제안
+    → 미션 수락 및 보증금 예치
+    → 미션 결과와 목표 진행 상황 확인
 ```
-[Frontend]
-    │
-    ▼
-[Spring Boot API :8080]  ←──── JWT 인증
-    │
-    │  (에이전트 호출 시 개인화 데이터를 DTO에 실어 단방향 전송)
-    ▼
-    ├── [PostgreSQL(pgvector) :5432]
-    ├── [Redis :6379]
-    │
-    ├── [Agent: Goal Parsing  :8001]  ─┐
-    ├── [Agent: Spending      :8002]   ├── Ollama (qwen2.5:1.5b) 로컬 필요
-    ├── [Agent: Mission (RAG) :8003]   │   (nomic-embed-text)
-    └── [Agent: Execution     :8004]  ─┘
+
+## 시스템 아키텍처
+
+```mermaid
+flowchart TB
+    App[모바일 클라이언트] --> API[Spring Boot API · JWT]
+    API --> PG[(PostgreSQL · pgvector)]
+    API --> Redis[(Redis)]
+    API --> Goal[목표 파싱 · 8001]
+    API --> Spending[소비 분석 · 8002]
+    API --> Mission[미션 추천 · 8003]
+    API --> Execution[판단 실행 · 8004]
+    API --> Chat[금융 챗봇 · 8005]
+    API --> Compliance[내부통제 · 8006]
+    API --> Mock[금융·iMKRW Mock · 8000]
+    Goal --> Ollama[Ollama]
+    Spending --> Ollama
+    Mission --> Ollama
+    Execution --> Ollama
+    Chat --> Ollama
+    Compliance --> Ollama
+    Mission --> PG
+    Compliance --> PG
 ```
 
-> **순환 호출 제거**: 에이전트가 백엔드 API를 다시 역호출(API Loop)하는 대신, 백엔드(Spring Boot)가 에이전트 호출 시점에 DTO 바디에 유저의 소득분위 및 가용 지출 데이터를 직접 주입해 밀어주는(Push) 안전한 구조를 지향합니다.
+Spring Boot가 인증과 비즈니스 로직을 처리하고, 사용자별 재정 정보를 DTO에 담아 각 에이전트로 전달합니다. AI 에이전트는 역할별 FastAPI 서비스로 구성하며, 로컬 Ollama에서 LLM 추론과 임베딩을 수행합니다.
 
----
+## 기술 스택
 
-## 🧩 서비스 구성
+| 영역 | 기술 |
+|---|---|
+| Backend | Java 21, Spring Boot 3.4.1, Spring Security, Spring Data JPA, WebClient, JWT |
+| AI | Python 3.11+, FastAPI, Ollama, Qwen2.5 1.5B |
+| RAG | nomic-embed-text, pgvector, 다중 쿼리 검색, RRF |
+| Database | PostgreSQL 16, Redis 7 |
+| Infra | Docker, Docker Compose, Gradle |
 
-| 컨테이너 | 포트 | 역할 |
-|---|---|---|
-| `agentic-postgres` | 5432 | PostgreSQL + pgvector (벡터 DB) |
-| `agentic-redis` | 6379 | 캐시, 세션 |
-| `agentic-fastapi` | 8000 | FastAPI Mock 서버 |
-| `agentic-agent-goal` | 8001 | 목표 파싱 AI 에이전트 |
-| `agentic-agent-spending` | 8002 | 소비 분석 AI 에이전트 |
-| `agentic-agent-mission` | 8003 | 미션 생성 AI 에이전트 (RAG) |
-| `agentic-agent-execution` | 8004 | 판단 실행 AI 에이전트 |
-| `agentic-backend-api` | 8080 | Spring Boot 메인 API 서버 |
+## 프로젝트 구조
 
----
+```text
+agentic-api/       REST API, 인증, 서비스, 요청·응답 DTO
+agentic-common/    공통 예외 및 응답
+agentic-domain/    도메인 엔티티 및 리포지토리
+agentic-infra/     AI 에이전트·금융·블록체인 클라이언트
+agents/
+├── goal-parsing/  목표 파싱
+├── spending/      소비 분석
+├── mission/       RAG 기반 미션 추천
+├── execution/     미션 판단 실행
+├── chat/          금융 챗봇
+└── compliance/    규정 검색 및 내부통제
+fastapi-mock/     외부 금융·iMKRW·계약 Mock 서버
+simulation/       금융 효과 시뮬레이션
+scripts/          데이터 준비 및 규정 적재 도구
+data/             데이터 및 규정 문서
+results/          시뮬레이션 결과
+docs/             서비스 소개 및 발표 자료
+sql/              DB 초기화 스크립트
+```
 
-## 🚀 빠른 시작
+## 실행 방법
 
-### 사전 요구사항
+### 사전 준비
 
-- Docker & Docker Compose
-- (AI 기능 사용 시) [Ollama](https://ollama.com/) 설치 + 모델 pull
+- Java 21
+- Docker 및 Docker Compose
+- Ollama
+- Python 3.11+ (내부통제 에이전트 별도 실행 시)
 
 ```bash
-# Ollama 모델 다운로드 (AI 기능 및 RAG 사용 시 필요)
 ollama pull qwen2.5:1.5b
 ollama pull nomic-embed-text
 ```
 
-### 프론트엔드 개발자 (백엔드 전체 환경 실행)
+### 기본 환경 실행
 
 ```bash
-git clone <repo-url>
-cd agentic
-
-docker-compose up -d
+git clone https://github.com/iM-Goal/BE.git
+cd BE
+docker compose up -d --build
 ```
 
-> 백엔드 개발자가 최신 이미지를 Docker Hub에 push해뒀다면, 위 명령 한 줄로 Spring Boot 포함 전체 환경이 실행됩니다.
+PostgreSQL, Redis, Mock 서버와 AI 에이전트 5개가 실행됩니다. 백엔드는 Compose에 설정된 Docker 이미지를 사용하며, 에이전트는 `host.docker.internal:11434`로 호스트의 Ollama에 연결합니다.
 
-### 백엔드 개발자 (코드 수정 후 배포)
+현재 소스로 백엔드를 실행하려면 다음 명령을 사용합니다.
 
 ```bash
-# Spring Boot 빌드 → Docker 이미지 빌드 → Docker Hub push → 컨테이너 재시작
-./deploy-backend.sh
+docker compose stop backend
+SPRING_JPA_HIBERNATE_DDL_AUTO=update ./gradlew :agentic-api:bootRun
 ```
 
----
+기본 JPA 설정은 데모용 `create-drop`입니다. 위 명령은 `update`로 재정의해 로컬 개발 데이터를 유지합니다.
 
-## 📡 API 문서 (Swagger)
+### 내부통제 에이전트 실행
+
+내부통제 에이전트는 기본 Compose 구성과 별도로 실행합니다.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r agents/compliance/requirements.txt pypdf
+DB_HOST=localhost uvicorn main:app --app-dir agents/compliance --host 127.0.0.1 --port 8006
+```
+
+규정 검색을 사용하려면 백엔드 실행 후 별도 터미널에서 스키마와 규정 문서를 적재합니다.
+
+```bash
+docker compose exec -T postgres psql -U agentic_user -d agentic < sql/compliance_schema.sql
+# data/compliance/에 규정 문서를 추가한 뒤 실행
+python scripts/ingest_compliance.py
+```
+
+### 주요 환경변수
+
+| 변수 | 설명 |
+|---|---|
+| `DB_HOST`, `DB_PORT`, `DB_NAME` | DB 주소, 포트, 데이터베이스명 |
+| `DB_USERNAME`, `DB_PASSWORD` | Spring Boot DB 계정 |
+| `DB_USER`, `DB_PASS` | Python 에이전트 DB 계정 |
+| `REDIS_HOST`, `REDIS_PORT` | Redis 연결 정보 |
+| `OLLAMA_BASE_URL`, `OLLAMA_MODEL` | Ollama 주소 및 모델 |
+| `AGENT_GOAL_PARSING_URL`, `AGENT_SPENDING_URL`, `AGENT_MISSION_URL`, `AGENT_EXECUTION_URL`, `AGENT_CHAT_URL` | 백엔드에서 호출하는 에이전트 주소 |
+| `AGENT_COMPLIANCE_URL` | 내부통제 에이전트 주소. 기본 `http://localhost:8006` |
+
+## API 문서
 
 | 서비스 | 주소 |
 |---|---|
-| **Spring Boot (메인)** | http://localhost:8080/swagger-ui.html |
-| FastAPI Mock | http://localhost:8000/docs |
-| Agent - Goal Parsing | http://localhost:8001/docs |
-| Agent - Spending | http://localhost:8002/docs |
-| Agent - Mission | http://localhost:8003/docs |
-| Agent - Execution | http://localhost:8004/docs |
+| Backend Swagger | [localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) |
+| 금융 Mock | [localhost:8000/docs](http://localhost:8000/docs) |
+| 목표 파싱 | [localhost:8001/docs](http://localhost:8001/docs) |
+| 소비 분석 | [localhost:8002/docs](http://localhost:8002/docs) |
+| 미션 추천 | [localhost:8003/docs](http://localhost:8003/docs) |
+| 판단 실행 | [localhost:8004/docs](http://localhost:8004/docs) |
+| 금융 챗봇 | [localhost:8005/docs](http://localhost:8005/docs) |
+| 내부통제 | [localhost:8006/docs](http://localhost:8006/docs) |
 
-### 신규 추가된 마이데이터 개인화 API 목록
-- `PUT  /api/users/financial-info` : 월 소득 및 고정 지출 설정 (소득분위 및 일일 가용금액 자동 연산)
-- `GET  /api/users/financial-info` : 저장된 유저 재정 정보 조회
-- `POST /api/mydata/card-approvals` : 금융보안원 마이데이터 규격 기반 카드 승인 내역 일괄 수집
-- `GET  /api/mydata/category-summary` : 카테고리별 주간 지출 합계와 4주 지출 baseline 및 소득분위별 초과율 집계
-- `GET  /api/mydata/threshold` : 통계청 2024 Q4 가계동향조사 기준 소득분위별 과소비 임계치 조회
-
-> Swagger에서 JWT 인증이 필요한 API는 로그인 후 발급받은 토큰을 `Authorize` 버튼에 `Bearer {token}` 형식으로 입력하세요.
-
----
-
-## ⚠️ Ollama 없이 사용 가능한 기능
-
-Ollama가 로컬에 설치되어 있지 않아도 아래 기능은 정상 동작합니다.
-
-| 기능 | Ollama 필요 여부 |
-|---|---|
-| 회원가입 / 로그인 (JWT) | ✅ 불필요 |
-| 저축 목표 CRUD | ✅ 불필요 |
-| 소비 내역 조회 | ✅ 불필요 |
-| 보증금(iMKRW) 관리 | ✅ 불필요 |
-| 대시보드 / 주간 리포트 | ✅ 불필요 |
-| **마이데이터 재정 정보 등록/조회** | ✅ 불필요 |
-| **카드 승인 내역 일괄 수집** | ✅ 불필요 |
-| **지출 통계 요약 (주간/4주평균)** | ✅ 불필요 |
-| **소득분위별 과소비 임계치 조회** | ✅ 불필요 |
-| **AI 목표 파싱 및 달성 가능성 연산** | ❌ Ollama 필요 |
-| **AI 소비 분석 및 임계치 검증** | ❌ Ollama 필요 |
-| **AI 미션 생성 (다중 RAG 퓨전)** | ❌ Ollama 필요 |
-| **AI 판단 실행** | ❌ Ollama 필요 |
-
----
-
-## 🗂 프로젝트 구조
-
-```
-agentic/
-├── agentic-api/        # Spring Boot 메인 API (포트 8080)
-├── agentic-common/     # 공통 모듈
-├── agentic-domain/     # 도메인 모델 (JPA Entity 및 Repository 위치)
-├── agentic-infra/      # 인프라 (AI 에이전트, 블록체인, 오픈뱅킹 클라이언트)
-├── agents/
-│   ├── goal-parsing/   # AI 에이전트: 목표 파싱 및 feasibility 계산 (포트 8001)
-│   ├── spending/       # AI 에이전트: 개인화 임계치 기반 소비 감지 (포트 8002)
-│   ├── mission/        # AI 에이전트: RRF 다중 쿼리 RAG 미션 추천 (포트 8003)
-│   └── execution/      # AI 에이전트: 판단 실행 및 메타 반환 (포트 8004)
-├── fastapi-mock/       # 목업 API 서버 (포트 8000)
-├── sql/                # DB 초기화 스크립트
-├── docker-compose.yml
-└── deploy-backend.sh   # 백엔드 빌드 & 배포 스크립트
-```
-
----
-
-## 🔑 환경변수 (docker-compose 기본값)
-
-| 변수 | 기본값 |
-|---|---|
-| DB_HOST | postgres |
-| DB_PORT | 5432 |
-| DB_NAME | agentic |
-| DB_USERNAME | agentic_user |
-| DB_PASSWORD | agentic_password |
-| REDIS_HOST | redis |
-| REDIS_PORT | 6379 |
-| OLLAMA_MODEL | qwen2.5:1.5b |
-
----
-
-## 🛠 기술 스택
-
-- **Backend**: Spring Boot, PostgreSQL (pgvector), Redis, JWT
-- **AI Agents**: FastAPI (Python), Ollama (qwen2.5:1.5b), RAG (nomic-embed-text, RRF)
-- **Blockchain**: iMKRW, Kaia 스마트 컨트랙트
-- **Infra**: Docker, Docker Compose, Docker Hub
+로그인 후 발급받은 JWT를 Swagger의 `Authorize`에 입력해 인증이 필요한 API를 호출할 수 있습니다.

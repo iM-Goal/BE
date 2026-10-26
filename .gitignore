@@ -59,3 +59,14 @@ env/
 finetune/adapters_v2/
 finetune/fused_model_v2/
 finetune/fused_model_v2_f16/
+
+### Local desktop & browser artifacts ###
+.DS_Store
+/scratch/
+
+### Local presentation preparation ###
+/docs/iM_GOAL_Interview_CheatSheet.html
+/docs/iM_GOAL_Interview_CheatSheet.pdf
+/docs/presentation_data_pack.md
+/docs/presentation_pitch_pack.html
+/scripts/generate_cheatsheet_pdf.py

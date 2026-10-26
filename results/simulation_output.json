@@ -1,0 +1,700 @@
+{
+  "metadata": {
+    "version": "v3_weekly_frequency_multi_tier_cohort_ead",
+    "timestamp": "2026-09-12 02:21:55",
+    "cohort_size": 1000,
+    "n_replications": 200,
+    "target_fund_anchor": 10000000,
+    "target_months_anchor": 10,
+    "ead_anchor": 100000000000,
+    "lgd_anchor": 0.5,
+    "kcb_debt_weight": 0.24,
+    "mission_size_scenarios": {
+      "conservative": 0.054,
+      "optimistic_general": 0.09,
+      "optimistic_vulnerable": 0.3
+    },
+    "category_allocation": {
+      "delivery": 150000,
+      "shopping": 100000,
+      "cafe": 80000,
+      "subscription_transport": 70000
+    },
+    "execution_time_seconds": 169.1,
+    "ead_actual": 3027655705.0,
+    "target_fund_tiers": [
+      {
+        "amount": 3000000,
+        "months": 6,
+        "weight": 0.3,
+        "label": "소액 챌린지"
+      },
+      {
+        "amount": 7000000,
+        "months": 10,
+        "weight": 0.4,
+        "label": "중간 목표"
+      },
+      {
+        "amount": 15000000,
+        "months": 12,
+        "weight": 0.3,
+        "label": "목돈 목표"
+      }
+    ],
+    "category_allocation_v3": {
+      "delivery": 22000,
+      "shopping": 14000,
+      "cafe": 9000,
+      "subscription_transport": 7500
+    },
+    "official_data_sources": {
+      "delivery": "aT 한국농수산식품유통공사 2023 외식실태조사 청년 1인가구 1회 평균 배달 결제액 (22,000원)",
+      "shopping": "통계청 2023 가계동향조사 29세 이하 1인가구 의류·신발 지출 분해 (주간 14,000원)",
+      "cafe": "KB국민카드 데이터랩 2030 청년 커피전문점 1회 평균 결제액 (8,700원 실측치 반올림 9,000원)",
+      "subscription_transport": "정보통신정책연구원(KISDI) OTT 1개 서비스 단일 월 구독료 (7,500원)",
+      "discretionary_pool": "통계청 2023 가계동향조사 29세 이하 1인가구 음식·오락·패션 재량지출 총합 66.8만 원",
+      "vulnerable_revolving": "한국은행 금융안정보고서(2024.06) 20대 취약차주 한도소진율 68.4% 및 금감원 공시 리볼빙 16.9%"
+    }
+  },
+  "baseline_summary": {
+    "mean_utilization": 0.3688822,
+    "mean_pd": 0.2922353320359261,
+    "mean_discretionary_budget": 400301.762,
+    "mean_income": 2691650.0,
+    "risk_tier_counts": {
+      "주의군": 423,
+      "안전권": 360,
+      "고위험군": 217
+    }
+  },
+  "grid_results": {
+    "6m_conservative": {
+      "achievement_rate": {
+        "mean": 0.0031404893939999995,
+        "std": 2.7404547839887947e-05,
+        "ci_95_lower": 0.00309481641,
+        "ci_95_upper": 0.00319219866
+      },
+      "days_saved": {
+        "mean": 1.5609079838831803,
+        "std": 0.013550351496421397,
+        "ci_95_lower": 1.5383078169151576,
+        "ci_95_upper": 1.58641531223233
+      },
+      "pd_baseline": {
+        "mean": 0.2922353320359261,
+        "std": 0.0,
+        "ci_95_lower": 0.2922353320359261,
+        "ci_95_upper": 0.2922353320359261
+      },
+      "pd_final": {
+        "mean": 0.2888675297457738,
+        "std": 3.704752150292505e-05,
+        "ci_95_lower": 0.28879238239371613,
+        "ci_95_upper": 0.28893610701691275
+      },
+      "pd_delta": {
+        "mean": 0.0033678022901523067,
+        "std": 3.7047521502924265e-05,
+        "ci_95_lower": 0.0032992250190133215,
+        "ci_95_upper": 0.003442949642210044
+      },
+      "el_delta": {
+        "mean": 168390114.50761485,
+        "std": 1852376.0751462523,
+        "ci_95_lower": 164961250.95066857,
+        "ci_95_upper": 172147482.11050013
+      },
+      "credit_contrib_change": {
+        "mean": 0.0015583833818411746,
+        "std": 1.924181640937599e-05,
+        "ci_95_lower": 0.001521963010964792,
+        "ci_95_upper": 0.0015976007479382595
+      },
+      "reduction_rate": {
+        "mean": 0.01872519360239312,
+        "std": 0.00016312796100173882,
+        "ci_95_lower": 0.0184455869666076,
+        "ci_95_upper": 0.019040444451859186
+      },
+      "mean_savings": {
+        "mean": 31404.893939999998,
+        "std": 274.0454783988796,
+        "ci_95_lower": 30948.164099999998,
+        "ci_95_upper": 31921.9866
+      }
+    },
+    "6m_optimistic": {
+      "achievement_rate": {
+        "mean": 0.008637131474999999,
+        "std": 8.954537658650776e-05,
+        "ci_95_lower": 0.00847896,
+        "ci_95_upper": 0.00880309185
+      },
+      "days_saved": {
+        "mean": 4.222635978975718,
+        "std": 0.042422952122810796,
+        "ci_95_lower": 4.147692299082543,
+        "ci_95_upper": 4.301513123232914
+      },
+      "pd_baseline": {
+        "mean": 0.2922353320359261,
+        "std": 0.0,
+        "ci_95_lower": 0.2922353320359261,
+        "ci_95_upper": 0.2922353320359261
+      },
+      "pd_final": {
+        "mean": 0.2821277430602213,
+        "std": 0.0001244124369536027,
+        "ci_95_lower": 0.281897323699352,
+        "ci_95_upper": 0.2823704153191863
+      },
+      "pd_delta": {
+        "mean": 0.010107588975704802,
+        "std": 0.00012441243695360488,
+        "ci_95_lower": 0.009864916716739858,
+        "ci_95_upper": 0.010338008336574096
+      },
+      "el_delta": {
+        "mean": 505379448.7852397,
+        "std": 6220621.847680136,
+        "ci_95_lower": 493245835.83699083,
+        "ci_95_upper": 516900416.82870543
+      },
+      "credit_contrib_change": {
+        "mean": 0.004182765152650338,
+        "std": 5.4423983984399085e-05,
+        "ci_95_lower": 0.004071650441332612,
+        "ci_95_upper": 0.00428919842771157
+      },
+      "reduction_rate": {
+        "mean": 0.05151640923925942,
+        "std": 0.0005360983841059565,
+        "ci_95_lower": 0.05059407234097367,
+        "ci_95_upper": 0.05246626793098833
+      },
+      "mean_savings": {
+        "mean": 86371.31475000002,
+        "std": 895.453765865076,
+        "ci_95_lower": 84789.6,
+        "ci_95_upper": 88030.9185
+      }
+    },
+    "12m_conservative": {
+      "achievement_rate": {
+        "mean": 0.0062861677829999995,
+        "std": 3.898545758741347e-05,
+        "ci_95_lower": 0.00620191782,
+        "ci_95_upper": 0.00635880105
+      },
+      "days_saved": {
+        "mean": 1.562530444159448,
+        "std": 0.00964075437717163,
+        "ci_95_lower": 1.5416590624250723,
+        "ci_95_upper": 1.5804964568455029
+      },
+      "pd_baseline": {
+        "mean": 0.2922353320359261,
+        "std": 0.0,
+        "ci_95_lower": 0.2922353320359261,
+        "ci_95_upper": 0.2922353320359261
+      },
+      "pd_final": {
+        "mean": 0.28555502703387825,
+        "std": 4.8416150916146894e-05,
+        "ci_95_lower": 0.28546349997976084,
+        "ci_95_upper": 0.2856495711979255
+      },
+      "pd_delta": {
+        "mean": 0.0066803050020479105,
+        "std": 4.841615091614573e-05,
+        "ci_95_lower": 0.006585760838000624,
+        "ci_95_upper": 0.006771832056165292
+      },
+      "el_delta": {
+        "mean": 334015250.1023949,
+        "std": 2420807.545807344,
+        "ci_95_lower": 329288041.9000302,
+        "ci_95_upper": 338591602.8082637
+      },
+      "credit_contrib_change": {
+        "mean": 0.0031018558899842284,
+        "std": 2.5212751471950634e-05,
+        "ci_95_lower": 0.0030567305365195386,
+        "ci_95_upper": 0.0031572758360185957
+      },
+      "reduction_rate": {
+        "mean": 0.018740691655796313,
+        "std": 0.00011711502311251022,
+        "ci_95_lower": 0.01849422192502094,
+        "ci_95_upper": 0.018955153334082916
+      },
+      "mean_savings": {
+        "mean": 62861.67783,
+        "std": 389.85457587413447,
+        "ci_95_lower": 62019.178199999995,
+        "ci_95_upper": 63588.010500000004
+      }
+    },
+    "12m_optimistic": {
+      "achievement_rate": {
+        "mean": 0.017284153844999997,
+        "std": 0.00012006233408852628,
+        "ci_95_lower": 0.01704376905,
+        "ci_95_upper": 0.0174917442
+      },
+      "days_saved": {
+        "mean": 4.228358429050099,
+        "std": 0.028499274588824446,
+        "ci_95_lower": 4.170892643420183,
+        "ci_95_upper": 4.277619702066722
+      },
+      "pd_baseline": {
+        "mean": 0.2922353320359261,
+        "std": 0.0,
+        "ci_95_lower": 0.2922353320359261,
+        "ci_95_upper": 0.2922353320359261
+      },
+      "pd_final": {
+        "mean": 0.27241098085088383,
+        "std": 0.00015965369438152558,
+        "ci_95_lower": 0.27212128027858,
+        "ci_95_upper": 0.2727253231080719
+      },
+      "pd_delta": {
+        "mean": 0.019824351185042298,
+        "std": 0.0001596536943815277,
+        "ci_95_lower": 0.01951000892785421,
+        "ci_95_upper": 0.0201140517573461
+      },
+      "el_delta": {
+        "mean": 991217559.2521143,
+        "std": 7982684.719076281,
+        "ci_95_lower": 975500446.3927094,
+        "ci_95_upper": 1005702587.8673049
+      },
+      "credit_contrib_change": {
+        "mean": 0.008306848367808728,
+        "std": 7.064324569928205e-05,
+        "ci_95_lower": 0.008166289567505659,
+        "ci_95_upper": 0.008458296586344588
+      },
+      "reduction_rate": {
+        "mean": 0.05154785589978115,
+        "std": 0.0003584166414774159,
+        "ci_95_lower": 0.05082650498234014,
+        "ci_95_upper": 0.05216522906089866
+      },
+      "mean_savings": {
+        "mean": 172841.53845,
+        "std": 1200.6233408852627,
+        "ci_95_lower": 170437.6905,
+        "ci_95_upper": 174917.44199999998
+      }
+    }
+  },
+  "sensitivity_conservative": [
+    {
+      "alpha": 0.0,
+      "achievement_rate": 0.0,
+      "days_saved": 0.0,
+      "pd_delta": 7.898607658271548e-08,
+      "el_delta": 3949.3038256344084,
+      "credit_contrib_change": 4.674897582379599e-08,
+      "reduction_rate": 0.0
+    },
+    {
+      "alpha": 0.1,
+      "achievement_rate": 0.0018163259100000002,
+      "days_saved": 0.45325554842402727,
+      "pd_delta": 0.001965516260543385,
+      "el_delta": 98275813.02716868,
+      "credit_contrib_change": 0.0009052872067076449,
+      "reduction_rate": 0.0054138157052309455
+    },
+    {
+      "alpha": 0.2,
+      "achievement_rate": 0.003634764084,
+      "days_saved": 0.9056985117472851,
+      "pd_delta": 0.003920657572130516,
+      "el_delta": 196032878.60652515,
+      "credit_contrib_change": 0.0018090405408779703,
+      "reduction_rate": 0.010833549149897021
+    },
+    {
+      "alpha": 0.3,
+      "achievement_rate": 0.005444501265,
+      "days_saved": 1.3546529933025917,
+      "pd_delta": 0.005838371315246799,
+      "el_delta": 291918565.7623394,
+      "credit_contrib_change": 0.0026970593614639793,
+      "reduction_rate": 0.016228015340677315
+    },
+    {
+      "alpha": 0.4,
+      "achievement_rate": 0.007260531957000001,
+      "days_saved": 1.803847320948348,
+      "pd_delta": 0.007750663202373358,
+      "el_delta": 387533160.11866724,
+      "credit_contrib_change": 0.003586199684650897,
+      "reduction_rate": 0.021640104677968477
+    },
+    {
+      "alpha": 0.5,
+      "achievement_rate": 0.009066320172,
+      "days_saved": 2.2492031024042145,
+      "pd_delta": 0.009630460506369678,
+      "el_delta": 481523025.3184833,
+      "credit_contrib_change": 0.004463412551264909,
+      "reduction_rate": 0.02702252431212944
+    },
+    {
+      "alpha": 0.6,
+      "achievement_rate": 0.010886001587999999,
+      "days_saved": 2.696667965642845,
+      "pd_delta": 0.011505931511860296,
+      "el_delta": 575296575.5930144,
+      "credit_contrib_change": 0.0053402692012671825,
+      "reduction_rate": 0.03244674027577732
+    },
+    {
+      "alpha": 0.7,
+      "achievement_rate": 0.012697866153000002,
+      "days_saved": 3.140909338397171,
+      "pd_delta": 0.013350438672967056,
+      "el_delta": 667521933.6483523,
+      "credit_contrib_change": 0.006204173226403864,
+      "reduction_rate": 0.037846928056760036
+    },
+    {
+      "alpha": 0.8,
+      "achievement_rate": 0.014514213798000003,
+      "days_saved": 3.584947506718322,
+      "pd_delta": 0.015181632314765206,
+      "el_delta": 759081615.7382596,
+      "credit_contrib_change": 0.00706215117873776,
+      "reduction_rate": 0.043260344025809444
+    },
+    {
+      "alpha": 0.9,
+      "achievement_rate": 0.016329877641000003,
+      "days_saved": 4.027524759338106,
+      "pd_delta": 0.016989580434887266,
+      "el_delta": 849479021.7443628,
+      "credit_contrib_change": 0.007910019245531147,
+      "reduction_rate": 0.048672525667536215
+    },
+    {
+      "alpha": 1.0,
+      "achievement_rate": 0.018143999999999993,
+      "days_saved": 4.468437229096089,
+      "pd_delta": 0.018780102442167133,
+      "el_delta": 939005122.1083548,
+      "credit_contrib_change": 0.008753197974093758,
+      "reduction_rate": 0.0540792380065923
+    }
+  ],
+  "sensitivity_optimistic": [
+    {
+      "alpha": 0.0,
+      "achievement_rate": 0.0,
+      "days_saved": 0.0,
+      "pd_delta": 7.898607658271548e-08,
+      "el_delta": 3949.3038256344084,
+      "credit_contrib_change": 4.674897582379599e-08,
+      "reduction_rate": 0.0
+    },
+    {
+      "alpha": 0.1,
+      "achievement_rate": 0.004992972704999999,
+      "days_saved": 1.239564881080776,
+      "pd_delta": 0.005944889903736468,
+      "el_delta": 297244495.1868229,
+      "credit_contrib_change": 0.002440852570136586,
+      "reduction_rate": 0.014885998048150703
+    },
+    {
+      "alpha": 0.2,
+      "achievement_rate": 0.010010067375,
+      "days_saved": 2.4711474407731076,
+      "pd_delta": 0.011793169726394173,
+      "el_delta": 589658486.3197082,
+      "credit_contrib_change": 0.004872478065499202,
+      "reduction_rate": 0.02984432555198592
+    },
+    {
+      "alpha": 0.3,
+      "achievement_rate": 0.014997166169999998,
+      "days_saved": 3.6817221184987856,
+      "pd_delta": 0.017487760501619095,
+      "el_delta": 874388025.0809543,
+      "credit_contrib_change": 0.007277181637183545,
+      "reduction_rate": 0.04471303668626958
+    },
+    {
+      "alpha": 0.4,
+      "achievement_rate": 0.020010684225,
+      "days_saved": 4.88537228817064,
+      "pd_delta": 0.02308363952386976,
+      "el_delta": 1154181976.1934876,
+      "credit_contrib_change": 0.009677878682961903,
+      "reduction_rate": 0.05965981346126212
+    },
+    {
+      "alpha": 0.5,
+      "achievement_rate": 0.02499019068,
+      "days_saved": 6.0678358664274255,
+      "pd_delta": 0.028484171874054488,
+      "el_delta": 1424208593.702724,
+      "credit_contrib_change": 0.012028040327717869,
+      "reduction_rate": 0.07450026303397542
+    },
+    {
+      "alpha": 0.6,
+      "achievement_rate": 0.030007555725000003,
+      "days_saved": 7.246446877507831,
+      "pd_delta": 0.033791748939027526,
+      "el_delta": 1689587446.9513757,
+      "credit_contrib_change": 0.0143664460515512,
+      "reduction_rate": 0.08946064736896144
+    },
+    {
+      "alpha": 0.7,
+      "achievement_rate": 0.03500858634,
+      "days_saved": 8.40858818074016,
+      "pd_delta": 0.038928017050712686,
+      "el_delta": 1946400852.5356336,
+      "credit_contrib_change": 0.01666039443435363,
+      "reduction_rate": 0.10437167368741118
+    },
+    {
+      "alpha": 0.8,
+      "achievement_rate": 0.039999543464999995,
+      "days_saved": 9.556121926958262,
+      "pd_delta": 0.043874737423882496,
+      "el_delta": 2193736871.194124,
+      "credit_contrib_change": 0.01887011205511987,
+      "reduction_rate": 0.11925083017020736
+    },
+    {
+      "alpha": 0.9,
+      "achievement_rate": 0.045001216365000006,
+      "days_saved": 10.693973382316615,
+      "pd_delta": 0.04863512309692276,
+      "el_delta": 2431756154.846137,
+      "credit_contrib_change": 0.020972152521466426,
+      "reduction_rate": 0.13416424642245883
+    },
+    {
+      "alpha": 1.0,
+      "achievement_rate": 0.04999680000000001,
+      "days_saved": 11.818628135559539,
+      "pd_delta": 0.05324552459496209,
+      "el_delta": 2662276229.7481017,
+      "credit_contrib_change": 0.023010076886558598,
+      "reduction_rate": 0.14905686143493124
+    }
+  ],
+  "short_term_challenges": {
+    "conservative": {
+      "scenario": "conservative",
+      "target": 15980.328,
+      "n_replications": 200,
+      "cohort_probability": 0.085,
+      "individual_probability": 0.456665,
+      "cohort_success_count": 17,
+      "segment_individual_probabilities": {
+        "일반": 0.45910416666666665,
+        "취약": 0.4503928571428571
+      }
+    },
+    "optimistic": {
+      "scenario": "optimistic",
+      "target": 26633.879999999997,
+      "n_replications": 200,
+      "cohort_probability": 1.0,
+      "individual_probability": 0.593935,
+      "cohort_success_count": 200,
+      "segment_individual_probabilities": {
+        "일반": 0.45910416666666665,
+        "취약": 0.9406428571428571
+      }
+    }
+  },
+  "tier_transitions": {
+    "6m_conservative": {
+      "seed42_transitions": {
+        "주의군→안전권": 10,
+        "고위험군→주의군": 4
+      },
+      "seed42_after_counts": {
+        "주의군": 417,
+        "안전권": 370,
+        "고위험군": 213
+      },
+      "replications_transitions": {
+        "주의군→안전권": {
+          "mean": 10.26,
+          "ci_95_lower": 7.0,
+          "ci_95_upper": 13.0
+        },
+        "고위험군→주의군": {
+          "mean": 4.415,
+          "ci_95_lower": 3.0,
+          "ci_95_upper": 5.0
+        }
+      },
+      "high_risk_migration_mean": 4.415,
+      "high_risk_migration_rate": 0.02034562211981567,
+      "mid_risk_migration_mean": 10.26
+    },
+    "12m_conservative": {
+      "seed42_transitions": {
+        "주의군→안전권": 19,
+        "고위험군→주의군": 7
+      },
+      "seed42_after_counts": {
+        "주의군": 411,
+        "안전권": 379,
+        "고위험군": 210
+      },
+      "replications_transitions": {
+        "주의군→안전권": {
+          "mean": 19.46,
+          "ci_95_lower": 17.0,
+          "ci_95_upper": 22.0
+        },
+        "고위험군→주의군": {
+          "mean": 6.22,
+          "ci_95_lower": 5.0,
+          "ci_95_upper": 7.0
+        }
+      },
+      "high_risk_migration_mean": 6.22,
+      "high_risk_migration_rate": 0.028663594470046082,
+      "mid_risk_migration_mean": 19.46
+    },
+    "6m_optimistic": {
+      "seed42_transitions": {
+        "주의군→안전권": 17,
+        "고위험군→주의군": 16
+      },
+      "seed42_after_counts": {
+        "주의군": 422,
+        "안전권": 377,
+        "고위험군": 201
+      },
+      "replications_transitions": {
+        "주의군→안전권": {
+          "mean": 17.545,
+          "ci_95_lower": 14.0,
+          "ci_95_upper": 21.0
+        },
+        "고위험군→주의군": {
+          "mean": 17.99,
+          "ci_95_lower": 15.0,
+          "ci_95_upper": 21.0
+        }
+      },
+      "high_risk_migration_mean": 17.99,
+      "high_risk_migration_rate": 0.08290322580645161,
+      "mid_risk_migration_mean": 17.545
+    },
+    "12m_optimistic": {
+      "seed42_transitions": {
+        "고위험군→주의군": 32,
+        "주의군→안전권": 41
+      },
+      "seed42_after_counts": {
+        "주의군": 414,
+        "안전권": 401,
+        "고위험군": 185
+      },
+      "replications_transitions": {
+        "고위험군→주의군": {
+          "mean": 33.52,
+          "ci_95_lower": 30.0,
+          "ci_95_upper": 37.025000000000006
+        },
+        "주의군→안전권": {
+          "mean": 39.76,
+          "ci_95_lower": 35.0,
+          "ci_95_upper": 44.0
+        }
+      },
+      "high_risk_migration_mean": 33.52,
+      "high_risk_migration_rate": 0.1544700460829493,
+      "mid_risk_migration_mean": 39.76
+    }
+  },
+  "v1_v2_comparison": {
+    "v1_mean_saved": 7722.0,
+    "v2_mean_saved": 7641.864,
+    "relative_diff": 0.010377622377622433,
+    "variance_ratio": 0.27784119463415957
+  },
+  "segment_breakdown_optimistic_12m": {
+    "general": {
+      "count": 720,
+      "mean_savings": 105174.15,
+      "pd_delta_mean": 0.00982
+    },
+    "vulnerable": {
+      "count": 280,
+      "mean_savings": 347822.81,
+      "pd_delta_mean": 0.0457
+    },
+    "pd_improvement_ratio": 4.653
+  },
+  "target_fund_tier_results": {
+    "소액 챌린지": {
+      "amount": 3000000,
+      "months": 6,
+      "weight": 0.3,
+      "assigned_count": 308,
+      "assigned_ratio": 0.308,
+      "mean_days_saved": 16.94922732360691,
+      "std_days_saved": 4.678325109004187,
+      "duration_reduction_rate": 0.09416237402003838
+    },
+    "중간 목표": {
+      "amount": 7000000,
+      "months": 10,
+      "weight": 0.4,
+      "assigned_count": 388,
+      "assigned_ratio": 0.388,
+      "mean_days_saved": 19.791218006058493,
+      "std_days_saved": 5.724205907428209,
+      "duration_reduction_rate": 0.06597072668686164
+    },
+    "목돈 목표": {
+      "amount": 15000000,
+      "months": 12,
+      "weight": 0.3,
+      "assigned_count": 304,
+      "assigned_ratio": 0.304,
+      "mean_days_saved": 13.959141282325888,
+      "std_days_saved": 3.9988947397455226,
+      "duration_reduction_rate": 0.03877539245090524
+    }
+  },
+  "el_cohort_ead": {
+    "6m_conservative": {
+      "pd_delta": 0.0033678022901523067,
+      "el_delta": 5098272.908545848
+    },
+    "6m_optimistic": {
+      "pd_delta": 0.010107588975704802,
+      "el_delta": 15301149.713043876
+    },
+    "12m_conservative": {
+      "pd_delta": 0.0066803050020479105,
+      "el_delta": 10112831.775295196
+    },
+    "12m_optimistic": {
+      "pd_delta": 0.019824351185042298,
+      "el_delta": 30010654.98165841
+    }
+  }
+}
